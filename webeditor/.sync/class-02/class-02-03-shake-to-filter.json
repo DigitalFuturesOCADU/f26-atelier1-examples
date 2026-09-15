@@ -1,0 +1,36 @@
+{
+  "slug": "class-02-03-shake-to-filter",
+  "title": "Class 02 · 03 Shake to Filter",
+  "name": "Atelier1 F26 · Class 02 · 03 Shake to Filter",
+  "projectId": null,
+  "contentHash": "sha256:448812843a59a1e061237639863f4c4aa5992912c4cb0b404fffc28705667741",
+  "files": [
+    {
+      "name": "root",
+      "id": "6983117b7bbdde7f621c79d3",
+      "_id": "6983117b7bbdde7f621c79d3",
+      "fileType": "folder",
+      "children": [
+        "c3613e98e7f0b6fec2b75c2d",
+        "8d703c1fd97a65d670df4576"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>03 Shake to Filter</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.13.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "c3613e98e7f0b6fec2b75c2d",
+      "_id": "c3613e98e7f0b6fec2b75c2d",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 03 · Shake to Filter\n// Each shake switches to the next filter.\n// deviceShaken() is an event. p5.js calls it for you when a shake passes the threshold.\n\nlet suit;\nlet filterNames = ['none', 'GRAY', 'INVERT', 'THRESHOLD', 'POSTERIZE', 'BLUR'];\nlet filterNumber = 0; // which filter is on: 0 is none\nlet lastShake = 0;    // when the last shake counted, in milliseconds\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n  enableGyroTap('Tap to enable motion sensors');\n  setShakeThreshold(30); // lower is easier to trigger\n  imageMode(CENTER);\n\n  suit = await loadImage('spaceSuit2.png');\n}\n\nfunction draw() {\n  background(20);\n\n  if (window.sensorsEnabled) {\n    let h = height * 0.7;\n    let w = h * suit.width / suit.height;\n    image(suit, width / 2, height / 2, w, h);\n\n    // a filter changes everything drawn so far, so it comes after the image\n    if (filterNumber === 1) {\n      filter(GRAY);\n    } else if (filterNumber === 2) {\n      filter(INVERT);\n    } else if (filterNumber === 3) {\n      filter(THRESHOLD, 0.4);\n    } else if (filterNumber === 4) {\n      filter(POSTERIZE, 3);\n    } else if (filterNumber === 5) {\n      filter(BLUR, 8);\n    }\n\n    // the label comes after the filter, so it stays readable\n    fill(255);\n    textSize(16);\n    text('filter: ' + filterNames[filterNumber] + '   (shake for the next one)', 20, 30);\n  } else {\n    fill(255);\n    textSize(16);\n    text('Tap to enable motion sensors', 20, 30);\n  }\n}\n\nfunction deviceShaken() {\n  // one shake calls this many times in a row.\n  // only count it if 0.7 seconds have passed since the last one.\n  if (millis() - lastShake > 700) {\n    filterNumber = filterNumber + 1;\n    if (filterNumber >= filterNames.length) {\n      filterNumber = 0;\n    }\n    lastShake = millis();\n  }\n}\n",
+      "id": "8d703c1fd97a65d670df4576",
+      "_id": "8d703c1fd97a65d670df4576",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

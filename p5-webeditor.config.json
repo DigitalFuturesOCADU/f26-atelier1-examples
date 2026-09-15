@@ -1,0 +1,23 @@
+{
+  "account": "npuckett",
+  "projectsDir": "webeditor/projects",
+  "syncDir": "webeditor/.sync",
+  "registryFile": "webeditor/.sync/registry.json",
+  "namePrefix": "Atelier1 F26 · ",
+  "visibility": "Public",
+  "batches": {
+    "class-02": [
+      "class-02-01-load-image",
+      "class-02-02-tilt-to-scale",
+      "class-02-03-shake-to-filter",
+      "class-02-04-move-to-spin"
+    ]
+  },
+  "verify": {
+    "enabled": true,
+    "signature": "p5-phone@1.13.0",
+    "mode": "local",
+    "skipIfMissing": true,
+    "failOnVerify": false
+  }
+}

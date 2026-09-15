@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "account": "npuckett",
+  "projects": {
+    "class-02-01-load-image": {
+      "projectId": "kzj_dZckP",
+      "name": "Atelier1 F26 · Class 02 · 01 Load an Image",
+      "contentHash": "sha256:b678a9e792ec8ccd1b0456d92e05d8bfc34aec11f5944c8644400778dfef24d7",
+      "fileIds": {
+        "__root__": "17f63528f1127350cb53d927",
+        "index.html": "deed66f0d12ad6f004d3dfca",
+        "sketch.js": "abf7d253fa446c2709478665"
+      },
+      "lastPush": "2026-09-15T11:52:59.436Z",
+      "lastVerify": "2026-09-15T11:52:59.436Z"
+    },
+    "class-02-02-tilt-to-scale": {
+      "projectId": "Z5I5kjEuvn",
+      "name": "Atelier1 F26 · Class 02 · 02 Tilt to Scale",
+      "contentHash": "sha256:9ec85dbed6e384e90480b343119d6d0bf0fa4abda3d91d18a877eca367fbd71b",
+      "fileIds": {
+        "__root__": "5582da60842b5640ac64e95e",
+        "index.html": "81a6f6ec50f002d57ae7cecd",
+        "sketch.js": "4b839c26eb9bd11518e38c64"
+      },
+      "lastPush": "2026-09-15T11:53:00.102Z",
+      "lastVerify": "2026-09-15T11:53:00.102Z"
+    },
+    "class-02-03-shake-to-filter": {
+      "projectId": "lVgmS7scx",
+      "name": "Atelier1 F26 · Class 02 · 03 Shake to Filter",
+      "contentHash": "sha256:448812843a59a1e061237639863f4c4aa5992912c4cb0b404fffc28705667741",
+      "fileIds": {
+        "__root__": "db8829a901eaa0af96321d2f",
+        "index.html": "e219534df590df490b7de9e1",
+        "sketch.js": "42634e56938aae65d7da07ee"
+      },
+      "lastPush": "2026-09-15T11:53:00.708Z",
+      "lastVerify": "2026-09-15T11:53:00.708Z"
+    },
+    "class-02-04-move-to-spin": {
+      "projectId": "nxdCFWpuh",
+      "name": "Atelier1 F26 · Class 02 · 04 Move to Spin",
+      "contentHash": "sha256:ebe805b4bc3fb883458a187603b1f8795118b908e4d91ffe7e47f166226382e7",
+      "fileIds": {
+        "__root__": "866f45f13b9f8d3e36dbec54",
+        "index.html": "e82cb1d6cf78c6758197ceb2",
+        "sketch.js": "a179942e04078ab23eb00ac6"
+      },
+      "lastPush": "2026-09-15T11:53:01.316Z",
+      "lastVerify": "2026-09-15T11:53:01.316Z"
+    }
+  }
+}

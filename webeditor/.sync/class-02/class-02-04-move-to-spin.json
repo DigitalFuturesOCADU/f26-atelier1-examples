@@ -1,0 +1,36 @@
+{
+  "slug": "class-02-04-move-to-spin",
+  "title": "Class 02 · 04 Move to Spin",
+  "name": "Atelier1 F26 · Class 02 · 04 Move to Spin",
+  "projectId": null,
+  "contentHash": "sha256:ebe805b4bc3fb883458a187603b1f8795118b908e4d91ffe7e47f166226382e7",
+  "files": [
+    {
+      "name": "root",
+      "id": "922cb59b40cd5c7cfa79cd3d",
+      "_id": "922cb59b40cd5c7cfa79cd3d",
+      "fileType": "folder",
+      "children": [
+        "3f6a97d9aaa22d161ff30147",
+        "06d8ed3309eec4816752f29f"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>04 Move to Spin</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.13.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "3f6a97d9aaa22d161ff30147",
+      "_id": "3f6a97d9aaa22d161ff30147",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 04 · Move to Spin\n// Acceleration adds spin. Friction takes it away.\n// Swing the phone and the suit spins. Hold still and it slows to a stop.\n\nlet suit;\nlet angle = 0;     // how far the suit is turned, in degrees\nlet spinSpeed = 0; // degrees added to the angle every frame\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n  enableGyroTap('Tap to enable motion sensors');\n  angleMode(DEGREES);\n  imageMode(CENTER);\n\n  suit = await loadImage('spaceSuit2.png');\n}\n\nfunction draw() {\n  background(20);\n  fill(255);\n  textSize(16);\n\n  if (window.sensorsEnabled) {\n    // 1. how hard is the phone moving? add up all three directions\n    let movement = abs(accelerationX) + abs(accelerationY) + abs(accelerationZ);\n\n    // a still phone still reports tiny numbers. ignore them.\n    if (movement < 1) {\n      movement = 0;\n    }\n\n    // 2. movement adds speed\n    spinSpeed = spinSpeed + movement * 0.1;\n\n    // 3. friction takes a little speed away every frame\n    spinSpeed = spinSpeed * 0.95;\n\n    // 4. keep it from spinning out of control\n    spinSpeed = constrain(spinSpeed, 0, 40);\n\n    // 5. speed changes the angle\n    angle = angle + spinSpeed;\n\n    // turn the canvas around the centre, draw the suit, then turn it back\n    let h = height * 0.6;\n    let w = h * suit.width / suit.height;\n    push();\n    translate(width / 2, height / 2);\n    rotate(angle);\n    image(suit, 0, 0, w, h);\n    pop();\n\n    text('movement: ' + movement.toFixed(1) + '   spinSpeed: ' + spinSpeed.toFixed(1), 20, 30);\n  } else {\n    text('Tap to enable motion sensors', 20, 30);\n  }\n}\n",
+      "id": "06d8ed3309eec4816752f29f",
+      "_id": "06d8ed3309eec4816752f29f",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "class-02-01-load-image",
+  "title": "Class 02 · 01 Load an Image",
+  "name": "Atelier1 F26 · Class 02 · 01 Load an Image",
+  "projectId": null,
+  "contentHash": "sha256:b678a9e792ec8ccd1b0456d92e05d8bfc34aec11f5944c8644400778dfef24d7",
+  "files": [
+    {
+      "name": "root",
+      "id": "be9cb34e7b27bb7287b0a014",
+      "_id": "be9cb34e7b27bb7287b0a014",
+      "fileType": "folder",
+      "children": [
+        "ff9b0b7f0d2359210085081e",
+        "f58f6be554e9a152d0c90bfd"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>01 Load an Image</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.13.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "ff9b0b7f0d2359210085081e",
+      "_id": "ff9b0b7f0d2359210085081e",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 01 · Load an Image\n// p5.js 2.0 loads files with async and await.\n// No motion yet. The next three sketches start from this one.\n\nlet suit; // the image, once it has loaded\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  imageMode(CENTER); // x and y now mean the centre of the image\n\n  // setup waits on this line until the file is ready\n  suit = await loadImage('spaceSuit2.png');\n}\n\nfunction draw() {\n  background(20);\n\n  // fit the suit to 70% of the screen height, and keep its shape\n  let h = height * 0.7;\n  let w = h * suit.width / suit.height;\n\n  image(suit, width / 2, height / 2, w, h);\n\n  // the image knows its own size in pixels\n  fill(255);\n  textSize(16);\n  text('suit.width: ' + suit.width + '   suit.height: ' + suit.height, 20, 30);\n}\n",
+      "id": "f58f6be554e9a152d0c90bfd",
+      "_id": "f58f6be554e9a152d0c90bfd",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

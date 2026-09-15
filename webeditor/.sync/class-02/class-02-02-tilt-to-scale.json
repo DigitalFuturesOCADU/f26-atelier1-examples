@@ -1,0 +1,36 @@
+{
+  "slug": "class-02-02-tilt-to-scale",
+  "title": "Class 02 · 02 Tilt to Scale",
+  "name": "Atelier1 F26 · Class 02 · 02 Tilt to Scale",
+  "projectId": null,
+  "contentHash": "sha256:9ec85dbed6e384e90480b343119d6d0bf0fa4abda3d91d18a877eca367fbd71b",
+  "files": [
+    {
+      "name": "root",
+      "id": "e6a6cf9a08c3b2fd6641ca21",
+      "_id": "e6a6cf9a08c3b2fd6641ca21",
+      "fileType": "folder",
+      "children": [
+        "97efb9bf79c0bd565a0d9147",
+        "28aa978d1af9fe8a00c8056b"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>02 Tilt to Scale</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.13.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "97efb9bf79c0bd565a0d9147",
+      "_id": "97efb9bf79c0bd565a0d9147",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 02 · Tilt to Scale\n// rotationX drives the size of the suit.\n// Lay the phone flat and the suit is small. Stand the phone up and the suit stands tall.\n// Input range: 0 to 90 degrees. Output range: 0.2 to 1.2 times the size.\n\nlet suit;\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n  enableGyroTap('Tap to enable motion sensors');\n  angleMode(DEGREES); // rotation values in degrees\n  imageMode(CENTER);\n\n  suit = await loadImage('spaceSuit2.png');\n}\n\nfunction draw() {\n  background(20);\n  fill(255);\n  textSize(16);\n\n  if (window.sensorsEnabled) {\n    // 1. read the input: tip forward and back\n    let tilt = rotationX;\n\n    // 2. keep it inside the range we want: flat (0) to upright (90)\n    tilt = constrain(tilt, 0, 90);\n\n    // 3. map the input range onto the output range\n    let size = map(tilt, 0, 90, 0.2, 1.2);\n\n    // 4. use it\n    let h = height * 0.7 * size;\n    let w = h * suit.width / suit.height;\n    image(suit, width / 2, height / 2, w, h);\n\n    text('rotationX: ' + round(rotationX) + '   size: ' + size.toFixed(2), 20, 30);\n  } else {\n    text('Tap to enable motion sensors', 20, 30);\n  }\n}\n",
+      "id": "28aa978d1af9fe8a00c8056b",
+      "_id": "28aa978d1af9fe8a00c8056b",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}
