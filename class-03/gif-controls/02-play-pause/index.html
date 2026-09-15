@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>02 Play and Pause</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #141414;
+    }
+    canvas {
+      touch-action: none; /* a drag moves the GIF, not the page */
+    }
+  </style>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+
+  <!-- Lets the GIF reference page try another file with this sketch. Safe to delete. -->
+  <script>
+    (function () {
+      let other = new URLSearchParams(location.search).get('gif');
+      if (!other) return;
+      let original = p5.prototype.loadImage;
+      p5.prototype.loadImage = function (path, ...rest) {
+        return original.call(this, other, ...rest);
+      };
+    })();
+  </script>
+</head>
+<body>
+  <script src="sketch.js"></script>
+</body>
+</html>

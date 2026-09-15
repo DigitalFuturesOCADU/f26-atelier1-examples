@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated GIFs · Atelier 1 Examples</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=National+Park:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Palette and type follow p5js.org/reference */
+    :root {
+      --black: #000000;
+      --white: #ffffff;
+      --gray-40: #f7f7f7;
+      --gray-80: #eaeaea;
+      --type-gray: #545454;
+      --magenta-dark: #b20046;
+      --magenta: #ed225d;
+      --yellow: #dfed33;
+      --blue-light: #dbe3f5;
+      --code-keyword: #770088;
+      --code-name: #0000ff;
+      --code-string: #aa1111;
+      --code-number: #116644;
+      --code-comment: #994400;
+      --sans: 'National Park', 'Helvetica Neue', Arial, sans-serif;
+      --mono: Courier, 'Courier New', monospace;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      font-size: 20px;
+      line-height: 1.2;
+      color: var(--black);
+      background: var(--white);
+      -webkit-text-stroke-width: 0.15px;
+    }
+    a { color: var(--black); }
+    main a { color: var(--magenta-dark); text-decoration: underline; }
+    main a:hover { color: var(--magenta); }
+    code { font-family: var(--mono); }
+
+    /* ---------- layout ---------- */
+    .layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); min-height: 100vh; }
+    aside {
+      border-right: 1px solid var(--black);
+      position: sticky; top: 0; height: 100vh; overflow-y: auto;
+      padding: 16px 16px 32px;
+    }
+    main { padding: 24px 32px 0; max-width: 1040px; }
+
+    /* ---------- sidebar ---------- */
+    .wordmark { display: block; text-decoration: none; font-size: 30px; line-height: 1; font-weight: 500; margin: 6px 0 4px; }
+    .wordmark small { display: block; font-size: 14px; font-weight: 400; color: var(--type-gray); margin-top: 4px; }
+    .site-nav { display: flex; flex-direction: column; gap: 2px; margin: 18px 0 16px; }
+    .site-nav a { text-decoration: none; font-size: 20px; }
+    .site-nav a:hover, .site-nav a.here { text-decoration: underline; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid var(--black); border-radius: 9999px; background: var(--white);
+      padding: 8px 14px; font: inherit; font-size: 18px; color: var(--black);
+      text-decoration: none; cursor: pointer; line-height: 1;
+    }
+    .pill:hover { background: var(--black); color: var(--white); }
+    .pill svg { width: 18px; height: 18px; }
+    aside .pill { width: 100%; justify-content: center; margin-bottom: 8px; }
+    aside hr { border: 0; border-top: 1px solid var(--black); margin: 16px -16px; }
+    aside h3 { font-size: 20px; font-weight: 400; margin: 0 0 8px; }
+    aside h4 { font-size: 14px; font-weight: 600; margin: 14px 0 4px; color: var(--type-gray); letter-spacing: 0.02em; text-transform: uppercase; }
+    aside ul { list-style: none; margin: 0; padding: 0; }
+    aside li a { display: block; font-size: 14px; line-height: 1.4; padding: 2px 0; text-decoration: none; }
+    aside li a:hover { text-decoration: underline; }
+    aside li a code { font-size: 13px; }
+
+    /* ---------- main ---------- */
+    .crumbs { font-size: 20px; margin: 0 0 16px; }
+    .crumbs a { color: var(--black); text-decoration: none; }
+    .crumbs a:hover { text-decoration: underline; }
+    .crumbs span { margin: 0 8px; color: var(--type-gray); }
+    h1 { font-size: 56px; font-weight: 400; line-height: 1; margin: 0 0 32px; -webkit-text-stroke-width: 0.25px; }
+    h2 { font-size: 30px; font-weight: 400; line-height: 1.13; margin: 0 0 12px; }
+    h3 { font-size: 24px; font-weight: 400; line-height: 1.2; margin: 32px 0 12px; }
+    p { margin: 0 0 16px; }
+    .lede { max-width: 770px; }
+    section { margin-bottom: 72px; }
+    .ref-item { padding-top: 24px; border-top: 1px solid var(--gray-80); }
+    .ref-item h2 .num { color: var(--type-gray); margin-right: 10px; }
+    .ref-item h2 .and { font-size: 20px; color: var(--type-gray); margin: 0 6px; }
+    .desc { max-width: 770px; }
+    .note { max-width: 770px; color: var(--type-gray); font-size: 17px; }
+
+    /* how it works list */
+    .facts { list-style: none; padding: 0; margin: 0; max-width: 770px; display: grid; gap: 18px; }
+    .facts li { padding-left: 40px; position: relative; }
+    .facts li::before {
+      content: counter(fact); counter-increment: fact;
+      position: absolute; left: 0; top: 2px;
+      width: 28px; height: 28px; border-radius: 50%; background: var(--yellow);
+      font-size: 15px; font-weight: 600; display: grid; place-items: center;
+    }
+    .facts { counter-reset: fact; }
+    .facts strong { font-weight: 600; }
+
+    /* example row */
+    .example { display: flex; gap: 20px; margin: 12px 0 8px; align-items: flex-start; }
+    .demo { display: flex; gap: 10px; flex: 0 0 auto; }
+    .demo iframe {
+      width: 360px; height: 360px; border: 0; border-radius: 20px; background: #141414; display: block;
+    }
+    .demo-actions, .code-actions { display: flex; flex-direction: column; gap: 10px; }
+    .circle {
+      width: 40px; height: 40px; border-radius: 50%; border: 0; padding: 0;
+      background: var(--gray-40); color: var(--black); cursor: pointer;
+      display: grid; place-items: center; text-decoration: none;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .circle:hover { background: var(--black); color: var(--white); }
+    .circle svg { width: 20px; height: 20px; }
+    .circle.ok { background: var(--yellow); color: var(--black); }
+    .code-box {
+      position: relative; flex: 1 1 320px; min-width: 0;
+      background: var(--gray-40); border-radius: 20px; padding: 20px 64px 20px 20px;
+    }
+    .code-box pre { margin: 0; font-family: var(--mono); font-size: 17px; line-height: 1.5; white-space: pre; overflow-x: auto; -webkit-text-stroke-width: 0; }
+    .code-box .code-actions { position: absolute; top: 12px; right: 12px; }
+    .code-box .circle { background: var(--white); }
+    .code-box .circle:hover { background: var(--black); }
+    .code-box .circle.ok { background: var(--yellow); }
+    .code-box .loading { color: var(--type-gray); font-family: var(--mono); font-size: 17px; }
+    .k { color: var(--code-keyword); }
+    .n { color: var(--code-name); }
+    .s { color: var(--code-string); }
+    .d { color: var(--code-number); }
+    .c { color: var(--code-comment); }
+
+    .syntax code { display: inline-block; background: var(--gray-40); border-radius: 12px; padding: 6px 14px; font-size: 18px; margin: 0 8px 8px 0; }
+    .grid { display: grid; grid-template-columns: fit-content(280px) 1fr; gap: 8px 24px; max-width: 770px; margin-bottom: 16px; align-items: baseline; }
+    .grid code { overflow-wrap: anywhere; }
+    .grid code { font-size: 18px; }
+    .see { font-size: 18px; margin-top: 20px; }
+    .see a { margin-right: 16px; }
+    .phone-flag {
+      display: inline-block; background: var(--black); color: var(--white);
+      font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 9999px; vertical-align: middle; margin-left: 10px;
+    }
+
+    /* try your own gif */
+    .own { background: var(--blue-light); border-radius: 20px; padding: 24px; max-width: 770px; }
+    .own h2 { margin-top: 0; }
+    .own input[type=file] { display: none; }
+    .own-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 8px; }
+    .own .file-name { font-family: var(--mono); font-size: 16px; }
+    .own .warn { color: var(--magenta-dark); font-size: 17px; margin: 12px 0 0; }
+
+    ol.steps { max-width: 770px; padding-left: 24px; }
+    ol.steps li { margin-bottom: 10px; }
+
+    footer {
+      background: var(--yellow); margin: 40px -32px 0; padding: 24px 32px 20px;
+      font-size: 17px;
+    }
+    footer p { margin: 0 0 6px; }
+    footer a { color: var(--black); }
+
+    @media (max-width: 1180px) {
+      .example { flex-direction: column; }
+      .code-box { width: 100%; flex-basis: auto; }
+    }
+    @media (max-width: 760px) {
+      body { font-size: 18px; }
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--black); padding: 16px; }
+      aside .pill { width: auto; }
+      aside hr { margin: 14px -16px; }
+      aside ul { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+      aside h3 { display: none; }
+      main { padding: 20px 16px 0; }
+      h1 { font-size: 40px; }
+      h2 { font-size: 26px; }
+      .crumbs { font-size: 16px; }
+      .demo { width: 100%; }
+      .demo iframe { width: auto; flex: 1 1 auto; min-width: 0; height: 340px; }
+      footer { margin: 40px -16px 0; padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <a class="wordmark" href="../../">Atelier 1<small>examples · Fall 2026</small></a>
+    <nav class="site-nav">
+      <a href="../../">Examples</a>
+      <a href="#" class="here">Animated GIFs</a>
+      <a href="https://p5js.org/reference/p5.Image/" target="_blank" rel="noopener">p5.Image reference</a>
+    </nav>
+    <a class="pill" href="https://editor.p5js.org" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Web editor
+    </a>
+    <hr>
+    <h3>On this page</h3>
+    <h4>Start</h4>
+    <ul>
+      <li><a href="#how">How a GIF works in p5.js</a></li>
+      <li><a href="#load">Loading a GIF</a></li>
+      <li><a href="#your-gif">Try your own GIF</a></li>
+    </ul>
+    <h4>Methods</h4>
+    <ul id="side-methods"></ul>
+    <h4>On the phone</h4>
+    <ul id="side-phone"></ul>
+    <h4>Then</h4>
+    <ul>
+      <li><a href="#use">Use one in your sketch</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <p class="crumbs"><a href="../../">Examples</a><span>›</span>Class 3<span>›</span>Animated GIFs</p>
+    <h1>Animated GIFs</h1>
+    <p class="lede">An animated GIF is a stack of frames with a timing for each one. In p5.js it loads like any other image, and it comes with seven extra methods for taking that timing into your own hands. Each example on this page is one complete sketch. Tap the demo to try it, copy the code, or open it on your phone.</p>
+
+    <section id="how">
+      <h2>How a GIF works in p5.js</h2>
+      <ul class="facts">
+        <li><strong>It is a <code>p5.Image</code>.</strong> <code>loadImage()</code> gives you one image object. It keeps every frame inside and shows one of them at a time. <code>gif.width</code> and <code>gif.height</code> work as usual.</li>
+        <li><strong>It only moves while you draw it.</strong> Each call to <code>image()</code> checks the clock and switches to the next frame once its delay has passed. Stop drawing it and it stops. Draw the same GIF twice in one frame and it runs twice as fast. Give every canvas its own copy.</li>
+        <li><strong>Every frame has a delay.</strong> The file sets a delay for each frame, in milliseconds. <code>delay()</code> replaces it.</li>
+        <li><strong>Frames count from 0.</strong> The first frame is 0. The last one is <code>numFrames() - 1</code>.</li>
+      </ul>
+    </section>
+
+    <section id="load">
+      <h2>Loading a GIF</h2>
+      <p class="desc">p5.js 2.x loads files with <code>async</code> and <code>await</code>. Setup waits on that line until the file is ready, and <code>draw()</code> does not start until setup has finished. Every sketch below starts this way.</p>
+      <div class="example">
+        <div class="code-box" id="load-code"><pre><code>let gif;
+
+async function setup() {
+  createCanvas(windowWidth, windowHeight);
+  imageMode(CENTER);
+
+  // setup waits here until the file is ready
+  gif = await loadImage('stitch.gif');
+}
+
+function draw() {
+  background(20);
+
+  // drawing it is what makes it play
+  image(gif, width / 2, height / 2);
+}</code></pre>
+          <div class="code-actions"><button class="circle copy" title="Copy the code" aria-label="Copy the code"></button></div>
+        </div>
+      </div>
+      <p class="note">In the web editor, upload the GIF to the sketch files first. Then <code>loadImage('yourfile.gif')</code> finds it by name.</p>
+    </section>
+
+    <section id="your-gif">
+      <div class="own">
+        <h2>Try your own GIF</h2>
+        <p>Every demo on this page reloads with your file. It stays in your browser. Nothing is uploaded anywhere.</p>
+        <div class="own-row">
+          <label class="pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Choose a GIF
+            <input type="file" id="gif-file" accept="image/gif,.gif">
+          </label>
+          <button class="pill" id="gif-default" hidden>Back to stitch.gif</button>
+          <span class="file-name" id="gif-info">stitch.gif</span>
+        </div>
+        <p class="warn" id="gif-warn" hidden></p>
+      </div>
+    </section>
+
+    <div id="examples"></div>
+
+    <section id="use">
+      <h2>Use one in your sketch</h2>
+      <ol class="steps">
+        <li>Pick the example closest to what you want and copy its code with the copy button.</li>
+        <li>In the <a href="https://editor.p5js.org" target="_blank" rel="noopener">web editor</a>, make a new sketch and paste it over <code>sketch.js</code>.</li>
+        <li>Open the sketch files panel, upload your GIF, and change <code>'stitch.gif'</code> to its file name.</li>
+        <li>For 08 and 09, also add the p5-phone script to <code>index.html</code>. Copy the line from the <a href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/blob/main/class-03/gif-controls/08-tilt-to-frame/index.html" target="_blank" rel="noopener">example's index.html</a>.</li>
+        <li>Test on the phone with the share link.</li>
+      </ol>
+    </section>
+
+    <footer>
+      <p>Atelier 1 · Fall 2026 · Digital Futures, OCAD University.</p>
+      <p>Sketches run on <a href="https://p5js.org" target="_blank" rel="noopener">p5.js 2.2</a> and <a href="https://npuckett.github.io/p5-phone/examples/homepage/" target="_blank" rel="noopener">p5-phone</a>. Set in National Park, the typeface of p5js.org. <a href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-03/gif-controls" target="_blank" rel="noopener">Source on GitHub</a>.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  const REPO = 'https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/blob/main/class-03/gif-controls/';
+  const REF = 'https://p5js.org/reference/p5.Image/';
+
+  const EXAMPLES = [
+    {
+      id: 'numFrames', folder: '01-frames', num: '01', title: 'Count the Frames',
+      methods: ['numFrames()', 'getCurrentFrame()'],
+      desc: 'How many frames the file has, and which one is showing right now. Nothing to tap here. The GIF plays on its own as long as image() keeps drawing it. Watch the strip along the bottom.',
+      syntax: ['gif.numFrames()', 'gif.getCurrentFrame()'],
+      returns: [['numFrames()', 'Number: the total number of frames in the file.'], ['getCurrentFrame()', 'Number: the index of the frame showing now, counted from 0.']],
+      refs: ['numFrames', 'getCurrentFrame']
+    },
+    {
+      id: 'play', folder: '02-play-pause', num: '02', title: 'Play and Pause',
+      methods: ['play()', 'pause()'],
+      desc: 'Tap to stop the GIF. Tap again to start it. pause() freezes it on the frame it is showing and play() carries on from there. The GIF does not report which state it is in, so the sketch keeps its own note in a variable.',
+      syntax: ['gif.play()', 'gif.pause()'],
+      refs: ['play', 'pause']
+    },
+    {
+      id: 'setFrame', folder: '03-next-frame', num: '03', title: 'One Frame at a Time',
+      methods: ['setFrame()'],
+      desc: 'The GIF does not play on its own here. Each tap shows the next frame. setFrame() jumps to any frame you name. Past the last frame the sketch goes back to 0, so the loop closes by hand.',
+      syntax: ['gif.setFrame(index)'],
+      params: [['index', 'Number: the frame to show, from 0 to numFrames() - 1.']],
+      refs: ['setFrame']
+    },
+    {
+      id: 'scrub', folder: '04-scrub', num: '04', title: 'Drag to Scrub',
+      methods: ['setFrame()', 'map()'],
+      desc: 'While you drag, your finger’s position picks the frame. The left edge is the first frame and the right edge is the last. map() turns one range (0 to width) into another (0 to the last frame). The same four steps work with a sensor in place of the finger. See 08.',
+      syntax: ['map(value, start1, stop1, start2, stop2)', 'gif.setFrame(index)'],
+      params: [['value', 'Number: the input, here mouseX.'], ['start1, stop1', 'Number: the range the input comes from.'], ['start2, stop2', 'Number: the range you want out. round() makes it a whole frame number.']],
+      refs: ['setFrame'], extraRefs: [['map()', 'https://p5js.org/reference/p5/map/']]
+    },
+    {
+      id: 'delay', folder: '05-speed', num: '05', title: 'Change the Speed',
+      methods: ['delay()'],
+      desc: 'Every frame in a GIF has its own delay, in milliseconds. The file sets it. delay() replaces it for every frame at once, or for one frame if you name it. Each tap picks the next speed from a list.',
+      syntax: ['gif.delay(d)', 'gif.delay(d, index)'],
+      params: [['d', 'Number: the delay in milliseconds. Smaller is faster.'], ['index', 'Number: change only this frame. Leave it out to change them all.']],
+      refs: ['delay']
+    },
+    {
+      id: 'reset', folder: '06-reset', num: '06', title: 'Back to the Start',
+      methods: ['reset()'],
+      desc: 'reset() jumps to frame 0 and plays from there, even if the GIF was paused. Tap to restart the loop and watch the frame number jump.',
+      syntax: ['gif.reset()'],
+      refs: ['reset']
+    },
+    {
+      id: 'zones', folder: '07-zones', num: '07', title: 'Three Zones',
+      methods: ['play()', 'pause()', 'delay()', 'reset()'],
+      desc: 'Putting it together. The screen is split into three bands and where you tap decides what happens: the top band plays or pauses, the middle band picks the next speed, the bottom band goes back to the start. mouseY against height / 3 is all it takes to know which band was hit.',
+      syntax: ['if (mouseY < height / 3) { ... }'],
+      refs: ['play', 'pause', 'delay', 'reset']
+    },
+    {
+      id: 'tilt', folder: '08-tilt-to-frame', num: '08', title: 'Tilt to Scrub', phone: true,
+      methods: ['setFrame()', 'rotationY'],
+      desc: 'Tilting the phone side to side picks the frame. Nothing plays on its own. This is 04 with rotationY in place of mouseX: read the input, constrain it, map it onto the frame range, use it. Open it on your phone and tap once to enable the sensors. On a laptop the demo stays on its message.',
+      syntax: ['let frame = round(map(rotationY, -45, 45, 0, last));', 'gif.setFrame(frame);'],
+      params: [['rotationY', 'Number: side to side tilt in degrees, about -45 with the left edge down and 45 with the right edge down.']],
+      refs: ['setFrame'], extraRefs: [['rotationY', 'https://p5js.org/reference/p5/rotationY/'], ['p5-phone', 'https://npuckett.github.io/p5-phone/examples/homepage/']]
+    },
+    {
+      id: 'shake', folder: '09-shake-to-advance', num: '09', title: 'Shake for the Next Frame', phone: true,
+      methods: ['setFrame()', 'deviceShaken()'],
+      desc: 'The GIF holds still. Each shake moves it one frame forward. deviceShaken() is an event, so p5.js calls it for you. One shake fires it many times in a row, so the sketch only counts a shake if 0.7 seconds have passed since the last one.',
+      syntax: ['function deviceShaken() { ... }', 'setShakeThreshold(30)'],
+      params: [['setShakeThreshold(n)', 'Number: how hard a shake has to be. Lower is easier to trigger.']],
+      refs: ['setFrame'], extraRefs: [['deviceShaken()', 'https://p5js.org/reference/p5/deviceShaken/'], ['p5-phone', 'https://npuckett.github.io/p5-phone/examples/homepage/']]
+    }
+  ];
+
+  const ICON = {
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    open: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+    reload: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
+    github: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>'
+  };
+
+  // ---------- syntax colouring, the same colours as the p5.js reference ----------
+  const KEYWORDS = /\b(let|const|var|function|async|await|if|else|for|while|return|new|true|false|null|undefined|of|in)\b/g;
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function highlight(src) {
+    // tokens: comments, strings, numbers, declared names, keywords
+    const re = /(\/\/[^\n]*)|('(?:[^'\\\n]|\\.)*'|"(?:[^"\\\n]|\\.)*")|(\b(?:let|const|var|function)\s+)([A-Za-z_$][\w$]*)|(\b\d+(?:\.\d+)?\b)|(\b(?:let|const|var|function|async|await|if|else|for|while|return|new|true|false|null|undefined|of|in)\b)/g;
+    let out = '', last = 0, m;
+    while ((m = re.exec(src)) !== null) {
+      out += esc(src.slice(last, m.index));
+      if (m[1]) out += '<span class="c">' + esc(m[1]) + '</span>';
+      else if (m[2]) out += '<span class="s">' + esc(m[2]) + '</span>';
+      else if (m[3]) out += '<span class="k">' + esc(m[3].trim()) + '</span> <span class="n">' + esc(m[4]) + '</span>';
+      else if (m[5]) out += '<span class="d">' + esc(m[5]) + '</span>';
+      else if (m[6]) out += '<span class="k">' + esc(m[6]) + '</span>';
+      last = re.lastIndex;
+    }
+    return out + esc(src.slice(last));
+  }
+
+  // ---------- build the sections ----------
+  const host = document.getElementById('examples');
+  const sideMethods = document.getElementById('side-methods');
+  const sidePhone = document.getElementById('side-phone');
+
+  function circle(kind, tag, attrs) {
+    const el = document.createElement(tag);
+    el.className = 'circle';
+    el.innerHTML = ICON[kind];
+    for (const k in attrs) el.setAttribute(k, attrs[k]);
+    return el;
+  }
+
+  EXAMPLES.forEach(ex => {
+    const sec = document.createElement('section');
+    sec.className = 'ref-item';
+    sec.id = ex.id;
+    sec.dataset.folder = ex.folder;
+
+    const heading = ex.methods.map(m => esc(m)).join('<span class="and">and</span>');
+    const flag = ex.phone ? '<span class="phone-flag">phone</span>' : '';
+    let html = '<h2><span class="num">' + ex.num + '</span>' + heading + flag + '</h2>';
+    html += '<p class="desc">' + esc(ex.desc) + '</p>';
+    html += '<h3>Example · ' + esc(ex.title) + '</h3>';
+    html += '<div class="example">'
+      + '<div class="demo"><iframe title="' + esc(ex.num + ' ' + ex.title) + '" loading="lazy"></iframe><div class="demo-actions"></div></div>'
+      + '<div class="code-box"><pre><code class="loading">loading ' + ex.folder + '/sketch.js …</code></pre><div class="code-actions"></div></div>'
+      + '</div>';
+    html += '<h3>Syntax</h3><p class="syntax">' + ex.syntax.map(s => '<code>' + esc(s) + '</code>').join('') + '</p>';
+    if (ex.params) {
+      html += '<h3>Parameters</h3><div class="grid">' + ex.params.map(p => '<code>' + esc(p[0]) + '</code><span>' + esc(p[1]) + '</span>').join('') + '</div>';
+    }
+    if (ex.returns) {
+      html += '<h3>Returns</h3><div class="grid">' + ex.returns.map(p => '<code>' + esc(p[0]) + '</code><span>' + esc(p[1]) + '</span>').join('') + '</div>';
+    }
+    const links = ex.refs.map(r => '<a href="' + REF + r + '/" target="_blank" rel="noopener">' + r + '() on p5js.org</a>');
+    (ex.extraRefs || []).forEach(r => links.push('<a href="' + r[1] + '" target="_blank" rel="noopener">' + esc(r[0]) + '</a>'));
+    html += '<p class="see">' + links.join('') + '</p>';
+    sec.innerHTML = html;
+
+    // demo buttons: reload, open on its own
+    const iframe = sec.querySelector('iframe');
+    iframe.src = ex.folder + '/';
+    const demoActions = sec.querySelector('.demo-actions');
+    const reload = circle('reload', 'button', { title: 'Restart the sketch', 'aria-label': 'Restart the sketch' });
+    reload.addEventListener('click', () => { iframe.src = iframe.src; });
+    demoActions.appendChild(reload);
+    demoActions.appendChild(circle('open', 'a', { href: ex.folder + '/', target: '_blank', rel: 'noopener', title: 'Open the sketch on its own', 'aria-label': 'Open the sketch on its own' }));
+
+    // code buttons: copy, view on GitHub
+    const codeActions = sec.querySelector('.code-actions');
+    const copy = circle('copy', 'button', { title: 'Copy the code', 'aria-label': 'Copy the code' });
+    codeActions.appendChild(copy);
+    codeActions.appendChild(circle('github', 'a', { href: REPO + ex.folder + '/sketch.js', target: '_blank', rel: 'noopener', title: 'View on GitHub', 'aria-label': 'View on GitHub' }));
+
+    const codeEl = sec.querySelector('pre code');
+    fetch(ex.folder + '/sketch.js').then(r => { if (!r.ok) throw new Error(r.status); return r.text(); }).then(src => {
+      codeEl.className = '';
+      codeEl.innerHTML = highlight(src.trimEnd());
+      copy.addEventListener('click', () => copyText(src, copy));
+    }).catch(() => {
+      codeEl.textContent = 'Could not load the code. Open it on GitHub with the button above.';
+    });
+
+    host.appendChild(sec);
+
+    const li = document.createElement('li');
+    li.innerHTML = '<a href="#' + ex.id + '"><code>' + esc(ex.methods[0]) + '</code> ' + esc(ex.num + ' ' + ex.title) + '</a>';
+    (ex.phone ? sidePhone : sideMethods).appendChild(li);
+  });
+
+  // the loading example's copy button
+  const loadBox = document.getElementById('load-code');
+  const loadCode = loadBox.querySelector('pre code');
+  const loadSrc = loadCode.textContent;
+  loadCode.innerHTML = highlight(loadSrc);
+  const loadCopy = loadBox.querySelector('.copy');
+  loadCopy.innerHTML = ICON.copy;
+  loadCopy.addEventListener('click', () => copyText(loadSrc, loadCopy));
+
+  function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.innerHTML = ICON.check; btn.classList.add('ok');
+      setTimeout(() => { btn.innerHTML = ICON.copy; btn.classList.remove('ok'); }, 1500);
+    });
+  }
+
+  // ---------- try your own GIF ----------
+  const fileInput = document.getElementById('gif-file');
+  const info = document.getElementById('gif-info');
+  const warn = document.getElementById('gif-warn');
+  const backBtn = document.getElementById('gif-default');
+  let currentUrl = null; // blob URL of the chosen file, or null for stitch.gif
+
+  // read the header of a GIF: size, frame count, delays. enough to describe the file.
+  function gifInfo(buffer) {
+    const b = new Uint8Array(buffer);
+    const sig = String.fromCharCode(...b.slice(0, 6));
+    if (!/^GIF8[79]a$/.test(sig)) return null;
+    const w = b[6] | (b[7] << 8), h = b[8] | (b[9] << 8);
+    let p = 13;
+    if (b[10] & 0x80) p += 3 * (1 << ((b[10] & 7) + 1));
+    let frames = 0; const delays = [];
+    const skipSubBlocks = () => { while (p < b.length) { const n = b[p++]; if (n === 0) break; p += n; } };
+    while (p < b.length) {
+      const c = b[p++];
+      if (c === 0x21) {
+        const label = b[p++];
+        if (label === 0xF9) { delays.push((b[p + 2] | (b[p + 3] << 8)) * 10); }
+        skipSubBlocks();
+      } else if (c === 0x2C) {
+        frames++;
+        const packed = b[p + 8];
+        p += 9;
+        if (packed & 0x80) p += 3 * (1 << ((packed & 7) + 1));
+        p++; // LZW minimum code size
+        skipSubBlocks();
+      } else {
+        break; // trailer (0x3B) or something unexpected
+      }
+    }
+    return { w, h, frames, delays };
+  }
+
+  function describe(name, meta) {
+    if (!meta) return name;
+    let delay = '';
+    if (meta.delays.length) {
+      const min = Math.min(...meta.delays), max = Math.max(...meta.delays);
+      delay = ' · ' + (min === max ? min + ' ms per frame' : min + ' to ' + max + ' ms per frame');
+    }
+    return name + ' · ' + meta.w + ' × ' + meta.h + ' · ' + meta.frames + ' frames' + delay;
+  }
+
+  function setAllDemos(query) {
+    document.querySelectorAll('.ref-item').forEach(sec => {
+      sec.querySelector('iframe').src = sec.dataset.folder + '/' + query;
+    });
+  }
+
+  fetch('01-frames/stitch.gif').then(r => r.arrayBuffer()).then(buf => { info.textContent = describe('stitch.gif', gifInfo(buf)); }).catch(() => {});
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+    warn.hidden = true;
+    const buf = await file.arrayBuffer();
+    const meta = gifInfo(buf);
+    if (!meta) { warn.textContent = 'That file is not a GIF.'; warn.hidden = false; fileInput.value = ''; return; }
+    if (meta.frames < 2) { warn.textContent = 'That GIF has only one frame, so there is nothing to control. Try an animated one.'; warn.hidden = false; }
+    if (currentUrl) URL.revokeObjectURL(currentUrl);
+    currentUrl = URL.createObjectURL(new Blob([buf], { type: 'image/gif' }));
+    info.textContent = describe(file.name, meta);
+    backBtn.hidden = false;
+    setAllDemos('?gif=' + encodeURIComponent(currentUrl));
+  });
+
+  backBtn.addEventListener('click', () => {
+    if (currentUrl) URL.revokeObjectURL(currentUrl);
+    currentUrl = null;
+    fileInput.value = '';
+    backBtn.hidden = true;
+    warn.hidden = true;
+    fetch('01-frames/stitch.gif').then(r => r.arrayBuffer()).then(buf => { info.textContent = describe('stitch.gif', gifInfo(buf)); });
+    setAllDemos('');
+  });
+})();
+</script>
+</body>
+</html>

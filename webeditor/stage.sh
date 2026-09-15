@@ -4,9 +4,10 @@
 # so images are uploaded to each Web Editor sketch by hand.
 set -e
 cd "$(dirname "$0")/.."
-for dir in class-02/motion-to-image/*/; do
+for dir in class-02/motion-to-image/*/ class-03/gif-controls/*/; do
   name=$(basename "$dir")
-  slug="class-02-$name"
+  class=$(echo "$dir" | cut -d/ -f1)
+  slug="$class-$name"
   mkdir -p "webeditor/projects/$slug"
   cp "$dir/index.html" "$dir/sketch.js" "webeditor/projects/$slug/"
 done

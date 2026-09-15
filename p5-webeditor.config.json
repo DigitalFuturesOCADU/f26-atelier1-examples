@@ -3,7 +3,7 @@
   "projectsDir": "webeditor/projects",
   "syncDir": "webeditor/.sync",
   "registryFile": "webeditor/.sync/registry.json",
-  "namePrefix": "Atelier1 F26 · ",
+  "namePrefix": "Atelier1 F26 \u00b7 ",
   "visibility": "Public",
   "batches": {
     "class-02": [
@@ -11,6 +11,17 @@
       "class-02-02-tilt-to-scale",
       "class-02-03-shake-to-filter",
       "class-02-04-move-to-spin"
+    ],
+    "class-03": [
+      "class-03-01-frames",
+      "class-03-02-play-pause",
+      "class-03-03-next-frame",
+      "class-03-04-scrub",
+      "class-03-05-speed",
+      "class-03-06-reset",
+      "class-03-07-zones",
+      "class-03-08-tilt-to-frame",
+      "class-03-09-shake-to-advance"
     ]
   },
   "verify": {
