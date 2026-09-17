@@ -14,8 +14,10 @@ async function setup() {
 function draw() {
   background(20);
 
-  let s = min(width * 0.8 / gif.width, height * 0.7 / gif.height);
-  image(gif, width / 2, height / 2, gif.width * s, gif.height * s);
+  // the labels sit in the top 70 pixels, so the GIF is fitted below them
+  let top = 70;
+  let s = min(width * 0.8 / gif.width, (height - top) * 0.85 / gif.height);
+  image(gif, width / 2, top + (height - top) / 2, gif.width * s, gif.height * s);
 
   fill(255);
   textSize(16);

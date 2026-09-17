@@ -18,11 +18,17 @@ One image, one motion input per sketch. Read them in order.
 
 ## Class 3 · Animated GIFs
 
-[class-03/gif-controls/](class-03/gif-controls/) is a reference page in the style of
-p5js.org/reference: every GIF method, one demo each, the code beside it, and a
-"try your own GIF" control that reloads every demo with a file from your computer.
-Each demo is its own sketch in its own folder, so nothing is shared between
-canvases. Open a folder on a phone to run it full screen.
+[class-03/gif-controls/](class-03/gif-controls/) is a three-tab page: **GIF Info**
+inspects one GIF frame by frame, with a frame strip and controls for speed,
+direction and frame range; **Code & Examples** lists the methods and the full
+source of every sketch below; **Interaction Examples** runs them side by side so
+they can be compared. Choosing a GIF at the top reloads every example with it,
+and the file never leaves the browser.
+
+Each example is its own sketch in its own folder with its own copy of the GIF.
+Two canvases must never share one loaded GIF: each canvas that draws it steps
+its frame clock again, which is what broke the Fall 2025 version of this page.
+Open a folder on a phone to run it full screen.
 
 | Sketch | Method | What it does |
 | --- | --- | --- |

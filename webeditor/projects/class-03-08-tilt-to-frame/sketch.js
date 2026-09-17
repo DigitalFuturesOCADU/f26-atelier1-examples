@@ -33,8 +33,10 @@ function draw() {
     // 4. use it
     gif.setFrame(frame);
 
-    let s = min(width * 0.8 / gif.width, height * 0.7 / gif.height);
-    image(gif, width / 2, height / 2, gif.width * s, gif.height * s);
+    // the label sits in the top 50 pixels, so the GIF is fitted below it
+    let top = 50;
+    let s = min(width * 0.8 / gif.width, (height - top) * 0.85 / gif.height);
+    image(gif, width / 2, top + (height - top) / 2, gif.width * s, gif.height * s);
 
     text('rotationY: ' + round(rotationY) + '   frame: ' + frame, 20, 30);
   } else {

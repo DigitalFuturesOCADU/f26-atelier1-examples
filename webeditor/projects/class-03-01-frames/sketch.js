@@ -16,9 +16,11 @@ async function setup() {
 function draw() {
   background(20);
 
-  // fit the GIF to the screen and keep its shape
-  let s = min(width * 0.8 / gif.width, height * 0.7 / gif.height);
-  image(gif, width / 2, height / 2, gif.width * s, gif.height * s);
+  // labels at the top, frame strip at the bottom, the GIF in between
+  let top = 70;
+  let bottom = 30;
+  let s = min(width * 0.8 / gif.width, (height - top - bottom) / gif.height);
+  image(gif, width / 2, top + (height - top - bottom) / 2, gif.width * s, gif.height * s);
 
   let total = gif.numFrames();     // how many frames the file has
   let now = gif.getCurrentFrame(); // the one showing now, counted from 0

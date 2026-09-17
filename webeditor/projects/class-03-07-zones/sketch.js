@@ -28,6 +28,12 @@ function draw() {
   line(0, height * 2 / 3, width, height * 2 / 3);
   noStroke();
 
+  // a dark strip at the top of each band, so the labels stay readable over the GIF
+  fill(0, 200);
+  rect(0, 0, width, 42);
+  rect(0, height / 3, width, 42);
+  rect(0, height * 2 / 3, width, 42);
+
   // a label in each band
   fill(255);
   if (playing) {
