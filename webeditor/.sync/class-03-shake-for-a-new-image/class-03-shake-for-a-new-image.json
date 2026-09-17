@@ -1,0 +1,36 @@
+{
+  "slug": "class-03-shake-for-a-new-image",
+  "title": "Class 03 · Shake for a New Image",
+  "name": "Atelier1 F26 · Class 03 · Shake for a New Image",
+  "projectId": "wGvIdnPqy",
+  "contentHash": "sha256:c900b36d3fdce151e7d1cf0943d9d92d6cfc2302aecf691bac85036adb6e9673",
+  "files": [
+    {
+      "name": "root",
+      "id": "9af488eb183539f52b311fac",
+      "_id": "9af488eb183539f52b311fac",
+      "fileType": "folder",
+      "children": [
+        "ef26701249819072a77cf04e",
+        "375cac21e772a4a1e46ce566"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Shake for a New Image</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.13.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "ef26701249819072a77cf04e",
+      "_id": "ef26701249819072a77cf04e",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// Shake for a New Image\n// Based on Daniel Shiffman's \"p5.js 2.0 Loading a Sequence\":\n// https://editor.p5js.org/codingtrain/sketches/lQxT7PTKC\n// The image does not live in this folder. Each shake asks the Dog API for\n// the address of a random photo, loads it, and fills the screen with it.\n\nlet dog;             // the photo on screen. Empty until the first one arrives.\nlet loading = true;  // true while we are waiting for a photo\nlet lastShake = 0;   // when the last shake counted, in milliseconds\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n  enableGyroTap('Tap to enable motion sensors');\n  setShakeThreshold(30); // lower is easier to trigger\n  imageMode(CENTER);\n\n  await newDog(); // the first photo\n}\n\nfunction draw() {\n  background(20);\n\n  if (loading) {\n    drawLoading();\n    return; // nothing else to draw until the photo is here\n  }\n\n  // Fill the screen. Work out how much the photo has to grow to cover the\n  // width, and how much to cover the height, then use the bigger of the two.\n  // Both sides grow by the same amount, so the photo is never squashed.\n  // Whatever does not fit runs off the edges.\n  let cover = max(width / dog.width, height / dog.height);\n  image(dog, width / 2, height / 2, dog.width * cover, dog.height * cover);\n\n  // a dark strip so the label stays readable over a pale photo\n  noStroke();\n  fill(0, 150);\n  rect(0, 0, width, 44);\n\n  fill(255);\n  textAlign(LEFT, BASELINE);\n  textSize(16);\n  if (window.sensorsEnabled) {\n    text('shake for a new dog', 20, 28);\n  } else {\n    text('Tap to enable motion sensors', 20, 28);\n  }\n}\n\n// Ask the API for one random photo, then load it.\n// Both steps take time, so both are awaited.\nasync function newDog() {\n  loading = true;\n  let data = await loadJSON('https://dog.ceo/api/breeds/image/random');\n  dog = await loadImage(data.message); // data.message is the photo's address\n  loading = false;\n}\n\n// This is what await buys you. newDog() is stopped at each await, waiting\n// for the network, but draw() keeps running the whole time. So the wait is\n// not a frozen canvas. It is a screen you get to design.\nfunction drawLoading() {\n  // a third of the way down, so the first one is not hidden behind\n  // the permission prompt, which sits in the middle of the screen\n  let y = height * 0.33;\n\n  // a ring that breathes while we wait\n  noFill();\n  stroke(255);\n  strokeWeight(3);\n  circle(width / 2, y - 60, 50 + sin(millis() / 150) * 14);\n\n  // dots that fill in one at a time: 0, 1, 2, 3, then back to 0\n  let dots = floor(millis() / 300) % 4;\n  let message = 'Finding Best Dog Available';\n  for (let i = 0; i < dots; i = i + 1) {\n    message = message + '.';\n  }\n\n  noStroke();\n  fill(255);\n  textAlign(LEFT, CENTER);\n  textSize(18);\n  // centred by hand, leaving room for all three dots, so the words\n  // hold still while the dots come and go\n  let x = width / 2 - textWidth('Finding Best Dog Available...') / 2;\n  text(message, x, y);\n}\n\nfunction deviceShaken() {\n  // one shake calls this many times in a row.\n  // only count it if 0.7 seconds have passed since the last one.\n  // loading is checked too, so a shake cannot start a second request\n  // while one is still on its way.\n  if (millis() - lastShake > 700 && !loading) {\n    newDog();\n    lastShake = millis();\n  }\n}\n",
+      "id": "375cac21e772a4a1e46ce566",
+      "_id": "375cac21e772a4a1e46ce566",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

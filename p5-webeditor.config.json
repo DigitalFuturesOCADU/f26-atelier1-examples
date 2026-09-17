@@ -3,7 +3,7 @@
   "projectsDir": "webeditor/projects",
   "syncDir": "webeditor/.sync",
   "registryFile": "webeditor/.sync/registry.json",
-  "namePrefix": "Atelier1 F26 \u00b7 ",
+  "namePrefix": "Atelier1 F26 · ",
   "visibility": "Public",
   "batches": {
     "class-02": [
@@ -21,7 +21,8 @@
       "class-03-06-reset",
       "class-03-07-zones",
       "class-03-08-tilt-to-frame",
-      "class-03-09-shake-to-advance"
+      "class-03-09-shake-to-advance",
+      "class-03-shake-for-a-new-image"
     ]
   },
   "verify": {

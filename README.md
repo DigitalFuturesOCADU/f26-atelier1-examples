@@ -45,6 +45,24 @@ Open a folder on a phone to run it full screen.
 The demo folders' `index.html` carries a short script that lets the reference page
 pass another GIF in with `?gif=`. It is safe to delete from a copied sketch.
 
+## Class 3 · Images from an API
+
+[class-03/shake-for-a-new-image/](class-03/shake-for-a-new-image/) has no image file of
+its own. Each shake asks the [Dog API](https://dog.ceo/dog-api/) for the address of a
+random photo, loads it, and scales it to fill the screen. It extends Daniel Shiffman's
+[p5.js 2.0 Loading a Sequence](https://editor.p5js.org/codingtrain/sketches/lQxT7PTKC)
+with `deviceShaken()` and a cover fit for a portrait screen.
+
+It is also where the point of `async` and `await` shows: the fetch is stopped at each
+`await`, but `draw()` never stops, so the wait gets a loading screen of its own instead
+of a frozen canvas.
+
+| Sketch | Method | Web editor |
+| --- | --- | --- |
+| [shake-for-a-new-image](class-03/shake-for-a-new-image/) | `loadJSON()`, `loadImage()`, `deviceShaken()` | [open](https://editor.p5js.org/npuckett/sketches/wGvIdnPqy) |
+
+This one needs no image upload in the web editor: every photo comes from the API.
+
 ## Web editor copies
 
 `p5-webeditor.config.json` publishes each example to the p5.js web editor with
