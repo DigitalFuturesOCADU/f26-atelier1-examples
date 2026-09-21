@@ -3,7 +3,7 @@
   "projectsDir": "webeditor/projects",
   "syncDir": "webeditor/.sync",
   "registryFile": "webeditor/.sync/registry.json",
-  "namePrefix": "Atelier1 F26 · ",
+  "namePrefix": "Atelier1 F26 \u00b7 ",
   "visibility": "Public",
   "batches": {
     "class-02": [
@@ -32,6 +32,8 @@
       "class-04-05-label-to-image",
       "class-04-06-word-to-image",
       "class-04-07-sentence-to-image",
+      "class-04-08-raise-to-listen",
+      "class-04-09-holder-and-room",
       "class-04-demo-pitch-to-frame"
     ]
   },

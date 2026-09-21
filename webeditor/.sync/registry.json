@@ -157,6 +157,30 @@
       },
       "lastPush": "2026-09-21T21:22:02.376Z",
       "lastVerify": "2026-09-21T21:22:02.376Z"
+    },
+    "class-04-08-raise-to-listen": {
+      "projectId": "QGxSV8I-D",
+      "name": "Atelier1 F26 · class-04-08-raise-to-listen",
+      "contentHash": "sha256:6ab03bf61841b5a22f9ea86b07a4f832b21b3d5c2192e7330bac3dae090baa8e",
+      "fileIds": {
+        "__root__": "6f211d093ee57e5a5d606fea",
+        "index.html": "b94ee530a636f54a61fe3743",
+        "sketch.js": "732f65b47ce776166da676ca"
+      },
+      "lastPush": "2026-09-21T22:25:49.186Z",
+      "lastVerify": "2026-09-21T22:25:49.186Z"
+    },
+    "class-04-09-holder-and-room": {
+      "projectId": "phPd-czOb",
+      "name": "Atelier1 F26 · class-04-09-holder-and-room",
+      "contentHash": "sha256:dd68244e6e786cc7f288bbee7a80620e90f4a5f0423d886269203bc149f68d58",
+      "fileIds": {
+        "__root__": "b269737397a8974f420b44cf",
+        "index.html": "7e97f5a2615aca9b97f04965",
+        "sketch.js": "fad5afdc8d4dd9b303786382"
+      },
+      "lastPush": "2026-09-21T22:25:49.828Z",
+      "lastVerify": "2026-09-21T22:25:49.828Z"
     }
   }
 }

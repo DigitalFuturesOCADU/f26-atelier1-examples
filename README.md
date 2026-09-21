@@ -111,7 +111,12 @@ sketch runs anywhere with no files to upload. Change the one `gifFile` line to u
 | [05-label-to-image](class-04/sound-to-image/05-label-to-image/) | ml5 sound classifier label → which GIF | Runs on the built-in word model until you paste in a Teachable Machine link. | [open](https://editor.p5js.org/npuckett/sketches/e5BKKMXcJ) |
 | [06-word-to-image](class-04/sound-to-image/06-word-to-image/) | spoken word → GIF command | Speech as a trigger. Reacts in the middle of a sentence. | [open](https://editor.p5js.org/npuckett/sketches/wnzOiFz5W) |
 | [07-sentence-to-image](class-04/sound-to-image/07-sentence-to-image/) | finished sentence → copies, speed, tint | Speech as material. Word count, word length and tone set the picture. | [open](https://editor.p5js.org/npuckett/sketches/_-kiGZNVP) |
+| [08-raise-to-listen](class-04/sound-to-image/08-raise-to-listen/) | tilt opens the mic, level → `delay()` | Motion and sound together. Raised, the heart listens and your voice sets its speed. Flat, it is deaf. | [open](https://editor.p5js.org/npuckett/sketches/QGxSV8I-D) |
+| [09-holder-and-room](class-04/sound-to-image/09-holder-and-room/) | tilt → `setFrame()`, level → shake | Motion and sound together. The holder steers the robot, the room's noise disturbs it. | [open](https://editor.p5js.org/npuckett/sketches/phPd-czOb) |
 | [demo-pitch-to-frame](class-04/sound-to-image/demo-pitch-to-frame/) | hummed note → `setFrame()` | A look ahead. Finds the note in hertz with Pitchy. | [open](https://editor.p5js.org/npuckett/sketches/BkP-lf5bR) |
+
+08 and 09 combine motion and sound. They ask for both with one tap, `enableAllTap()`. In 08 one input
+opens the other. In 09 each input has its own control, and often its own person.
 
 A sketch gets the microphone level or speech, not both at once. Speech recognition also
 sends the sound to the browser's speech service. 05 to 07 do not load p5.sound: ml5.js and
