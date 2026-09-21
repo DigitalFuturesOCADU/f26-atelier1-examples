@@ -1,0 +1,36 @@
+{
+  "slug": "class-04-02-clap-to-step",
+  "title": "Class 04 · 02 Clap to Step",
+  "name": "Atelier1 F26 · Class 04 · 02 Clap to Step",
+  "projectId": null,
+  "contentHash": "sha256:123674b8f72f7470ddc2b7c08d6805f6b2934be817d30047c51656ff9cbd2ba3",
+  "files": [
+    {
+      "name": "root",
+      "id": "e1db087689321b90d9f2897a",
+      "_id": "e1db087689321b90d9f2897a",
+      "fileType": "folder",
+      "children": [
+        "32955795d5a858e24337e8d0",
+        "b0e49bd8a4cc7a03deb6bb01"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>02 Clap to Step</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5.sound: the microphone, the level meter and the FFT -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.sound@0.3.0/dist/p5.sound.min.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.13.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "32955795d5a858e24337e8d0",
+      "_id": "32955795d5a858e24337e8d0",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 02 · Clap to Step\n// The GIF holds still. Each sound that crosses the line moves it one frame.\n// Example 01 asked how loud. This one asks when.\n// Try one clap, then a rhythm. Then a dripping tap, or a song with a strong beat.\n\n// The GIF is loaded from the class GIF library by its full web address.\n// That is why this sketch has no file to upload.\n// To use your own GIF, upload it to the sketch and put its file name here, like 'myGif.gif'.\nlet gifFile = 'https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-03/gif-library/gifs/cow.gif';\n\n// the feel of the piece. change these before you change anything else.\nlet boost = 5;        // phones hear quietly. raise it if claps do not reach the line\nlet threshold = 0.35; // the line. how loud a sound has to be to count\nlet lockout = 200;    // milliseconds. one clap must not count twice\n\nlet mic;   // the microphone\nlet meter; // measures how loud the microphone is\nlet fingerDown = false; // true while a finger is on the screen, after the microphone tap\nlet gif;\nlet frame = 0;\nlet wasAbove = false; // was the level over the line on the last frame?\nlet lastHit = 0;      // when the last sound counted, in milliseconds\nlet gap = 0;          // time between the last two sounds\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n  imageMode(CENTER);\n  setupMic();\n\n  gif = await loadImage(gifFile);\n  gif.pause(); // the sound chooses when to move, not the clock\n}\n\nfunction draw() {\n  background(20);\n\n  let level = getMicLevel();\n\n  // an event, not a value. it only counts at the moment the level\n  // crosses the line on its way up. a long hum is one event, not many.\n  let isAbove = level > threshold;\n  if (isAbove && !wasAbove && millis() - lastHit > lockout) {\n    nextFrame();\n  }\n  wasAbove = isAbove;\n\n  // the labels sit in the top 70 pixels, so the GIF is fitted below them\n  let top = 70;\n  let s = min(width * 0.8 / gif.width, (height - top) * 0.85 / gif.height);\n  image(gif, width / 2, top + (height - top) / 2, gif.width * s, gif.height * s);\n\n  // the level as a bar up the left edge. it flashes when a sound counts.\n  noStroke();\n  if (millis() - lastHit < 120) {\n    fill(255, 200, 0);\n  } else {\n    fill(100, 200, 255);\n  }\n  rect(0, height - level * height, 12, level * height);\n  // the line\n  stroke(255, 200, 0);\n  strokeWeight(2);\n  line(0, height - threshold * height, 40, height - threshold * height);\n  noStroke();\n\n  fill(255);\n  textSize(16);\n  text('frame: ' + frame + '   gap: ' + round(gap) + ' ms', 20, 30);\n  text(micStatus() + '. a tap also counts as one step', 20, 52);\n}\n\n// one frame forward, and remember when it happened.\n// (it cannot be called step. p5.js already has a function with that name.)\nfunction nextFrame() {\n  frame = frame + 1;\n  if (frame >= gif.numFrames()) {\n    frame = 0;\n  }\n  gif.setFrame(frame);\n  gap = millis() - lastHit;\n  lastHit = millis();\n}\n\n// the fallback: a tap stands in for the sound.\n// the first tap belongs to the microphone message, so it is not counted.\n// p5's own mouseIsPressed can stay stuck after that tap, so the sketch keeps its own record.\nfunction mousePressed() {\n  wakeAudio();\n  if (window.micEnabled) {\n    fingerDown = true;\n    nextFrame();\n  }\n  return false;\n}\n\nfunction mouseReleased() {\n  fingerDown = false;\n  return false;\n}\n\n// ---------- the microphone. this part is the same in every sketch. ----------\n\n// call this once in setup\nfunction setupMic() {\n  mic = new p5.AudioIn(); // p5-phone looks for a variable with exactly this name\n  meter = new p5.Amplitude();\n  routeMic();\n  enableMicTap('Tap to turn on the microphone');\n}\n\n// p5.sound sends the microphone straight to the speaker unless you stop it.\n// This unplugs it from the speaker and plugs it into the level meter.\n// It runs every frame, the same way the p5-phone Microphone Level example does it.\nfunction routeMic() {\n  mic.disconnect();\n  mic.connect(meter);\n}\n\n// true only when the phone has really handed over a live microphone.\n// window.micEnabled turns true on the tap, even if the person then says no,\n// so this also checks that sound is actually arriving.\nfunction micIsOpen() {\n  return window.micEnabled === true && mic.node.state === 'started';\n}\n\n// how loud it is right now, from 0 to 1. it is 0 when there is no microphone.\nfunction getMicLevel() {\n  if (!micIsOpen()) {\n    return 0;\n  }\n  routeMic();\n  return constrain(meter.getLevel() * boost, 0, 1);\n}\n\n// one line for the screen that says what the microphone is doing\nfunction micStatus() {\n  if (micIsOpen()) {\n    return 'listening';\n  }\n  if (window.micEnabled) {\n    return 'waiting for the microphone. if it never comes, use a finger';\n  }\n  return 'tap to turn on the microphone';\n}\n\n// a phone can put the sound system to sleep when you leave the page.\n// any touch wakes it up again.\nfunction wakeAudio() {\n  if (getAudioContext().state !== 'running') {\n    userStartAudio();\n  }\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "b0e49bd8a4cc7a03deb6bb01",
+      "_id": "b0e49bd8a4cc7a03deb6bb01",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

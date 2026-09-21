@@ -23,6 +23,12 @@
       "class-03-08-tilt-to-frame",
       "class-03-09-shake-to-advance",
       "class-03-shake-for-a-new-image"
+    ],
+    "class-04": [
+      "class-04-01-level-to-frame",
+      "class-04-02-clap-to-step",
+      "class-04-03-hold-and-silence",
+      "class-04-04-two-bands"
     ]
   },
   "verify": {

@@ -1,0 +1,36 @@
+{
+  "slug": "class-04-03-hold-and-silence",
+  "title": "Class 04 · 03 Hold and Silence",
+  "name": "Atelier1 F26 · Class 04 · 03 Hold and Silence",
+  "projectId": null,
+  "contentHash": "sha256:8694092501ee2cedf5ac97c510bb33972a74e54af14fb31f58cfb70442666979",
+  "files": [
+    {
+      "name": "root",
+      "id": "f740b249a37f3370ca303134",
+      "_id": "f740b249a37f3370ca303134",
+      "fileType": "folder",
+      "children": [
+        "771ee241fdc083b7d07c8810",
+        "73c6c695f5a0eddcb6ebc587"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>03 Hold and Silence</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5.sound: the microphone, the level meter and the FFT -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.sound@0.3.0/dist/p5.sound.min.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.13.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "771ee241fdc083b7d07c8810",
+      "_id": "771ee241fdc083b7d07c8810",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 03 · Hold and Silence\n// The mantis only eats when it has been quiet for a while. Any noise and it freezes.\n// Silence is an input too. The sketch is timing how long a condition has lasted.\n// Flip waitForQuiet to false and it is the opposite piece:\n// the GIF only plays while a sound is held, like a long hum.\n\n// The GIF is loaded from the class GIF library by its full web address.\n// That is why this sketch has no file to upload.\n// To use your own GIF, upload it to the sketch and put its file name here, like 'myGif.gif'.\nlet gifFile = 'https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-03/gif-library/gifs/bugEating.gif';\n\n// the feel of the piece. change these before you change anything else.\nlet waitForQuiet = true; // true: plays after quiet. false: plays after a held sound\nlet waitSeconds = 3;     // how long the quiet, or the sound, has to last\nlet threshold = 0.15;    // the line between quiet and not quiet\nlet boost = 5;           // phones hear quietly\n\nlet mic;   // the microphone\nlet meter; // measures how loud the microphone is\nlet fingerDown = false; // true while a finger is on the screen, after the microphone tap\nlet gif;\nlet since = 0; // when the condition last started, in milliseconds\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n  imageMode(CENTER);\n  setupMic();\n\n  gif = await loadImage(gifFile);\n  gif.pause();\n  since = millis();\n}\n\nfunction draw() {\n  background(20);\n\n  let level = getMicLevel();\n  // the fallback: a finger on the screen stands in for sound\n  if (fingerDown) {\n    level = 1;\n  }\n\n  // is the condition true right now?\n  let conditionMet;\n  if (waitForQuiet) {\n    conditionMet = level < threshold;\n  } else {\n    conditionMet = level > threshold;\n  }\n\n  // the moment it stops being true, the clock starts again from zero\n  if (!conditionMet) {\n    since = millis();\n  }\n  let held = (millis() - since) / 1000; // seconds the condition has lasted\n\n  if (held > waitSeconds) {\n    gif.play();\n  } else {\n    gif.pause();\n  }\n\n  // the labels sit in the top 90 pixels, so the GIF is fitted below them\n  let top = 90;\n  let s = min(width * 0.8 / gif.width, (height - top) * 0.85 / gif.height);\n  image(gif, width / 2, top + (height - top) / 2, gif.width * s, gif.height * s);\n\n  // the wait, as a bar across the bottom. it fills, and any break empties it.\n  noStroke();\n  fill(60);\n  rect(0, height - 12, width, 12);\n  fill(255, 200, 0);\n  rect(0, height - 12, width * constrain(held / waitSeconds, 0, 1), 12);\n\n  fill(255);\n  textSize(16);\n  text('level: ' + nf(level, 1, 2) + '   held: ' + nf(held, 1, 1) + ' s', 20, 30);\n  text(micStatus(), 20, 52);\n  if (waitForQuiet) {\n    text('stay quiet for ' + waitSeconds + ' seconds', 20, 74);\n  } else {\n    text('hold a sound for ' + waitSeconds + ' seconds', 20, 74);\n  }\n}\n\n// the first tap belongs to the microphone message, so it is not counted.\n// p5's own mouseIsPressed can stay stuck after that tap, so the sketch keeps its own record.\nfunction mousePressed() {\n  wakeAudio();\n  if (window.micEnabled) {\n    fingerDown = true;\n  }\n  return false;\n}\n\nfunction mouseReleased() {\n  fingerDown = false;\n  return false;\n}\n\n// ---------- the microphone. this part is the same in every sketch. ----------\n\n// call this once in setup\nfunction setupMic() {\n  mic = new p5.AudioIn(); // p5-phone looks for a variable with exactly this name\n  meter = new p5.Amplitude();\n  routeMic();\n  enableMicTap('Tap to turn on the microphone');\n}\n\n// p5.sound sends the microphone straight to the speaker unless you stop it.\n// This unplugs it from the speaker and plugs it into the level meter.\n// It runs every frame, the same way the p5-phone Microphone Level example does it.\nfunction routeMic() {\n  mic.disconnect();\n  mic.connect(meter);\n}\n\n// true only when the phone has really handed over a live microphone.\n// window.micEnabled turns true on the tap, even if the person then says no,\n// so this also checks that sound is actually arriving.\nfunction micIsOpen() {\n  return window.micEnabled === true && mic.node.state === 'started';\n}\n\n// how loud it is right now, from 0 to 1. it is 0 when there is no microphone.\nfunction getMicLevel() {\n  if (!micIsOpen()) {\n    return 0;\n  }\n  routeMic();\n  return constrain(meter.getLevel() * boost, 0, 1);\n}\n\n// one line for the screen that says what the microphone is doing\nfunction micStatus() {\n  if (micIsOpen()) {\n    return 'listening';\n  }\n  if (window.micEnabled) {\n    return 'waiting for the microphone. if it never comes, use a finger';\n  }\n  return 'tap to turn on the microphone';\n}\n\n// a phone can put the sound system to sleep when you leave the page.\n// any touch wakes it up again.\nfunction wakeAudio() {\n  if (getAudioContext().state !== 'running') {\n    userStartAudio();\n  }\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "73c6c695f5a0eddcb6ebc587",
+      "_id": "73c6c695f5a0eddcb6ebc587",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

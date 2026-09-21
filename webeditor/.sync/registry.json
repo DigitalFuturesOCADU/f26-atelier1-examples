@@ -61,6 +61,54 @@
       },
       "lastPush": "2026-09-17T11:16:29.718Z",
       "lastVerify": "2026-09-17T11:16:29.718Z"
+    },
+    "class-04-01-level-to-frame": {
+      "projectId": "Kiu99oef9",
+      "name": "Atelier1 F26 · Class 04 · 01 Level to Frame",
+      "contentHash": "sha256:5d23bad1fcb4b9d65f32e74a503396501f4d1f3a7afad9aa4866532f45d16017",
+      "fileIds": {
+        "__root__": "c08d65db5b9a4c6313f34bfc",
+        "index.html": "23ef8beb817d422762eda819",
+        "sketch.js": "19fb95a0d195017ef952d32d"
+      },
+      "lastPush": "2026-09-21T18:47:13.722Z",
+      "lastVerify": "2026-09-21T18:47:22.094Z"
+    },
+    "class-04-02-clap-to-step": {
+      "projectId": "HXPQv7Df-",
+      "name": "Atelier1 F26 · Class 04 · 02 Clap to Step",
+      "contentHash": "sha256:123674b8f72f7470ddc2b7c08d6805f6b2934be817d30047c51656ff9cbd2ba3",
+      "fileIds": {
+        "__root__": "0ea5919d013b18b0f744fbdf",
+        "index.html": "f79d43abfa0386d0a4bc49fc",
+        "sketch.js": "f06a2ae17cdc834022c8cd04"
+      },
+      "lastPush": "2026-09-21T18:47:14.345Z",
+      "lastVerify": "2026-09-21T18:47:22.097Z"
+    },
+    "class-04-03-hold-and-silence": {
+      "projectId": "CJALUHvLY",
+      "name": "Atelier1 F26 · Class 04 · 03 Hold and Silence",
+      "contentHash": "sha256:8694092501ee2cedf5ac97c510bb33972a74e54af14fb31f58cfb70442666979",
+      "fileIds": {
+        "__root__": "b2e0aca24d418b07378aae34",
+        "index.html": "31e07899a3173c876fafe922",
+        "sketch.js": "60675c1d318fd73aec5d7248"
+      },
+      "lastPush": "2026-09-21T18:47:14.972Z",
+      "lastVerify": "2026-09-21T18:47:22.098Z"
+    },
+    "class-04-04-two-bands": {
+      "projectId": "fU8GwfNHz",
+      "name": "Atelier1 F26 · Class 04 · 04 Two Bands",
+      "contentHash": "sha256:06dfeb0cff391dc1c45d47db91d69aaba4c20df55813472893e3aa82862504b3",
+      "fileIds": {
+        "__root__": "c4f8cc9767e4297c0d11842d",
+        "index.html": "a46db0465c742bc0cfff2a55",
+        "sketch.js": "2a651f5412f4b6675064abeb"
+      },
+      "lastPush": "2026-09-21T18:47:15.615Z",
+      "lastVerify": "2026-09-21T18:47:22.098Z"
     }
   }
 }
