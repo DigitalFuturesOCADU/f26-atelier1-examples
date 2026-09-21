@@ -28,7 +28,11 @@
       "class-04-01-level-to-frame",
       "class-04-02-clap-to-step",
       "class-04-03-hold-and-silence",
-      "class-04-04-two-bands"
+      "class-04-04-two-bands",
+      "class-04-05-label-to-image",
+      "class-04-06-word-to-image",
+      "class-04-07-sentence-to-image",
+      "class-04-demo-pitch-to-frame"
     ]
   },
   "verify": {

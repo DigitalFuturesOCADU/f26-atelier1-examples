@@ -109,6 +109,54 @@
       },
       "lastPush": "2026-09-21T18:47:15.615Z",
       "lastVerify": "2026-09-21T18:47:22.098Z"
+    },
+    "class-04-05-label-to-image": {
+      "projectId": "e5BKKMXcJ",
+      "name": "Atelier1 F26 · Class 04 · 05 Label to Image",
+      "contentHash": "sha256:d19bcb0c3b6759e1b007006b3b5070ccaea2ec2cde1c89de7d2ac83d6f08a4b2",
+      "fileIds": {
+        "__root__": "18b8c66485a379e32d9233b2",
+        "index.html": "e43b06640d4a508484925f87",
+        "sketch.js": "fe1f9543db3a2326793cb8ae"
+      },
+      "lastPush": "2026-09-21T19:00:02.077Z",
+      "lastVerify": "2026-09-21T19:00:02.077Z"
+    },
+    "class-04-06-word-to-image": {
+      "projectId": "wnzOiFz5W",
+      "name": "Atelier1 F26 · Class 04 · 06 Word to Image",
+      "contentHash": "sha256:ac2fba712d826ca0061381a81112a5eafce7e7ea3534cf36021ab6496100d440",
+      "fileIds": {
+        "__root__": "28c0db9206da26450a492e6b",
+        "index.html": "4fa55af54d1b48c7a655e47a",
+        "sketch.js": "5aaee295195b683204d21409"
+      },
+      "lastPush": "2026-09-21T19:00:02.682Z",
+      "lastVerify": "2026-09-21T19:00:02.682Z"
+    },
+    "class-04-07-sentence-to-image": {
+      "projectId": "_-kiGZNVP",
+      "name": "Atelier1 F26 · Class 04 · 07 Sentence to Image",
+      "contentHash": "sha256:da7fab7cd0750f8d819f72e0ee7b9cc7c74b7584964bce2887a4d6834d7c7204",
+      "fileIds": {
+        "__root__": "dfc6267d8da1bcbe07eed613",
+        "index.html": "0a539b8d96b8e1840d07ac5f",
+        "sketch.js": "77755d85fa2e365c0cec47d0"
+      },
+      "lastPush": "2026-09-21T19:00:03.296Z",
+      "lastVerify": "2026-09-21T19:00:03.296Z"
+    },
+    "class-04-demo-pitch-to-frame": {
+      "projectId": "BkP-lf5bR",
+      "name": "Atelier1 F26 · Class 04 · Demo · Pitch to Frame",
+      "contentHash": "sha256:7a4d9479806fa8f0c80ea68b84b17065a9b8f2d071ea6265d0f98bec06336154",
+      "fileIds": {
+        "__root__": "1bbb3cbfff0ce0bf236995a3",
+        "index.html": "29a065dd87bbab0833af60d4",
+        "sketch.js": "d55ee2c9af7724762a1f8099"
+      },
+      "lastPush": "2026-09-21T19:00:03.898Z",
+      "lastVerify": "2026-09-21T19:00:03.898Z"
     }
   }
 }
