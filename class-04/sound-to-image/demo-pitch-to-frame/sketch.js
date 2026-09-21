@@ -26,8 +26,7 @@ let audio;     // the browser's sound system
 let pitch = 0;
 let clarity = 0;
 let position = 0; // from 0 to 1. where the note sits between lowNote and highNote
-let fingerDown = false;
-let micOpen = false;
+let micReady = false; // true once the microphone is feeding the analyser
 let problem = '';
 
 // p5-phone starts anything named mic that has a start function.
@@ -43,7 +42,7 @@ let mic = {
     navigator.mediaDevices.getUserMedia(wanted).then(function (stream) {
       // the microphone goes into the analyser and nowhere else, so nothing comes out of the speaker
       audio.createMediaStreamSource(stream).connect(analyser);
-      micOpen = true;
+      micReady = true;
     }).catch(function (error) {
       problem = 'no microphone. drag a finger up and down';
       console.log(error);
@@ -54,6 +53,14 @@ let mic = {
 async function setup() {
   createCanvas(windowWidth, windowHeight);
   lockGestures();
+
+  // on a laptop, show a QR code of this page so you can open it on your phone.
+  // it only shows on a public https address, like the examples site.
+  // in the web editor or on 127.0.0.1 the address would not open on a phone.
+  if (location.protocol === 'https:' && window.self === window.top) {
+    showDesktopQr();
+  }
+
   imageMode(CENTER);
   textSize(16);
   enableMicTap('Tap to turn on the microphone');
@@ -69,7 +76,7 @@ async function setup() {
 function draw() {
   background(20);
 
-  if (micOpen && detector) {
+  if (micReady && detector) {
     // 1. read the input: the raw sound wave, then the note inside it
     analyser.getFloatTimeDomainData(samples);
     let found = detector.findPitch(samples, audio.sampleRate);
@@ -84,7 +91,7 @@ function draw() {
     }
   }
   // the fallback: a finger stands in for the voice. higher on the screen is a higher note.
-  if (fingerDown) {
+  if (mouseIsPressed) {
     position = lerp(position, constrain(map(mouseY, height, 0, 0, 1), 0, 1), smoothing);
   }
 
@@ -106,25 +113,11 @@ function draw() {
   text('note: ' + round(pitch) + ' Hz   clarity: ' + nf(clarity, 1, 2) + '   frame: ' + frame, 20, 30);
   if (problem !== '') {
     text(problem, 20, 52);
-  } else if (micOpen) {
+  } else if (micReady) {
     text('listening. hum low, then high', 20, 52);
   } else {
     text('tap to turn on the microphone', 20, 52);
   }
-}
-
-// the first tap belongs to the microphone message, so it is not counted.
-// p5's own mouseIsPressed can stay stuck after that tap, so the sketch keeps its own record.
-function mousePressed() {
-  if (window.micEnabled) {
-    fingerDown = true;
-  }
-  return false;
-}
-
-function mouseReleased() {
-  fingerDown = false;
-  return false;
 }
 
 function windowResized() {

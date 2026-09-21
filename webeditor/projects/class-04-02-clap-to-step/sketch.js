@@ -15,7 +15,6 @@ let lockout = 200;    // milliseconds. one clap must not count twice
 
 let mic;   // the microphone
 let meter; // measures how loud the microphone is
-let fingerDown = false; // true while a finger is on the screen, after the microphone tap
 let gif;
 let frame = 0;
 let wasAbove = false; // was the level over the line on the last frame?
@@ -25,6 +24,14 @@ let gap = 0;          // time between the last two sounds
 async function setup() {
   createCanvas(windowWidth, windowHeight);
   lockGestures();
+
+  // on a laptop, show a QR code of this page so you can open it on your phone.
+  // it only shows on a public https address, like the examples site.
+  // in the web editor or on 127.0.0.1 the address would not open on a phone.
+  if (location.protocol === 'https:' && window.self === window.top) {
+    showDesktopQr();
+  }
+
   imageMode(CENTER);
   setupMic();
 
@@ -84,18 +91,11 @@ function nextFrame() {
 
 // the fallback: a tap stands in for the sound.
 // the first tap belongs to the microphone message, so it is not counted.
-// p5's own mouseIsPressed can stay stuck after that tap, so the sketch keeps its own record.
 function mousePressed() {
   wakeAudio();
   if (window.micEnabled) {
-    fingerDown = true;
     nextFrame();
   }
-  return false;
-}
-
-function mouseReleased() {
-  fingerDown = false;
   return false;
 }
 
@@ -117,16 +117,11 @@ function routeMic() {
   mic.connect(meter);
 }
 
-// true only when the phone has really handed over a live microphone.
-// window.micEnabled turns true on the tap, even if the person then says no,
-// so this also checks that sound is actually arriving.
-function micIsOpen() {
-  return window.micEnabled === true && mic.node.state === 'started';
-}
-
 // how loud it is right now, from 0 to 1. it is 0 when there is no microphone.
+// window.micOpen is true only while sound is really arriving.
+// window.micEnabled turns true on the tap even if the person says no, so it is not enough.
 function getMicLevel() {
-  if (!micIsOpen()) {
+  if (!window.micOpen) {
     return 0;
   }
   routeMic();
@@ -135,7 +130,7 @@ function getMicLevel() {
 
 // one line for the screen that says what the microphone is doing
 function micStatus() {
-  if (micIsOpen()) {
+  if (window.micOpen) {
     return 'listening';
   }
   if (window.micEnabled) {

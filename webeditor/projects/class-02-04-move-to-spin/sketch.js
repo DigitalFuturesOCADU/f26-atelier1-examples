@@ -9,6 +9,14 @@ let spinSpeed = 0; // degrees added to the angle every frame
 async function setup() {
   createCanvas(windowWidth, windowHeight);
   lockGestures();
+
+  // on a laptop, show a QR code of this page so you can open it on your phone.
+  // it only shows on a public https address, like the examples site.
+  // in the web editor or on 127.0.0.1 the address would not open on a phone.
+  if (location.protocol === 'https:' && window.self === window.top) {
+    showDesktopQr();
+  }
+
   enableGyroTap('Tap to enable motion sensors');
   angleMode(DEGREES);
   imageMode(CENTER);

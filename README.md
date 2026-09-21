@@ -21,6 +21,11 @@ Every example loads p5.js from the web.
 
 Each example is one folder with its own `index.html` and `sketch.js`. Read `sketch.js` first.
 
+Open an example from the examples site on your laptop and a QR code of it appears in the top
+right corner. Scan it to open the same example on your phone. This is p5-phone's
+`showDesktopQr()`. It stays hidden on a phone, in the web editor and on Live Server, because
+those addresses would not open on a phone.
+
 **Do not edit inside this folder. Copy.** Copy an example folder into your own project and change
 it there. If you change files here, the next pull can collide with your changes. Pull often:
 new examples arrive with every class.
@@ -92,9 +97,9 @@ One sound input, one image or GIF output per sketch. Read them in order. Each on
 different question of the sound: how loud, when, what kind, which one, what was said.
 
 Sketches 01 to 04 end with the same microphone block. Copy it whole into your own sketch.
-It keeps the microphone out of the speaker, checks that a live microphone really arrived
-(`window.micEnabled` turns true on the tap even when the person says no), and gives every
-sketch a finger fallback. The GIFs load from the Class 3 library by web address, so a copied
+It keeps the microphone out of the speaker and checks `window.micOpen`, which is only true
+while sound is really arriving (`window.micEnabled` turns true on the tap even when the person
+says no). Every sketch also has a finger fallback. The GIFs load from the Class 3 library by web address, so a copied
 sketch runs anywhere with no files to upload. Change the one `gifFile` line to use your own.
 
 | Sketch | Sound → image | What it does | Web editor |
