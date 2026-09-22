@@ -22,8 +22,8 @@ let playing = false;
 let frameDelay = 100;     // milliseconds per frame. smaller is faster
 let tintColour;
 let lastWord = '';        // the last command it acted on
-let heardText = '';       // everything it thinks it heard
-let wordsSoFar = 0;       // how many words of this phrase have been dealt with
+let heardText = '';       // the phrase it is hearing now, for the screen
+let heardWords = [];      // the word it saw at each place since it started listening
 let listening = false;
 let problem = '';
 
@@ -64,7 +64,7 @@ function userSetupComplete() {
   // a moment later, unless speech was refused.
   speechRec.onEnd = function () {
     listening = false;
-    wordsSoFar = 0;
+    heardWords = []; // a new round of listening counts its words from the start
     if (problem === '') {
       setTimeout(restartListening, 300);
     }
@@ -77,26 +77,39 @@ function userSetupComplete() {
   speechRec.start();
 }
 
+// some phones refuse to start again without a tap. if this fails,
+// the screen says so, and the next tap tries again.
 function restartListening() {
-  speechRec.start();
+  try {
+    speechRec.start();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-// this runs every time the text changes, many times per phrase
+// this runs every time the text changes, many times per phrase.
+// the speech service guesses as it goes and corrects itself:
+// "no" can turn into "go" a moment later.
 function gotSpeech() {
   heardText = speechRec.resultString.toLowerCase();
-  let words = heardText.split(' ');
 
-  // only look at the words that are new since last time,
-  // so one "faster" does not count five times
-  for (let i = wordsSoFar; i < words.length; i++) {
-    doCommand(words[i]);
-  }
-  wordsSoFar = words.length;
-
-  // when a phrase is finished, the next one starts counting from zero
+  // every word heard since it started listening, in order
   let results = speechRec.resultJSON.results;
-  if (results[results.length - 1].isFinal) {
-    wordsSoFar = 0;
+  let all = '';
+  for (let i = 0; i < results.length; i++) {
+    all = all + ' ' + results[i][0].transcript;
+  }
+  let words = all.trim().toLowerCase().split(/\s+/); // split at the spaces
+
+  // act on a word when it first appears at its place in the list.
+  // a word that stays the same is not acted on again, so one "faster"
+  // does not count five times. a corrected word is new, so it counts.
+  for (let i = 0; i < words.length; i++) {
+    let word = words[i].replace(/[^a-z]/g, ''); // "Go." becomes "go"
+    if (word !== heardWords[i]) {
+      heardWords[i] = word;
+      doCommand(word);
+    }
   }
 }
 
@@ -155,13 +168,21 @@ function draw() {
     text('listening', 20, height - 20);
   } else if (!window.speechEnabled) {
     text('tap to start listening', 20, height - 20);
+  } else {
+    text('not listening. tap to listen again', 20, height - 20);
   }
 }
 
 // the fallback: a tap does the next command in the list, as if it had been said.
 // the first tap belongs to the start message, so it is not counted.
+// if listening has stopped, a tap starts it again instead.
 function mousePressed() {
-  if (window.speechEnabled) {
+  if (!window.speechEnabled) {
+    return false;
+  }
+  if (speechRec && !listening && problem === '') {
+    restartListening();
+  } else {
     let next = (commands.indexOf(lastWord) + 1) % commands.length;
     doCommand(commands[next]);
   }
