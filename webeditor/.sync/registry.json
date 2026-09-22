@@ -125,14 +125,14 @@
     "class-04-06-word-to-image": {
       "projectId": "wnzOiFz5W",
       "name": "Atelier1 F26 · Class 04 · 06 Word to Image",
-      "contentHash": "sha256:4eae7eeba9b9555bce725e17d559c5af8dce53f17aa58b5acffae7d65dfe33ee",
+      "contentHash": "sha256:5504373c1e5e990b01ab03746ec612b280fe472aac0c8550d92f35c3ea930803",
       "fileIds": {
         "__root__": "28c0db9206da26450a492e6b",
         "index.html": "4fa55af54d1b48c7a655e47a",
         "sketch.js": "5aaee295195b683204d21409"
       },
-      "lastPush": "2026-09-21T21:22:01.126Z",
-      "lastVerify": "2026-09-21T21:22:01.126Z"
+      "lastPush": "2026-09-22T11:42:24.179Z",
+      "lastVerify": "2026-09-22T11:42:24.179Z"
     },
     "class-04-07-sentence-to-image": {
       "projectId": "_-kiGZNVP",
