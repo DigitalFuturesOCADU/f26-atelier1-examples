@@ -34,6 +34,8 @@ document.addEventListener('click', unlockAudio, { capture: true, once: true });
 // That is why this sketch has no file to upload.
 // To use your own recording, upload it to the sketch and put its file name here, like 'mySound.mp3'.
 // The backup is a copy on the examples site. It is only used if the first site does not answer.
+// p5.sound's loadSound() never finishes if the address has % codes in it, like %28.
+// Write the characters out, like ( ). It does not report an error, which is why this sketch has a time limit.
 let recordings = [
   {
     name: 'wait',
@@ -47,7 +49,7 @@ let recordings = [
   },
   {
     name: 'wake',
-    file: 'https://upload.wikimedia.org/wikipedia/commons/6/69/Mechanical_Clock_Ring_%28Directory.Audio%29.mp3',
+    file: 'https://upload.wikimedia.org/wikipedia/commons/6/69/Mechanical_Clock_Ring_(Directory.Audio).mp3',
     backup: 'https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/sounds/wake-clock-ring.mp3'
   },
   {
@@ -193,7 +195,7 @@ function drawTiles() {
 
 // the notes along the bottom. the input part adds its own lines.
 function drawNotes() {
-  let lines = notes.slice(); // a copy, so the list below can grow
+  let lines = findings.slice(); // a copy, so the list below can grow
   if (usedBackup) {
     lines.push('Loaded the backup copy: the original site did not answer.');
   }
@@ -226,7 +228,7 @@ function windowResized() {
 // ---------- the input: touch. this is the only part that changes between versions. ----------
 // From the p5-phone Touch Zones example. The screen is split into four zones.
 
-let notes = ['A finger points straight at the one it wants.'];
+let findings = ['A finger points straight at the one it wants.'];
 let zone = -1;   // the last zone touched. -1 is none yet
 let tapped = -1; // a new tap, waiting for draw() to use it
 

@@ -181,7 +181,7 @@ function drawClock() {
 
 // the notes along the bottom. the input part adds its own lines.
 function drawNotes() {
-  let lines = notes.slice(); // a copy, so the list below can grow
+  let lines = findings.slice(); // a copy, so the list below can grow
   if (usedBackup) {
     lines.push('Loaded the backup copy: the original site did not answer.');
   }
@@ -217,7 +217,7 @@ function windowResized() {
 let closeTogether = 50; // pixels between the fingers that count as 0
 let farApart = 350;     // pixels between the fingers that count as 1
 
-let notes = ['Let go and the speed stays where the fingers left it.'];
+let findings = ['Let go and the speed stays where the fingers left it.'];
 let fingerGap = 0; // pixels between the two fingers
 
 function setupInput() {
