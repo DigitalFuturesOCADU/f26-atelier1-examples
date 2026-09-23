@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>05 Dial to Note · Touch</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #141414;
+    }
+    canvas {
+      touch-action: none; /* a finger on the canvas never scrolls the page */
+    }
+  </style>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+
+  <!-- smplr, the sampled marimba, is a module. It is loaded inside sketch.js, not here.
+       It plays through the browser's own sound system, so p5.sound is not loaded. -->
+
+  <!-- p5-phone: the permission tap and gesture lock -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js"></script>
+</head>
+<body>
+  <script src="sketch.js"></script>
+</body>
+</html>
