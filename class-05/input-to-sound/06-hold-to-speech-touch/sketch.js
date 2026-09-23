@@ -34,7 +34,6 @@ let longest = 5;          // seconds. anything this long or longer is said at th
 let fastestRate = 1.6;    // speech rate for a very short one. 1 is normal
 let slowestRate = 0.5;    // speech rate for a long one
 
-let speaking = false;    // is a sentence being said right now?
 let lastSaid = '';       // the last sentence
 let lastRate = 1;        // and its rate
 let ignored = 0;         // how many ended while the phone was still speaking
@@ -61,7 +60,7 @@ function draw() {
   let seconds = readDuration();
   if (seconds >= 0) {
     // H3: while it is still speaking, a new one is ignored, and the screen counts it
-    if (speaking) {
+    if (isSpeaking()) {
       ignored = ignored + 1;
     } else {
       // 2. map it: a longer time is a slower rate
@@ -90,19 +89,16 @@ function sayText(words, rate) {
   let sentence = new SpeechSynthesisUtterance(words);
   sentence.rate = rate;
   sentence.onstart = function () {
-    speaking = true;
     soundPlayed = true;
   };
-  sentence.onend = function () {
-    speaking = false;
-  };
-  sentence.onerror = function () {
-    speaking = false;
-  };
-  speaking = true; // the sentence is waiting to start, so it counts as speaking
   speechSynthesis.speak(sentence);
   lastSaid = words;
   lastRate = rate;
+}
+
+// is the phone speaking, or about to?
+function isSpeaking() {
+  return speechSynthesis.speaking || speechSynthesis.pending;
 }
 
 // the last sentence, big, with its rate. it is lit while the phone speaks.
@@ -110,7 +106,7 @@ function drawSpeech() {
   let cy = 70 + (height - 70 - 90) / 2;
   textAlign(CENTER, CENTER);
   noStroke();
-  if (speaking) {
+  if (isSpeaking()) {
     fill(255, 200, 0);
   } else {
     fill(255);
@@ -124,7 +120,7 @@ function drawSpeech() {
   }
   textSize(14);
   fill(160);
-  if (speaking) {
+  if (isSpeaking()) {
     text('speaking. wait for it to finish', width / 2, cy + 80);
   }
   if (ignored > 0) {
