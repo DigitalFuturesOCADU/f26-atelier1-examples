@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test 2 · Silent Mode</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h1>Test 2 · Silent Mode</h1>
+  <p class="sub">Which kinds of sound does silent mode mute, and does the audio session setting get them back?</p>
+  <p id="settings"></p>
+  <p class="note">Turn silent mode on (the side switch, the Action button, or Control Centre) and the volume up. Tap each of the four and mark what you hear. Then switch the session to playback below and do all four again.</p>
+
+  <h2>1 · Generated tone (Web Audio)</h2>
+  <div class="step">
+    <p>What p5.sound, Tone.js and smplr all use.</p>
+    <button onclick="tone()">Play tone</button>
+    <div id="ask1"></div>
+  </div>
+
+  <h2>2 · Speech</h2>
+  <div class="step">
+    <p>The browser's own voice.</p>
+    <button onclick="voice()">Speak</button>
+    <div id="ask2"></div>
+  </div>
+
+  <h2>3 · Recording in an audio element</h2>
+  <div class="step">
+    <p>A plain HTML audio player, loading a 1925 recording from Wikimedia Commons.</p>
+    <button onclick="element()">Play recording</button>
+    <div class="status" id="status3"></div>
+    <div id="ask3"></div>
+  </div>
+
+  <h2>4 · Recording in Web Audio</h2>
+  <div class="step">
+    <p>The same recording, loaded into Web Audio from another site. This is the path example 01 will use.</p>
+    <button onclick="webAudioRecording()">Play recording</button>
+    <div class="status" id="status4"></div>
+    <div id="ask4"></div>
+  </div>
+
+  <h2>Audio session</h2>
+  <div class="step">
+    <p>Reloads the page with a different setting. Your results are kept.</p>
+    <div class="row">
+      <button class="light" onclick="reloadWith('session', 'default')">Default</button>
+      <button class="light" onclick="reloadWith('session', 'playback')">Playback</button>
+    </div>
+  </div>
+
+  <h2>Results</h2>
+  <div class="row">
+    <button onclick="copyResults()">Copy results</button>
+    <button class="light" onclick="clearResults()">Clear</button>
+  </div>
+  <div class="status" id="copyNote"></div>
+  <textarea id="results" readonly></textarea>
+
+  <audio id="player" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/8/8c/RAVAG-Pausenzeichen.ogg/RAVAG-Pausenzeichen.ogg.mp3" preload="auto"></audio>
+
+  <script src="../common.js"></script>
+  <script>
+    describeSettings();
+
+    // every result line carries the session setting it was heard under
+    const tag = ' [session ' + session.want + ', reports ' + session.actual + ']';
+
+    function tone() {
+      const state = beep();
+      ask('ask1', '1 Web Audio tone' + tag + ' (audio ' + state + ')');
+    }
+
+    function voice() {
+      speak('Can you hear me?', '2 speech' + tag);
+      ask('ask2', '2 speech' + tag);
+    }
+
+    async function element() {
+      const player = document.getElementById('player');
+      const status = document.getElementById('status3');
+      try {
+        player.currentTime = 0;
+        await player.play();
+        status.textContent = 'Playing for 4 seconds.';
+        setTimeout(() => player.pause(), 4000);
+        ask('ask3', '3 audio element' + tag);
+      } catch (e) {
+        status.textContent = 'Could not play: ' + e.message;
+        record('3 audio element' + tag + ': error ' + e.message);
+      }
+    }
+
+    async function webAudioRecording() {
+      const status = document.getElementById('status4');
+      status.textContent = 'Loading...';
+      try {
+        await playRecording(4);
+        status.textContent = 'Playing for 4 seconds.';
+        ask('ask4', '4 Web Audio recording' + tag);
+      } catch (e) {
+        status.textContent = 'Could not load or play: ' + e.message;
+        record('4 Web Audio recording' + tag + ': error ' + e.message);
+      }
+    }
+  </script>
+</body>
+</html>

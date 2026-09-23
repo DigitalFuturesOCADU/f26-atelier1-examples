@@ -1,0 +1,40 @@
+/* Plain layout matching the examples site: system font, black on white, grey notes. */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 20px 16px 60px;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #1a1a1a;
+  background: #ffffff;
+  max-width: 640px;
+  margin-inline: auto;
+  -webkit-text-size-adjust: 100%;
+}
+h1 { font-size: 24px; margin: 0 0 6px; }
+.sub { color: #666666; margin: 0 0 14px; }
+h2 { font-size: 17px; padding-bottom: 6px; border-bottom: 2px solid #000000; margin: 26px 0 8px; }
+p { line-height: 1.45; }
+.note { color: #666666; font-size: 14px; }
+#settings { font-size: 14px; background: #f2f2f2; padding: 10px 12px; border-radius: 6px; }
+.step { border: 1px solid #dddddd; border-radius: 8px; padding: 12px; margin: 10px 0; }
+.step p { margin: 0 0 10px; }
+button {
+  font: inherit;
+  font-size: 16px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: 2px solid #000000;
+  background: #000000;
+  color: #ffffff;
+  touch-action: manipulation;
+}
+button.light { background: #ffffff; color: #000000; }
+button.answer { background: #ffffff; color: #000000; margin: 8px 8px 0 0; padding: 10px 12px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+.done { display: inline-block; margin-top: 8px; font-weight: 600; }
+.status { font-size: 14px; color: #666666; margin-top: 8px; min-height: 1.2em; }
+.meter { height: 16px; background: #eeeeee; border-radius: 4px; position: relative; overflow: hidden; margin-top: 8px; }
+.meter .fill { height: 100%; width: 0; background: #000000; }
+.meter .line { position: absolute; top: 0; bottom: 0; width: 2px; background: #d00000; }
+textarea { width: 100%; height: 200px; font: 12px ui-monospace, Menlo, monospace; margin-top: 8px; }
+a { color: #000000; font-weight: 600; }

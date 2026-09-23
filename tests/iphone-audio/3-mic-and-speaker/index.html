@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test 3 · Mic and Speaker Together</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h1>Test 3 · Mic and Speaker Together</h1>
+  <p class="sub">When the microphone is open, where does the sound come out, and does the microphone hear the phone?</p>
+  <p id="settings"></p>
+  <p class="note">Silent mode off, volume up, no headphones. Hold the phone the way you normally would. Do the steps in order. For each sound, say where it came from.</p>
+
+  <h2>1 · Tone, microphone closed</h2>
+  <div class="step">
+    <p>How the phone normally sounds.</p>
+    <button onclick="toneStep(1)">Play tone</button>
+    <div id="ask1"></div>
+  </div>
+
+  <h2>2 · Open the microphone</h2>
+  <div class="step">
+    <p>Keep quiet for 2 seconds after allowing it. That measures the room.</p>
+    <button onclick="openMic()">Allow microphone</button>
+    <div class="meter"><div class="fill" id="micFill"></div></div>
+    <div class="status" id="status2"></div>
+  </div>
+
+  <h2>3 · Tone, microphone open</h2>
+  <div class="step">
+    <button onclick="toneStep(3)">Play tone</button>
+    <div class="status" id="status3"></div>
+    <div id="ask3"></div>
+  </div>
+
+  <h2>4 · Speech, microphone open</h2>
+  <div class="step">
+    <button onclick="speechStep()">Speak</button>
+    <div class="status" id="status4"></div>
+    <div id="ask4"></div>
+  </div>
+
+  <h2>5 · Recording, microphone open</h2>
+  <div class="step">
+    <button onclick="recordingStep()">Play recording</button>
+    <div class="status" id="status5"></div>
+    <div id="ask5"></div>
+  </div>
+
+  <h2>6 · Close the microphone, tone again</h2>
+  <div class="step">
+    <p>Does the sound go back to normal?</p>
+    <button onclick="closeAndTone()">Close microphone and play tone</button>
+    <div id="ask6"></div>
+  </div>
+
+  <h2>Settings</h2>
+  <div class="step">
+    <p>Each button reloads the page. Your results are kept. Run it once as it opens, then once with echo cancellation on.</p>
+    <p class="note">Echo cancellation</p>
+    <div class="row">
+      <button class="light" onclick="reloadWith('ec', 'off')">Off, like p5.sound</button>
+      <button class="light" onclick="reloadWith('ec', 'on')">On, the browser default</button>
+    </div>
+    <p class="note" style="margin-top:12px">Audio session</p>
+    <div class="row">
+      <button class="light" onclick="reloadWith('session', 'default')">Default</button>
+      <button class="light" onclick="reloadWith('session', 'play-and-record')">Play and record</button>
+      <button class="light" onclick="reloadWith('session', 'playback')">Playback</button>
+    </div>
+  </div>
+
+  <h2>Results</h2>
+  <div class="row">
+    <button onclick="copyResults()">Copy results</button>
+    <button class="light" onclick="clearResults()">Clear</button>
+  </div>
+  <div class="status" id="copyNote"></div>
+  <textarea id="results" readonly></textarea>
+
+  <script src="../common.js"></script>
+  <script>
+    const echo = setting('ec', 'off');
+    describeSettings('Echo cancellation: ' + echo);
+    const tag = ' [ec ' + echo + ', session ' + session.want + ', reports ' + session.actual + ']';
+    const WHERE = ['Loud, from the bottom', 'Quiet, from the top', 'Quieter than step 1', 'Silent'];
+
+    let stream = null;
+    let analyser = null;
+    let samples = null;
+    let roomLevel = null;
+    let peak = 0; // the loudest the microphone heard since the last reset
+    let listening = null; // samples every 20 ms on a timer, so the reading does not depend on the screen redrawing
+
+    function toneStep(n) {
+      const label = n + ' tone, microphone ' + (stream ? 'open' : 'closed') + tag;
+      beep(660, 1.2);
+      if (stream) measure(n, label, 1400);
+      ask('ask' + n, label, WHERE);
+    }
+
+    function speechStep() {
+      const label = '4 speech, microphone ' + (stream ? 'open' : 'closed') + tag;
+      speak('Where is this voice coming from?', label);
+      if (stream) measure(4, label, 3000);
+      ask('ask4', label, WHERE);
+    }
+
+    async function recordingStep() {
+      const label = '5 recording, microphone ' + (stream ? 'open' : 'closed') + tag;
+      try {
+        await playRecording(3);
+        if (stream) measure(5, label, 3000);
+        ask('ask5', label, WHERE);
+      } catch (e) {
+        record(label + ': error ' + e.message);
+      }
+    }
+
+    function closeAndTone() {
+      if (stream) {
+        stream.getTracks().forEach((t) => t.stop());
+        stream = null;
+        record('6 microphone closed');
+      }
+      beep(660, 1.2);
+      ask('ask6', '6 tone after closing the microphone' + tag, WHERE);
+    }
+
+    // ---------- the microphone, opened the way p5.sound opens it unless ec=on ----------
+
+    async function openMic() {
+      const status = document.getElementById('status2');
+      const constraints = echo === 'on'
+        ? { audio: true }
+        : { audio: { echoCancellation: false, noiseSuppression: false } };
+      try {
+        const c = audio();
+        stream = await navigator.mediaDevices.getUserMedia(constraints);
+        const s = stream.getAudioTracks()[0].getSettings();
+        record('2 microphone open' + tag + '. Phone applied: echo cancellation ' + s.echoCancellation +
+          ', noise suppression ' + s.noiseSuppression + ', auto gain ' + s.autoGainControl);
+        analyser = c.createAnalyser();
+        analyser.fftSize = 1024;
+        samples = new Float32Array(analyser.fftSize);
+        c.createMediaStreamSource(stream).connect(analyser);
+        clearInterval(listening);
+        listening = setInterval(listen, 20);
+        status.textContent = 'Measuring the room. Stay quiet...';
+        peak = 0;
+        setTimeout(() => {
+          roomLevel = peak;
+          status.textContent = 'Room level ' + roomLevel.toFixed(3) + '. Go on to step 3.';
+          record('2 quiet room level ' + roomLevel.toFixed(3));
+        }, 2000);
+      } catch (e) {
+        status.textContent = 'Microphone error: ' + e.message;
+        record('2 microphone error ' + e.message);
+      }
+    }
+
+    function listen() {
+      if (!stream) {
+        clearInterval(listening);
+        document.getElementById('micFill').style.width = '0%';
+        return;
+      }
+      analyser.getFloatTimeDomainData(samples);
+      let now = 0;
+      for (const s of samples) now = Math.max(now, Math.abs(s));
+      peak = Math.max(peak, now);
+      document.getElementById('micFill').style.width = Math.min(100, now * 100) + '%';
+    }
+
+    // How loud the phone's own sound was to its own microphone, compared with the quiet room.
+    function measure(n, label, ms) {
+      peak = 0;
+      setTimeout(() => {
+        const room = roomLevel || 0.001;
+        const times = (peak / room).toFixed(1);
+        const text = 'The microphone heard ' + peak.toFixed(3) + ', ' + times + ' times the quiet room.';
+        document.getElementById('status' + n).textContent = text;
+        record(label + ': ' + text);
+      }, ms);
+    }
+  </script>
+</body>
+</html>

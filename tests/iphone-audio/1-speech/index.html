@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test 1 · Speech Without a Tap</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <h1>Test 1 · Speech Without a Tap</h1>
+  <p class="sub">Can the phone speak when a timer, a shake or a clap asks it to, instead of a finger?</p>
+  <p id="settings"></p>
+  <p class="note">Turn silent mode off and the volume up. Load this page fresh and do the steps in order. Step A only counts if nothing has spoken yet.</p>
+
+  <h2>A · A timer, before anything has spoken</h2>
+  <div class="step">
+    <p>Tap to start a 3 second countdown. The tap itself says nothing. The phone speaks when the countdown ends.</p>
+    <button onclick="timer('A')">Start countdown</button>
+    <div class="status" id="statusA"></div>
+    <div id="askA"></div>
+  </div>
+
+  <h2>B · A tap</h2>
+  <div class="step">
+    <p>The tap speaks straight away. This one should always work.</p>
+    <button onclick="tapSpeak()">Speak now</button>
+    <div id="askB"></div>
+  </div>
+
+  <h2>C · A timer, after a tap has spoken</h2>
+  <div class="step">
+    <p>The same countdown as A, now that B has spoken once.</p>
+    <button onclick="timer('C')">Start countdown</button>
+    <div class="status" id="statusC"></div>
+    <div id="askC"></div>
+  </div>
+
+  <h2>D · A shake</h2>
+  <div class="step">
+    <p>Allow motion, then shake the phone. Each shake asks it to say "shake". Try a few.</p>
+    <button onclick="startMotion()">Allow motion</button>
+    <div class="meter"><div class="fill" id="shakeFill"></div><div class="line" style="left:60%"></div></div>
+    <div class="status" id="statusD"></div>
+    <div id="askD"></div>
+  </div>
+
+  <h2>E · A clap</h2>
+  <div class="step">
+    <p>Allow the microphone, then clap. Each clap past the red line asks it to say "clap". Notice if it starts setting itself off.</p>
+    <button onclick="startMic()">Allow microphone</button>
+    <div class="meter"><div class="fill" id="micFill"></div><div class="line" id="micLine"></div></div>
+    <div class="status" id="statusE"></div>
+    <div id="askE"></div>
+  </div>
+
+  <h2>Results</h2>
+  <div class="row">
+    <button onclick="copyResults()">Copy results</button>
+    <button class="light" onclick="clearResults()">Clear</button>
+  </div>
+  <div class="status" id="copyNote"></div>
+  <textarea id="results" readonly></textarea>
+
+  <script src="../common.js"></script>
+  <script>
+    describeSettings();
+
+    let tapHasSpoken = false;
+
+    function timer(step) {
+      const label = step + ' timer' + (tapHasSpoken ? ' (a tap had already spoken)' : ' (nothing had spoken yet)');
+      let left = 3;
+      const status = document.getElementById('status' + step);
+      status.textContent = left + '...';
+      const tick = setInterval(() => {
+        left -= 1;
+        if (left > 0) {
+          status.textContent = left + '...';
+          return;
+        }
+        clearInterval(tick);
+        status.textContent = 'Speaking now.';
+        speak('This is the timer.', label);
+        ask('ask' + step, label + ', heard');
+      }, 1000);
+    }
+
+    function tapSpeak() {
+      speak('This is the tap.', 'B tap');
+      tapHasSpoken = true;
+      ask('askB', 'B tap, heard');
+    }
+
+    // ---------- D: shake, the same test p5.js uses for deviceShaken() ----------
+    let lastAccel = null;
+    let lastShake = 0;
+    const SHAKE_THRESHOLD = 30;
+
+    async function startMotion() {
+      const status = document.getElementById('statusD');
+      try {
+        if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+          const answer = await DeviceMotionEvent.requestPermission();
+          if (answer !== 'granted') {
+            status.textContent = 'Motion was refused.';
+            record('D shake: motion refused');
+            return;
+          }
+        }
+        window.addEventListener('devicemotion', onMotion);
+        status.textContent = 'Shake the phone.';
+        record('D shake: motion allowed');
+      } catch (e) {
+        status.textContent = 'Motion error: ' + e.message;
+        record('D shake: motion error ' + e.message);
+      }
+    }
+
+    function onMotion(event) {
+      const a = event.accelerationIncludingGravity;
+      if (!a || a.x === null) return;
+      if (lastAccel) {
+        const change = Math.abs(a.x - lastAccel.x) + Math.abs(a.y - lastAccel.y);
+        document.getElementById('shakeFill').style.width = Math.min(100, change / SHAKE_THRESHOLD * 60) + '%';
+        const now = performance.now();
+        if (change > SHAKE_THRESHOLD && now - lastShake > 2500) {
+          lastShake = now;
+          document.getElementById('statusD').textContent = 'Shake detected. Speaking.';
+          speak('Shake.', 'D shake');
+          ask('askD', 'D shake, heard');
+        }
+      }
+      lastAccel = { x: a.x, y: a.y };
+    }
+
+    // ---------- E: clap, with the microphone opened the way p5.sound opens it ----------
+    const CLAP_LEVEL = 0.35;
+    let analyser = null;
+    let samples = null;
+    let lastClap = 0;
+    let listening = null; // a timer, so it keeps listening even when the screen is not redrawing
+
+    async function startMic() {
+      const status = document.getElementById('statusE');
+      try {
+        const c = audio();
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: { echoCancellation: false, noiseSuppression: false },
+        });
+        analyser = c.createAnalyser();
+        analyser.fftSize = 1024;
+        samples = new Float32Array(analyser.fftSize);
+        c.createMediaStreamSource(stream).connect(analyser);
+        document.getElementById('micLine').style.left = (CLAP_LEVEL * 100) + '%';
+        status.textContent = 'Clap.';
+        record('E clap: microphone open');
+        clearInterval(listening);
+        listening = setInterval(listen, 20);
+      } catch (e) {
+        status.textContent = 'Microphone error: ' + e.message;
+        record('E clap: microphone error ' + e.message);
+      }
+    }
+
+    function listen() {
+      analyser.getFloatTimeDomainData(samples);
+      let peak = 0;
+      for (const s of samples) peak = Math.max(peak, Math.abs(s));
+      document.getElementById('micFill').style.width = Math.min(100, peak * 100) + '%';
+      const now = performance.now();
+      if (peak > CLAP_LEVEL && now - lastClap > 3000) {
+        lastClap = now;
+        document.getElementById('statusE').textContent = 'Clap detected. Speaking.';
+        speak('Clap.', 'E clap');
+        ask('askE', 'E clap, heard', ['Heard it', 'Silent', 'It kept setting itself off']);
+      }
+    }
+  </script>
+</body>
+</html>
