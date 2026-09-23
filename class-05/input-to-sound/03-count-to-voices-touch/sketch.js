@@ -21,6 +21,13 @@ function unlockAudio() {
 }
 document.addEventListener('touchend', unlockAudio, { capture: true, once: true });
 document.addEventListener('click', unlockAudio, { capture: true, once: true });
+// with a mouse, p5-phone's tap message goes away before the browser sends 'click',
+// so the release of the mouse button is caught here as well.
+document.addEventListener('pointerup', function (e) {
+  if (e.pointerType === 'mouse') {
+    unlockAudio();
+  }
+}, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
 let notes = [220, 330, 440, 554, 659]; // hertz. A, E, A, C sharp, E: an A major chord, low to high

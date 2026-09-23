@@ -28,6 +28,13 @@ function unlockSpeech() {
 }
 document.addEventListener('touchend', unlockSpeech, { capture: true, once: true });
 document.addEventListener('click', unlockSpeech, { capture: true, once: true });
+// with a mouse, p5-phone's tap message goes away before the browser sends 'click',
+// so the release of the mouse button is caught here as well.
+document.addEventListener('pointerup', function (e) {
+  if (e.pointerType === 'mouse') {
+    unlockSpeech();
+  }
+}, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
 let firstWord = 'Hold.';  // said on the first tap. it tells you what to do
