@@ -46,11 +46,22 @@
 
   <h2>E · A clap</h2>
   <div class="step">
-    <p>Allow the microphone, then clap. Each clap past the red line asks it to say "clap". Notice if it starts setting itself off.</p>
+    <p>Allow the microphone, then clap. Each clap past the red line asks it to say "clap". After each one it ignores claps for 3 seconds, so it does not set itself off.</p>
     <button onclick="startMic()">Allow microphone</button>
     <div class="meter"><div class="fill" id="micFill"></div><div class="line" id="micLine"></div></div>
     <div class="status" id="statusE"></div>
     <div id="askE"></div>
+  </div>
+
+  <h2>F · A silent tap, then a timer</h2>
+  <div class="step">
+    <p>A found that the first sentence has to come from a tap. Can that tap be silent? Reload the page before each button, and do not press anything else first.</p>
+    <div class="row">
+      <button onclick="silentUnlock('empty')">Unlock with an empty sentence</button>
+      <button onclick="silentUnlock('quiet')">Unlock with a sentence at volume 0</button>
+    </div>
+    <div class="status" id="statusF"></div>
+    <div id="askF"></div>
   </div>
 
   <h2>Results</h2>
@@ -85,9 +96,36 @@
       }, 1000);
     }
 
+    let anythingSpoken = false; // includes the silent unlocks in F
+
+    // F: the tap speaks something you cannot hear, then a timer speaks for real.
+    function silentUnlock(kind) {
+      const fresh = anythingSpoken ? 'not a fresh page' : 'fresh page';
+      const u = new SpeechSynthesisUtterance(kind === 'empty' ? '' : 'unlock');
+      if (kind === 'quiet') u.volume = 0;
+      speechSynthesis.speak(u);
+      anythingSpoken = true;
+      const label = 'F timer after a silent ' + kind + ' unlock (' + fresh + ')';
+      let left = 3;
+      const status = document.getElementById('statusF');
+      status.textContent = left + '...';
+      const tick = setInterval(() => {
+        left -= 1;
+        if (left > 0) {
+          status.textContent = left + '...';
+          return;
+        }
+        clearInterval(tick);
+        status.textContent = 'Speaking now.';
+        speak('This is the timer.', label);
+        ask('askF', label + ', heard');
+      }, 1000);
+    }
+
     function tapSpeak() {
       speak('This is the tap.', 'B tap');
       tapHasSpoken = true;
+      anythingSpoken = true;
       ask('askB', 'B tap, heard');
     }
 
@@ -138,6 +176,7 @@
     let analyser = null;
     let samples = null;
     let lastClap = 0;
+    let wasAbove = false; // so one clap counts once, however many samples it lasts
     let listening = null; // a timer, so it keeps listening even when the screen is not redrawing
 
     async function startMic() {
@@ -168,7 +207,14 @@
       for (const s of samples) peak = Math.max(peak, Math.abs(s));
       document.getElementById('micFill').style.width = Math.min(100, peak * 100) + '%';
       const now = performance.now();
-      if (peak > CLAP_LEVEL && now - lastClap > 3000) {
+      const above = peak > CLAP_LEVEL;
+      const newClap = above && !wasAbove;
+      wasAbove = above;
+      if (newClap && now - lastClap <= 3000) {
+        record('E clap: past the line but ignored, within 3 s of the last one');
+        document.getElementById('statusE').textContent = 'Ignored: too soon after the last clap.';
+      }
+      if (newClap && now - lastClap > 3000) {
         lastClap = now;
         document.getElementById('statusE').textContent = 'Clap detected. Speaking.';
         speak('Clap.', 'E clap');
