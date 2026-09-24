@@ -197,14 +197,14 @@
     "class-05-02-bend-a-recording": {
       "projectId": "LUqBkJods",
       "name": "Atelier1 F26 · Class 05 · 02 Bend a Recording",
-      "contentHash": "sha256:68d48e43fb719751047e692febbaab3662562489c33ad6ea19837e0bb7349d22",
+      "contentHash": "sha256:6b6766c03a3c8ff0a86686ef1ad515cf794c59dcb08a631831136645e9273978",
       "fileIds": {
         "__root__": "b3e29a3d7f8adaa48f5c3396",
         "index.html": "7f946891eb2c25e616614bd4",
         "sketch.js": "9f3c6dd7577dc2d35e4d57ea"
       },
-      "lastPush": "2026-09-24T02:35:44.291Z",
-      "lastVerify": "2026-09-24T02:35:44.291Z"
+      "lastPush": "2026-09-24T03:20:31.408Z",
+      "lastVerify": "2026-09-24T03:20:31.408Z"
     },
     "class-05-03-echo-a-recording": {
       "projectId": "eoqlbuOYz",

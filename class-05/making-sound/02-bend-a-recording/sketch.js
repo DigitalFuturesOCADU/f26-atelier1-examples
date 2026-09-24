@@ -90,7 +90,7 @@ function draw() {
   }
   fill(160);
   textSize(13);
-  text('Slow it right down and the phone speaker can barely play it.', 20, height - 12);
+  text('Slow it right down and listen to what the small speaker loses.', 20, height - 12);
 }
 
 function mousePressed() {
