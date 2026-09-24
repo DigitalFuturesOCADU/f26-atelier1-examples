@@ -160,27 +160,327 @@
     },
     "class-04-08-raise-to-listen": {
       "projectId": "QGxSV8I-D",
-      "name": "Atelier1 F26 · class-04-08-raise-to-listen",
+      "name": "Atelier1 F26 · Class 04 · 08 Raise to Listen",
       "contentHash": "sha256:6ab03bf61841b5a22f9ea86b07a4f832b21b3d5c2192e7330bac3dae090baa8e",
       "fileIds": {
         "__root__": "6f211d093ee57e5a5d606fea",
         "index.html": "b94ee530a636f54a61fe3743",
         "sketch.js": "732f65b47ce776166da676ca"
       },
-      "lastPush": "2026-09-21T22:25:49.186Z",
-      "lastVerify": "2026-09-21T22:25:49.186Z"
+      "lastPush": "2026-09-24T02:35:59.217Z",
+      "lastVerify": "2026-09-24T02:35:59.217Z"
     },
     "class-04-09-holder-and-room": {
       "projectId": "phPd-czOb",
-      "name": "Atelier1 F26 · class-04-09-holder-and-room",
+      "name": "Atelier1 F26 · Class 04 · 09 Holder and Room",
       "contentHash": "sha256:dd68244e6e786cc7f288bbee7a80620e90f4a5f0423d886269203bc149f68d58",
       "fileIds": {
         "__root__": "b269737397a8974f420b44cf",
         "index.html": "7e97f5a2615aca9b97f04965",
         "sketch.js": "fad5afdc8d4dd9b303786382"
       },
-      "lastPush": "2026-09-21T22:25:49.828Z",
-      "lastVerify": "2026-09-21T22:25:49.828Z"
+      "lastPush": "2026-09-24T02:36:00.007Z",
+      "lastVerify": "2026-09-24T02:36:00.007Z"
+    },
+    "class-05-01-play-a-recording": {
+      "projectId": "gOOzonRFz",
+      "name": "Atelier1 F26 · Class 05 · 01 Play a Recording",
+      "contentHash": "sha256:55f7c658fad554603585c08686949e2d3481d9509bccfc9745c680329e443b5b",
+      "fileIds": {
+        "__root__": "836fa07634c9f13601579561",
+        "index.html": "05cadc2159a14a71cf2d189d",
+        "sketch.js": "c6a1a4b0b7321eb200dfee2e"
+      },
+      "lastPush": "2026-09-24T02:35:43.671Z",
+      "lastVerify": "2026-09-24T02:35:43.671Z"
+    },
+    "class-05-02-bend-a-recording": {
+      "projectId": "LUqBkJods",
+      "name": "Atelier1 F26 · Class 05 · 02 Bend a Recording",
+      "contentHash": "sha256:68d48e43fb719751047e692febbaab3662562489c33ad6ea19837e0bb7349d22",
+      "fileIds": {
+        "__root__": "b3e29a3d7f8adaa48f5c3396",
+        "index.html": "7f946891eb2c25e616614bd4",
+        "sketch.js": "9f3c6dd7577dc2d35e4d57ea"
+      },
+      "lastPush": "2026-09-24T02:35:44.291Z",
+      "lastVerify": "2026-09-24T02:35:44.291Z"
+    },
+    "class-05-03-echo-a-recording": {
+      "projectId": "eoqlbuOYz",
+      "name": "Atelier1 F26 · Class 05 · 03 Echo a Recording",
+      "contentHash": "sha256:b828034f68d3e515f4607cedb741b8b3528e7369e3446cf7599ae2e0d423da55",
+      "fileIds": {
+        "__root__": "0d85e35136e8c7c5e1309c62",
+        "index.html": "9a6e2232fca5bcdab4a6137d",
+        "sketch.js": "885c48f626a75037e598d6a7"
+      },
+      "lastPush": "2026-09-24T02:35:44.900Z",
+      "lastVerify": "2026-09-24T02:35:44.900Z"
+    },
+    "class-05-04-make-a-tone": {
+      "projectId": "VvesSoti8",
+      "name": "Atelier1 F26 · Class 05 · 04 Make a Tone",
+      "contentHash": "sha256:f206a97f4446be934b2bfe8a8e3828d7cce84f5a926ef97a6ddd299fa3839d84",
+      "fileIds": {
+        "__root__": "f11a599023c5e265a803002e",
+        "index.html": "e0519059b4d9153cd5c2fdac",
+        "sketch.js": "d44ddfd3b73f0ff49614007b"
+      },
+      "lastPush": "2026-09-24T02:35:45.523Z",
+      "lastVerify": "2026-09-24T02:35:45.523Z"
+    },
+    "class-05-05-start-a-loop": {
+      "projectId": "FGiy1hS68",
+      "name": "Atelier1 F26 · Class 05 · 05 Start a Loop",
+      "contentHash": "sha256:85b1190e41795181a527762099f9efb3281900bd4c3e5696df2ce008a05a6162",
+      "fileIds": {
+        "__root__": "958d89ceeb544b3faf4c579b",
+        "index.html": "81aaec55387a0ac71e511ed1",
+        "sketch.js": "a1c94192149bfeb19f525521"
+      },
+      "lastPush": "2026-09-24T02:35:46.141Z",
+      "lastVerify": "2026-09-24T02:35:46.141Z"
+    },
+    "class-05-06-play-an-instrument": {
+      "projectId": "vZSkYuN2K",
+      "name": "Atelier1 F26 · Class 05 · 06 Play an Instrument",
+      "contentHash": "sha256:e3b41531569a4fcb3f60ce771bd8361d85640f8d5a86524b27810ce943972bbb",
+      "fileIds": {
+        "__root__": "a89e98e6ecb450a8680eb5f8",
+        "index.html": "7afae68b5e82900495ac8adc",
+        "sketch.js": "55c8cc4b78508ac2493f9c9f"
+      },
+      "lastPush": "2026-09-24T02:35:46.748Z",
+      "lastVerify": "2026-09-24T02:35:46.748Z"
+    },
+    "class-05-07-say-the-time": {
+      "projectId": "_QEqakWui",
+      "name": "Atelier1 F26 · Class 05 · 07 Say the Time",
+      "contentHash": "sha256:4312b60dfe0b028a8a50c46a074f345386195f58cfb3bd8cfb047b88bb635144",
+      "fileIds": {
+        "__root__": "56ac6fb6e5e1895d154f8377",
+        "index.html": "63db5505fffbfec8d2655b20",
+        "sketch.js": "d8a34c8c6a28cf38b71ca60d"
+      },
+      "lastPush": "2026-09-24T02:35:47.347Z",
+      "lastVerify": "2026-09-24T02:35:47.347Z"
+    },
+    "class-05-01-choice-to-recording-motion": {
+      "projectId": "Jtf-22RM8",
+      "name": "Atelier1 F26 · Class 05 · 01 Choice to Recording · Motion",
+      "contentHash": "sha256:a1fc23f300e659f26c901e670c8cacb213f1066602e05cf63dc9bad29801fec1",
+      "fileIds": {
+        "__root__": "d8722ecb202c53f0f9edbf9e",
+        "index.html": "874a12fa231d7765c2d6d86d",
+        "sketch.js": "a20053deebc57cdbfe0ff29d"
+      },
+      "lastPush": "2026-09-24T02:35:47.954Z",
+      "lastVerify": "2026-09-24T02:35:47.954Z"
+    },
+    "class-05-01-choice-to-recording-sound": {
+      "projectId": "vWbdkDkua",
+      "name": "Atelier1 F26 · Class 05 · 01 Choice to Recording · Sound",
+      "contentHash": "sha256:2550e0759d9508722d2c2f1007fc9aedd43facbc6715cc73cdd9480f684d81be",
+      "fileIds": {
+        "__root__": "23d6701470b5b4899aa50f6e",
+        "index.html": "a103d916a427b4934ff20255",
+        "sketch.js": "a76ba7b9a9915a9e81e4d5d6"
+      },
+      "lastPush": "2026-09-24T02:35:48.586Z",
+      "lastVerify": "2026-09-24T02:35:48.586Z"
+    },
+    "class-05-01-choice-to-recording-touch": {
+      "projectId": "3LlpC_AUO",
+      "name": "Atelier1 F26 · Class 05 · 01 Choice to Recording · Touch",
+      "contentHash": "sha256:ea6b8cea3d0ed9f41739ead73cf1e635a5ab9c7c15810f3da46a6b18fed1f483",
+      "fileIds": {
+        "__root__": "78d569c272631e61391b8a34",
+        "index.html": "81462c0e36d33ba9c0faed93",
+        "sketch.js": "1d367941262f18405c142c6b"
+      },
+      "lastPush": "2026-09-24T02:35:49.204Z",
+      "lastVerify": "2026-09-24T02:35:49.204Z"
+    },
+    "class-05-02-amount-to-speed-motion": {
+      "projectId": "NyY4wDsik",
+      "name": "Atelier1 F26 · Class 05 · 02 Amount to Speed · Motion",
+      "contentHash": "sha256:b946bec2ae1a64f2cb62cbf61724204894824706295668f7f685b548f71235d8",
+      "fileIds": {
+        "__root__": "113fdb2e75d9117f55d2dc2b",
+        "index.html": "74306c5c4120dd24df7069a2",
+        "sketch.js": "3ed6ecc2df04dd30187fcd4f"
+      },
+      "lastPush": "2026-09-24T02:35:49.804Z",
+      "lastVerify": "2026-09-24T02:35:49.804Z"
+    },
+    "class-05-02-amount-to-speed-sound": {
+      "projectId": "dl7kJix0tw",
+      "name": "Atelier1 F26 · Class 05 · 02 Amount to Speed · Sound",
+      "contentHash": "sha256:a8444906f99aa3ac2a0f4b8a5b7ea7d4bef9aa3d05a26ae6602d1c7544aab5b0",
+      "fileIds": {
+        "__root__": "e2403509917818b06cb4e7a5",
+        "index.html": "d5263ce4a8ece4acab56d775",
+        "sketch.js": "d4a0d7d21cd0d4b517e9215a"
+      },
+      "lastPush": "2026-09-24T02:35:50.405Z",
+      "lastVerify": "2026-09-24T02:35:50.406Z"
+    },
+    "class-05-02-amount-to-speed-touch": {
+      "projectId": "dtLCs_Z0p",
+      "name": "Atelier1 F26 · Class 05 · 02 Amount to Speed · Touch",
+      "contentHash": "sha256:e1ecf7567e13db31395d243162fb17581960135fc8019ac2f46c567e851e5d37",
+      "fileIds": {
+        "__root__": "08c607d3de34113e96a55bb2",
+        "index.html": "260d531e9354b2a7d62551b6",
+        "sketch.js": "7dd6c418e8d045611469c2b4"
+      },
+      "lastPush": "2026-09-24T02:35:51.026Z",
+      "lastVerify": "2026-09-24T02:35:51.026Z"
+    },
+    "class-05-03-count-to-voices-motion": {
+      "projectId": "u7HaV4P0e",
+      "name": "Atelier1 F26 · Class 05 · 03 Count to Voices · Motion",
+      "contentHash": "sha256:54e38ad53d5ebae5fb44cd2e9a1813bd7f50c2f18e9efbeaa06ce6a9427068d6",
+      "fileIds": {
+        "__root__": "9f8f80bf6354f854c43b4642",
+        "index.html": "b5a6466cb090367a2d88d512",
+        "sketch.js": "bf72ade29c77fed08f7a2ad2"
+      },
+      "lastPush": "2026-09-24T02:35:51.637Z",
+      "lastVerify": "2026-09-24T02:35:51.637Z"
+    },
+    "class-05-03-count-to-voices-sound": {
+      "projectId": "E2bX-mkbd",
+      "name": "Atelier1 F26 · Class 05 · 03 Count to Voices · Sound",
+      "contentHash": "sha256:7bddcb73ec5aeec546cc46d1f23cabe2adc10514f9cb7f47afaffde4b1e1c9c0",
+      "fileIds": {
+        "__root__": "dc17e5e6fdae68a152a3dfa5",
+        "index.html": "5facc0a39f882b176e247269",
+        "sketch.js": "2e1884cbe448b684b704d4fa"
+      },
+      "lastPush": "2026-09-24T02:35:52.238Z",
+      "lastVerify": "2026-09-24T02:35:52.238Z"
+    },
+    "class-05-03-count-to-voices-touch": {
+      "projectId": "26iFufdyQ",
+      "name": "Atelier1 F26 · Class 05 · 03 Count to Voices · Touch",
+      "contentHash": "sha256:95aaa6a1d8820edc5a02becdf977a8a1a63dc2b94892526231420819a0c5187f",
+      "fileIds": {
+        "__root__": "338c9582fc3b52debff037ac",
+        "index.html": "2879d0a63c8fcad845e4645c",
+        "sketch.js": "99a3243b12813eb89bc881a5"
+      },
+      "lastPush": "2026-09-24T02:35:52.881Z",
+      "lastVerify": "2026-09-24T02:35:52.881Z"
+    },
+    "class-05-04-gap-to-tempo-motion": {
+      "projectId": "jExXcPM7hT",
+      "name": "Atelier1 F26 · Class 05 · 04 Gap to Tempo · Motion",
+      "contentHash": "sha256:0c9590e46d18355c5371fa0e4cf6a0f5210c9546b410db8eed5302de74d6846f",
+      "fileIds": {
+        "__root__": "79eb7d1149e0fc509ee64c76",
+        "index.html": "e0e584da08ec0c2461d391c8",
+        "sketch.js": "ede69abf2a2b969433b8a8f9"
+      },
+      "lastPush": "2026-09-24T02:35:53.499Z",
+      "lastVerify": "2026-09-24T02:35:53.499Z"
+    },
+    "class-05-04-gap-to-tempo-sound": {
+      "projectId": "_S1wBg5Zq",
+      "name": "Atelier1 F26 · Class 05 · 04 Gap to Tempo · Sound",
+      "contentHash": "sha256:66d88cb2a69a9376f15f63954498a4281b9110f3b4751f1ce74779960a92ff0a",
+      "fileIds": {
+        "__root__": "ffa0428b3b8174e8a2f91230",
+        "index.html": "189fd8a97693994925e29758",
+        "sketch.js": "b9771d13abbb2a34aa0822bf"
+      },
+      "lastPush": "2026-09-24T02:35:54.215Z",
+      "lastVerify": "2026-09-24T02:35:54.215Z"
+    },
+    "class-05-04-gap-to-tempo-touch": {
+      "projectId": "bXLtkTTXvR",
+      "name": "Atelier1 F26 · Class 05 · 04 Gap to Tempo · Touch",
+      "contentHash": "sha256:2c5a11d64ce20dcba2fd349235db77d584724fcc70048b58d9edb0114c309526",
+      "fileIds": {
+        "__root__": "8937e1f15310b9ae00d851d9",
+        "index.html": "404df1af005abaae827aff94",
+        "sketch.js": "6ade7debba2b6a80032171fa"
+      },
+      "lastPush": "2026-09-24T02:35:54.803Z",
+      "lastVerify": "2026-09-24T02:35:54.803Z"
+    },
+    "class-05-05-dial-to-note-motion": {
+      "projectId": "7tiH0-8M8",
+      "name": "Atelier1 F26 · Class 05 · 05 Dial to Note · Motion",
+      "contentHash": "sha256:adc1426fa04f8ab94b804238c5361e309f93c17ee63418755d1d33884ad43d66",
+      "fileIds": {
+        "__root__": "c791f7814c30eea1cace7477",
+        "index.html": "73f78c4eebe1daade10de8f3",
+        "sketch.js": "8f70f7240388a01e65b4474f"
+      },
+      "lastPush": "2026-09-24T02:35:55.417Z",
+      "lastVerify": "2026-09-24T02:35:55.417Z"
+    },
+    "class-05-05-dial-to-note-sound": {
+      "projectId": "FdB7h18TS",
+      "name": "Atelier1 F26 · Class 05 · 05 Dial to Note · Sound",
+      "contentHash": "sha256:df74b5fbe411983ca60dc373e60bed3d0e90d36156e6b6bc162fa59aad5d08ab",
+      "fileIds": {
+        "__root__": "4032ae8becfba732e95d8f93",
+        "index.html": "92d555bb22c7fb93f99db58a",
+        "sketch.js": "b910e2499a97e06e56dee769"
+      },
+      "lastPush": "2026-09-24T02:35:56.025Z",
+      "lastVerify": "2026-09-24T02:35:56.025Z"
+    },
+    "class-05-05-dial-to-note-touch": {
+      "projectId": "ClfwXSXue",
+      "name": "Atelier1 F26 · Class 05 · 05 Dial to Note · Touch",
+      "contentHash": "sha256:3611f7fee416eac379552306839839fbf148db5f0b787a19fa1ea164c3c1c773",
+      "fileIds": {
+        "__root__": "0af324703969f38e3efb147c",
+        "index.html": "781d2683207d1ced1d91c91c",
+        "sketch.js": "56a9afd5211e4252c87d77e6"
+      },
+      "lastPush": "2026-09-24T02:35:56.643Z",
+      "lastVerify": "2026-09-24T02:35:56.643Z"
+    },
+    "class-05-06-hold-to-speech-motion": {
+      "projectId": "HXjtRpgXl",
+      "name": "Atelier1 F26 · Class 05 · 06 Hold to Speech · Motion",
+      "contentHash": "sha256:0151d7f7f85afb07fc42296dac11bea2bea3aaf3c6f01f0ea44b540e932d5cd0",
+      "fileIds": {
+        "__root__": "12b9003b0c669d33ee16c828",
+        "index.html": "be669c48e150072bb9aad6ef",
+        "sketch.js": "4c3e471706453f63b6d5c13d"
+      },
+      "lastPush": "2026-09-24T02:35:57.238Z",
+      "lastVerify": "2026-09-24T02:35:57.238Z"
+    },
+    "class-05-06-hold-to-speech-sound": {
+      "projectId": "MrPoa3p_b",
+      "name": "Atelier1 F26 · Class 05 · 06 Hold to Speech · Sound",
+      "contentHash": "sha256:a116be5640f3dfed645985c7caacc55e0b0e0a3571d9634b96e45026942925d9",
+      "fileIds": {
+        "__root__": "423f02665add17795ee272bf",
+        "index.html": "9c284eefe12e1b3ba39af39a",
+        "sketch.js": "60ed772040a73d9f6cd7950b"
+      },
+      "lastPush": "2026-09-24T02:35:57.835Z",
+      "lastVerify": "2026-09-24T02:35:57.835Z"
+    },
+    "class-05-06-hold-to-speech-touch": {
+      "projectId": "WTLo35Psf",
+      "name": "Atelier1 F26 · Class 05 · 06 Hold to Speech · Touch",
+      "contentHash": "sha256:0ad61f82173fbb1e480e0ec80643e01af7d4f983bd1af96e51a15ffb5335a7be",
+      "fileIds": {
+        "__root__": "223f4f3425ce41cb346d1e90",
+        "index.html": "9b325a804ddaa1c3b5b96e86",
+        "sketch.js": "752451fb24c370a737d89171"
+      },
+      "lastPush": "2026-09-24T02:35:58.444Z",
+      "lastVerify": "2026-09-24T02:35:58.444Z"
     }
   }
 }
