@@ -35,6 +35,33 @@
       "class-04-08-raise-to-listen",
       "class-04-09-holder-and-room",
       "class-04-demo-pitch-to-frame"
+    ],
+    "class-05": [
+      "class-05-01-play-a-recording",
+      "class-05-02-bend-a-recording",
+      "class-05-03-echo-a-recording",
+      "class-05-04-make-a-tone",
+      "class-05-05-start-a-loop",
+      "class-05-06-play-an-instrument",
+      "class-05-07-say-the-time",
+      "class-05-01-choice-to-recording-motion",
+      "class-05-01-choice-to-recording-sound",
+      "class-05-01-choice-to-recording-touch",
+      "class-05-02-amount-to-speed-motion",
+      "class-05-02-amount-to-speed-sound",
+      "class-05-02-amount-to-speed-touch",
+      "class-05-03-count-to-voices-motion",
+      "class-05-03-count-to-voices-sound",
+      "class-05-03-count-to-voices-touch",
+      "class-05-04-gap-to-tempo-motion",
+      "class-05-04-gap-to-tempo-sound",
+      "class-05-04-gap-to-tempo-touch",
+      "class-05-05-dial-to-note-motion",
+      "class-05-05-dial-to-note-sound",
+      "class-05-05-dial-to-note-touch",
+      "class-05-06-hold-to-speech-motion",
+      "class-05-06-hold-to-speech-sound",
+      "class-05-06-hold-to-speech-touch"
     ]
   },
   "verify": {

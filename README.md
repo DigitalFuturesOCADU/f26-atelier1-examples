@@ -122,6 +122,22 @@ A sketch gets the microphone level or speech, not both at once. Speech recogniti
 sends the sound to the browser's speech service. 05 to 07 do not load p5.sound: ml5.js and
 the speech tool open the microphone themselves, and ml5.js clashes with the p5.sound preload shim.
 
+## Class 5 · Making sound
+
+Seven small touch-only examples in `class-05/making-sound/`, one way of making sound each.
+Shown in class before the input to sound examples. Each one loads its recording from the
+examples site, so there is no file to upload.
+
+| Example | What it shows | Library |
+| --- | --- | --- |
+| [01-play-a-recording](class-05/making-sound/01-play-a-recording/) | load a recording, tap to play it | p5.sound `loadSound()`, `play()` |
+| [02-bend-a-recording](class-05/making-sound/02-bend-a-recording/) | a loop: finger x is the speed, y the volume | p5.sound `loop()`, `rate()`, `amp()` |
+| [03-echo-a-recording](class-05/making-sound/03-echo-a-recording/) | the bell through an echo | p5.sound `p5.Delay` |
+| [04-make-a-tone](class-05/making-sound/04-make-a-tone/) | hold for a tone, x is the pitch | p5.sound `p5.Oscillator` |
+| [05-start-a-loop](class-05/making-sound/05-start-a-loop/) | eight notes on Tone's clock, drag for tempo | Tone.js `Synth`, `Loop`, Transport |
+| [06-play-an-instrument](class-05/making-sound/06-play-an-instrument/) | tap a key of a sampled marimba | smplr `Soundfont` |
+| [07-say-the-time](class-05/making-sound/07-say-the-time/) | the phone says the time, x is rate, y is pitch | `speechSynthesis` |
+
 ## Class 5 · Input to sound
 
 Six questions. Each has a touch, a motion and a sound version in its own folder,
