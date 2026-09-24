@@ -1,6 +1,6 @@
 // 03 · Shake to Play
-// A shake is a moment. Here it starts something that lasts: the clock rings,
-// and the mantis eats for as long as the ring lasts. When the sound ends, the GIF stops.
+// A shake is a moment. Here it starts something that lasts: the clock rings for playSeconds,
+// and the mantis eats while it rings. When the time is up, both stop.
 // Motion in, GIF and sound out. Class 2's shake, Class 3's play() and pause(), Class 5's recording.
 //
 // The recording: Mechanical clock ring. CC0.
@@ -102,7 +102,7 @@ function draw() {
   }
   fill(160);
   textSize(13);
-  text('A moment starts a duration. The sound decides how long.', 20, height - 12);
+  text('A moment starts a duration. playSeconds decides how long.', 20, height - 12);
 }
 
 // p5.js calls this when the phone is shaken. one shake calls it many times, so wait out the lockout.

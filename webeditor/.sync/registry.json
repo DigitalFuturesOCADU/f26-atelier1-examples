@@ -509,14 +509,14 @@
     "class-05-03-shake-to-play": {
       "projectId": "79F_YA04J",
       "name": "Atelier1 F26 · Class 05 · 03 Shake to Play",
-      "contentHash": "sha256:8f5db9de6cb5cf7b5085d1fdcbd47351fa4cad7c180a14b32c2473fbbbefbf78",
+      "contentHash": "sha256:4f0baeff1aea2558a44240b8215dfca81f2542e643a0fab481f5b67941fb6edc",
       "fileIds": {
         "__root__": "aa194c5cf0ad5936c2e55e07",
         "index.html": "8af3a6a6fd5ccdf72683850e",
         "sketch.js": "53b39e18f27cf20206b6156d"
       },
-      "lastPush": "2026-09-24T11:43:28.191Z",
-      "lastVerify": "2026-09-24T11:43:28.191Z"
+      "lastPush": "2026-09-24T11:52:54.931Z",
+      "lastVerify": "2026-09-24T11:52:54.931Z"
     },
     "class-05-04-drag-to-pitch": {
       "projectId": "l9_m8rQE-",

@@ -2,32 +2,32 @@
   "slug": "class-05-04-drag-to-pitch",
   "title": "Class 05 · 04 Drag to Pitch",
   "name": "Atelier1 F26 · Class 05 · 04 Drag to Pitch",
-  "projectId": null,
+  "projectId": "l9_m8rQE-",
   "contentHash": "sha256:18ece0e447ca2a68b39cac6acfc481c3c6f3cf1cbe837aa593c3454796d64e77",
   "files": [
     {
       "name": "root",
-      "id": "dcc3126b3eca0977f25e3389",
-      "_id": "dcc3126b3eca0977f25e3389",
+      "id": "6f56eb7c523c7652accc6061",
+      "_id": "6f56eb7c523c7652accc6061",
       "fileType": "folder",
       "children": [
-        "6c130e909e8e06c0741e60de",
-        "3c10d39e98d57b806b985d3d"
+        "90960ccb1ee77a2cdc9be4d1",
+        "eb92345d738487fac8c6eae6"
       ]
     },
     {
       "name": "index.html",
       "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>04 Drag to Pitch</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5.sound: the sound. The GIF is plain p5.js -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.sound@0.3.0/dist/p5.sound.min.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
-      "id": "6c130e909e8e06c0741e60de",
-      "_id": "6c130e909e8e06c0741e60de",
+      "id": "90960ccb1ee77a2cdc9be4d1",
+      "_id": "90960ccb1ee77a2cdc9be4d1",
       "fileType": "file",
       "children": []
     },
     {
       "name": "sketch.js",
       "content": "// 04 · Drag to Pitch\n// A finger scrubs through a GIF, and every frame has its own note.\n// Drag left and right: the hand moves and the note moves with it. Let go and the note fades.\n// Touch in, GIF and sound out. Class 3's setFrame() and Class 5's oscillator, from one number.\n\n// phones only start sound inside a tap. This catches the first tap, before\n// p5-phone's tap message does its own work, and wakes the sound system right there.\nlet unlocked = false;\nfunction unlockAudio() {\n  if (unlocked) {\n    return;\n  }\n  unlocked = true;\n  userStartAudio();\n}\ndocument.addEventListener('touchend', unlockAudio, { capture: true, once: true });\ndocument.addEventListener('click', unlockAudio, { capture: true, once: true });\n// with a mouse, p5-phone's tap message goes away before the browser sends 'click'\ndocument.addEventListener('pointerup', function (e) {\n  if (e.pointerType === 'mouse') {\n    unlockAudio();\n  }\n}, { capture: true });\n\n// the feel of the piece. change these before you change anything else.\n// to use your own GIF, upload it to the sketch and put its file name here, like 'myGif.gif'\nlet gifFile = 'https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-03/gif-library/gifs/hand.gif';\nlet lowest = 220;          // hertz on the first frame\nlet highest = 880;         // hertz on the last frame. two octaves up\nlet waveType = 'sine';     // 'sine', 'triangle', 'sawtooth' or 'square'\nlet volume = 0.4;          // from 0 to 1\nlet fadeTime = 0.2;        // seconds to fade in and out. 0 clicks\n\nlet gif;        // the GIF\nlet osc;        // the oscillator\nlet frame = 0;  // which frame is showing\nlet started = false;\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n\n  // on a laptop, show a QR code of this page so you can open it on your phone\n  if (location.protocol === 'https:' && window.self === window.top) {\n    showDesktopQr();\n  }\n\n  enableSoundTap('Tap to turn on sound');\n\n  // the oscillator runs all the time, silent. a finger turns it up.\n  osc = new p5.Oscillator(lowest, waveType);\n  osc.amp(0);\n\n  gif = await loadImage(gifFile);\n  gif.pause(); // the finger chooses the frame, not the GIF's own clock\n}\n\nfunction draw() {\n  background(20);\n\n  // start the oscillator once the sound is on\n  if (unlocked && !started) {\n    osc.start();\n    started = true;\n  }\n\n  // 1. read the finger. 2. map it onto a frame. 3. the frame chooses the picture and the note.\n  let last = gif.numFrames() - 1;\n  if (unlocked && mouseIsPressed) {\n    frame = round(map(mouseX, 0, width, 0, last, true));\n    gif.setFrame(frame);\n    osc.freq(map(frame, 0, last, lowest, highest), 0.05);\n  }\n\n  drawGif();\n\n  // the labels sit in the top 70 pixels\n  fill(255);\n  noStroke();\n  textSize(16);\n  text('frame ' + frame + ' of ' + last + '   note ' + round(map(frame, 0, last, lowest, highest)) + ' hertz', 20, 30);\n  if (!unlocked) {\n    text('tap to turn on sound', 20, 52);\n  } else {\n    text('drag left and right to scrub', 20, 52);\n  }\n  fill(160);\n  textSize(13);\n  text('The frame and the note are the same number, mapped twice.', 20, height - 12);\n}\n\nfunction mousePressed() {\n  userStartAudio(); // a phone can put the sound to sleep. any tap wakes it.\n  if (unlocked) {\n    osc.amp(volume, fadeTime); // fade in\n  }\n  return false;\n}\n\nfunction mouseReleased() {\n  osc.amp(0, fadeTime); // fade out\n  return false;\n}\n\n// the GIF as large as fits, in the middle, under the labels\nfunction drawGif() {\n  let top = 70;\n  let bottom = height - 30;\n  let s = min(width * 0.9 / gif.width, (bottom - top) * 0.9 / gif.height);\n  imageMode(CENTER);\n  image(gif, width / 2, (top + bottom) / 2, gif.width * s, gif.height * s);\n  imageMode(CORNER);\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
-      "id": "3c10d39e98d57b806b985d3d",
-      "_id": "3c10d39e98d57b806b985d3d",
+      "id": "eb92345d738487fac8c6eae6",
+      "_id": "eb92345d738487fac8c6eae6",
       "fileType": "file",
       "children": [],
       "isSelectedFile": true

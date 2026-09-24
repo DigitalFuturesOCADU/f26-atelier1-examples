@@ -2,32 +2,32 @@
   "slug": "class-05-01-tap-to-step",
   "title": "Class 05 · 01 Tap to Step",
   "name": "Atelier1 F26 · Class 05 · 01 Tap to Step",
-  "projectId": null,
+  "projectId": "Y4zGVPB5P",
   "contentHash": "sha256:a9d318226f000a632e504077f5556d4badccbf7ca99c562ee65b189ebbb882e5",
   "files": [
     {
       "name": "root",
-      "id": "580326599800bd906361f679",
-      "_id": "580326599800bd906361f679",
+      "id": "448cbf7515661216e1c0311f",
+      "_id": "448cbf7515661216e1c0311f",
       "fileType": "folder",
       "children": [
-        "8d671c5c008f0c4f0cda346a",
-        "7cc0803924a2ff5a5be182a0"
+        "d116580449bdb86c75d88c0d",
+        "54afaf2fda74c2c9defc7181"
       ]
     },
     {
       "name": "index.html",
       "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>01 Tap to Step</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5.sound: the sound. The GIF is plain p5.js -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.sound@0.3.0/dist/p5.sound.min.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
-      "id": "8d671c5c008f0c4f0cda346a",
-      "_id": "8d671c5c008f0c4f0cda346a",
+      "id": "d116580449bdb86c75d88c0d",
+      "_id": "d116580449bdb86c75d88c0d",
       "fileType": "file",
       "children": []
     },
     {
       "name": "sketch.js",
       "content": "// 01 · Tap to Step\n// A GIF and a sound from the same tap. Each tap moves the cow one frame and plays one note.\n// The note climbs with the frame, so the walk becomes a little tune.\n// Touch in, GIF and sound out. Class 3's GIF controls plus Class 5's oscillator.\n\n// phones only start sound inside a tap. This catches the first tap, before\n// p5-phone's tap message does its own work, and wakes the sound system right there.\nlet unlocked = false;\nfunction unlockAudio() {\n  if (unlocked) {\n    return;\n  }\n  unlocked = true;\n  userStartAudio();\n}\ndocument.addEventListener('touchend', unlockAudio, { capture: true, once: true });\ndocument.addEventListener('click', unlockAudio, { capture: true, once: true });\n// with a mouse, p5-phone's tap message goes away before the browser sends 'click'\ndocument.addEventListener('pointerup', function (e) {\n  if (e.pointerType === 'mouse') {\n    unlockAudio();\n  }\n}, { capture: true });\n\n// the feel of the piece. change these before you change anything else.\n// to use your own GIF, upload it to the sketch and put its file name here, like 'myGif.gif'\nlet gifFile = 'https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-03/gif-library/gifs/cow.gif';\nlet notes = [262, 294, 330, 392, 440, 523, 587, 659]; // hertz. a scale, one note for each frame, then round again\nlet waveType = 'triangle'; // 'sine', 'triangle', 'sawtooth' or 'square'\nlet noteLength = 120;      // milliseconds each note sounds\nlet volume = 0.4;          // from 0 to 1\n\nlet gif;        // the GIF\nlet osc;        // the oscillator\nlet frame = 0;  // which frame is showing\nlet started = false;\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n\n  // on a laptop, show a QR code of this page so you can open it on your phone\n  if (location.protocol === 'https:' && window.self === window.top) {\n    showDesktopQr();\n  }\n\n  enableSoundTap('Tap to turn on sound');\n\n  // the oscillator runs all the time, silent. each tap turns it up for one note.\n  osc = new p5.Oscillator(notes[0], waveType);\n  osc.amp(0);\n\n  gif = await loadImage(gifFile);\n  gif.pause(); // the taps choose the frame, not the GIF's own clock\n}\n\nfunction draw() {\n  background(20);\n\n  // start the oscillator once the sound is on\n  if (unlocked && !started) {\n    osc.start();\n    started = true;\n  }\n\n  drawGif();\n\n  // the labels sit in the top 70 pixels\n  fill(255);\n  noStroke();\n  textSize(16);\n  text('frame ' + frame + ' of ' + gif.numFrames() + '   note ' + notes[frame % notes.length] + ' hertz', 20, 30);\n  if (!unlocked) {\n    text('tap to turn on sound', 20, 52);\n  } else {\n    text('tap anywhere: one step, one note', 20, 52);\n  }\n  fill(160);\n  textSize(13);\n  text('One event, two outputs. The picture and the sound move together.', 20, height - 12);\n}\n\nfunction mousePressed() {\n  // the first tap belongs to the sound message, so it does not step\n  if (!unlocked || gif === undefined) {\n    return false;\n  }\n  userStartAudio(); // a phone can put the sound to sleep. any tap wakes it.\n\n  // 1. read the tap. 2. one frame forward, back to 0 after the last. 3. show it and play its note.\n  frame = frame + 1;\n  if (frame >= gif.numFrames()) {\n    frame = 0;\n  }\n  gif.setFrame(frame);\n  osc.freq(notes[frame % notes.length]);\n  osc.amp(volume, 0.01); // on\n  setTimeout(function () {\n    osc.amp(0, 0.1); // and off again\n  }, noteLength);\n  return false;\n}\n\n// the GIF as large as fits, in the middle, under the labels\nfunction drawGif() {\n  let top = 70;\n  let bottom = height - 30;\n  let s = min(width * 0.9 / gif.width, (bottom - top) * 0.9 / gif.height);\n  imageMode(CENTER);\n  image(gif, width / 2, (top + bottom) / 2, gif.width * s, gif.height * s);\n  imageMode(CORNER);\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
-      "id": "7cc0803924a2ff5a5be182a0",
-      "_id": "7cc0803924a2ff5a5be182a0",
+      "id": "54afaf2fda74c2c9defc7181",
+      "_id": "54afaf2fda74c2c9defc7181",
       "fileType": "file",
       "children": [],
       "isSelectedFile": true
