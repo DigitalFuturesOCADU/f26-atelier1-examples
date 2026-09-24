@@ -93,7 +93,8 @@ function mousePressed() {
   let rate = map(mouseX, 0, width, slowestRate, fastestRate, true);
   let pitch = map(mouseY, height, 70, lowestPitch, highestPitch, true);
   speechSynthesis.cancel(); // stop the last sentence, so a new tap is never ignored
-  sayText('It is ' + hour() + ' ' + nf(minute(), 2) + ', and ' + second() + ' seconds.', rate, pitch);
+  let words = 'It is ' + hour() + ' ' + nf(minute(), 2) + ', and ' + second() + ' seconds.';
+  sayText(words, rate, pitch);
   return false;
 }
 
