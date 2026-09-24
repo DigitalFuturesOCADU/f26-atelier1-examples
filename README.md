@@ -122,6 +122,26 @@ A sketch gets the microphone level or speech, not both at once. Speech recogniti
 sends the sound to the browser's speech service. 05 to 07 do not load p5.sound: ml5.js and
 the speech tool open the microphone themselves, and ml5.js clashes with the p5.sound preload shim.
 
+## Class 5 · Input to sound
+
+Six questions. Each has a touch, a motion and a sound version in its own folder,
+`class-05/input-to-sound/<NN-name>-touch/`, `-motion/` and `-sound/`. The sound part of the code
+is the same in all three. Only the input part at the bottom of `sketch.js` changes. Open the three
+on three phones and compare. The four recordings in 01 and 02 load from their own sites by web
+address. `class-05/input-to-sound/sounds/` holds backup copies.
+
+| Example | Question → sound | Sound library | Touch | Motion | Sound |
+| --- | --- | --- | --- | --- | --- |
+| 01-choice-to-recording | which one? → one of four recordings | p5.sound `loadSound()` by web address | [four zones](class-05/input-to-sound/01-choice-to-recording-touch/) | [tip toward a corner](class-05/input-to-sound/01-choice-to-recording-motion/) | [low or high (FFT): two of four](class-05/input-to-sound/01-choice-to-recording-sound/) |
+| 02-amount-to-speed | how much? → loop speed | p5.sound `rate()` | [two-finger spread](class-05/input-to-sound/02-amount-to-speed-touch/) | [`rotationX`](class-05/input-to-sound/02-amount-to-speed-motion/) | [level](class-05/input-to-sound/02-amount-to-speed-sound/) |
+| 03-count-to-voices | how many? → oscillator voices | p5.sound `p5.Oscillator` | [fingers on the glass](class-05/input-to-sound/03-count-to-voices-touch/) | [shakes in the last 4 s](class-05/input-to-sound/03-count-to-voices-motion/) | [claps in the last 4 s](class-05/input-to-sound/03-count-to-voices-sound/) |
+| 04-gap-to-tempo | when? → tempo | Tone.js `Loop` on the Transport | [tap tempo](class-05/input-to-sound/04-gap-to-tempo-touch/) | [time between shakes](class-05/input-to-sound/04-gap-to-tempo-motion/) | [time between claps (Tone.UserMedia)](class-05/input-to-sound/04-gap-to-tempo-sound/) |
+| 05-dial-to-note | which note? → marimba note | smplr `Soundfont` | [two-finger angle](class-05/input-to-sound/05-dial-to-note-touch/) | [`rotationZ`](class-05/input-to-sound/05-dial-to-note-motion/) | [hummed note (Pitchy)](class-05/input-to-sound/05-dial-to-note-sound/) |
+| 06-hold-to-speech | how long? → spoken duration and rate | `speechSynthesis` | [hold and release](class-05/input-to-sound/06-hold-to-speech-touch/) | [held upright](class-05/input-to-sound/06-hold-to-speech-motion/) | [a sound or a silence](class-05/input-to-sound/06-hold-to-speech-sound/) |
+
+The sound versions open the microphone with echo cancellation off, so on a speaker the phone
+hears itself. Use headphones. One sound system per sketch: 04 loads Tone.js and not p5.sound.
+
 ## Web editor copies
 
 `p5-webeditor.config.json` publishes each example to the p5.js web editor with
