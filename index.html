@@ -23,10 +23,114 @@
     .what { display: block; color: #666666; font-size: 14px; margin-top: 2px; }
     .code { font-size: 13px; font-weight: 400; color: #666666; }
     .intro { color: #444444; font-size: 15px; margin: 0 0 8px; }
-    .versions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-    .version { border: 1px solid #dddddd; padding: 8px 10px; min-width: 104px; text-align: center; }
-    .version canvas { display: block; width: 104px; height: 104px; margin: 8px auto 0; }
-    @media (max-width: 600px) { .version canvas { display: none; } }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+    /* Class 5: two wider sections, a set of tiles and a matrix */
+    .c5 {
+      --wide: min(1120px, calc(100vw - 32px));
+      width: var(--wide);
+      margin-left: calc((100% - var(--wide)) / 2);
+    }
+    .c5 ol, .c5 ul { list-style: none; padding: 0; margin: 0; }
+    .c5 li { padding: 0; border: 0; }
+    .c5 p { margin: 0; }
+    .c5 .intro { max-width: 720px; margin: 0 0 16px; }
+    .c5 .lib { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12.5px; color: #1a1a1a; }
+    .c5 a { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .c5 .links { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+    .c5 .links .code { font-size: 13px; }
+    .cell-foot { display: flex; align-items: flex-start; gap: 14px; margin-top: auto; padding-top: 12px; }
+
+    /* Making Sound: seven tiles */
+    .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 28px 24px; }
+    .tile { display: flex; flex-direction: column; border-top: 2px solid #000000; padding-top: 12px; }
+    .tile-name { font-size: 17px; line-height: 1.25; }
+    .c5 .tile-what { color: #555555; font-size: 14px; line-height: 1.45; margin: 6px 0; }
+
+    /* Input to Sound: six rows by three inputs */
+    .matrix { margin-top: 4px; }
+    .mrow { display: grid; grid-template-columns: minmax(190px, 1.05fr) repeat(3, minmax(0, 1fr)); }
+    .mrows > .mrow { border-bottom: 1px solid #dddddd; }
+    .mcols { border-bottom: 2px solid #000000; }
+    .mcols span { padding: 0 16px 8px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #777777; }
+    .mcols span:first-child { padding-left: 0; }
+    .mcols .col-sound { color: #1a1a1a; background: #f2f2f2; padding-top: 10px; }
+    .mcols { align-items: end; }
+    .mhead { padding: 16px 16px 18px 0; }
+    .ex-name { font-size: 14px; font-weight: 600; }
+    .question { font-size: 24px; font-weight: 700; line-height: 1.15; margin: 6px 0 8px !important; letter-spacing: -0.01em; }
+    .output { color: #666666; font-size: 14px; line-height: 1.4; margin-bottom: 6px !important; }
+    .mcell { position: relative; display: flex; flex-direction: column; padding: 16px 16px 18px; border-left: 1px solid #eeeeee; }
+    .mcell.is-sound { background: #f2f2f2; border-left-color: #f2f2f2; }
+    .mcell.lost::after, .swatch-lost::after {
+      content: ""; position: absolute; top: 0; right: 0; width: 22px; height: 22px;
+      background: #000000; clip-path: polygon(0 0, 100% 0, 100% 100%);
+    }
+    .input-name { display: none; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #777777; margin-bottom: 4px !important; }
+    .gesture { font-size: 15px; font-weight: 600; line-height: 1.35; padding-right: 14px; }
+    .why { color: #666666; font-size: 13.5px; line-height: 1.4; margin-top: 6px !important; padding-right: 8px; }
+    .legend { display: flex; flex-wrap: wrap; gap: 10px 32px; margin-top: 14px !important; font-size: 14px; color: #444444; }
+    .legend li { display: flex; align-items: center; gap: 10px; }
+    .swatch { position: relative; flex: none; width: 34px; height: 24px; border: 1px solid #cccccc; background: #ffffff; }
+    .swatch-sound { background: #f2f2f2; }
+    .swatch-lost::after { width: 16px; height: 16px; }
+
+    /* QR tiles and the expand button (after the p5-phone examples page) */
+    .qr-tile { position: relative; display: flex; align-items: flex-start; gap: 6px; flex: none; }
+    .qr-tile canvas { display: block; width: 104px; height: 104px; background: #ffffff; cursor: zoom-in; }
+    .qr-expand {
+      position: relative; flex: none; width: 28px; height: 28px; padding: 0;
+      border: 1px solid #000000; border-radius: 999px; background: #ffffff; color: #000000;
+      font-size: 0; cursor: pointer;
+    }
+    .qr-expand::before, .qr-expand::after {
+      content: ""; position: absolute; left: 50%; top: 50%; width: 11px; height: 1.5px;
+      background: currentColor; transform: translate(-50%, -50%);
+    }
+    .qr-expand::after { transform: translate(-50%, -50%) rotate(90deg); }
+    .qr-expand[aria-expanded="true"]::after, .qr-expand.is-close::after { opacity: 0; }
+    .qr-expand:hover { background: #000000; color: #ffffff; }
+    .qr-expand:focus-visible { outline: 2px solid #000000; outline-offset: 3px; }
+    .no-qr .qr-tile { display: none; }
+
+    /* The large QR, one at a time */
+    body.qr-open { overflow: hidden; }
+    .qr-overlay {
+      position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center;
+      padding: clamp(12px, 3vw, 38px); background: rgba(0, 0, 0, 0.55);
+    }
+    .qr-overlay[hidden] { display: none; }
+    .qr-card {
+      position: relative; display: flex; flex-direction: column; align-items: center; gap: clamp(8px, 1.6vmin, 18px);
+      max-width: 100%; max-height: 100%; overflow: auto; box-sizing: border-box;
+      padding: clamp(20px, 4vmin, 44px) clamp(20px, 5vmin, 64px); background: #ffffff;
+      border-top: 3px solid #000000; box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+    }
+    .qr-card .qr-expand { position: absolute; top: clamp(10px, 2vmin, 18px); right: clamp(10px, 2vmin, 18px); width: 44px; height: 44px; }
+    .qr-card .qr-expand::before, .qr-card .qr-expand::after { width: 16px; height: 2px; }
+    .qr-card .qr-group { font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #777777; margin: 0 48px; text-align: center; }
+    .qr-card h3 { margin: 0 48px; text-align: center; font-size: clamp(22px, 4vmin, 44px); line-height: 1.1; overflow-wrap: anywhere; }
+    .qr-card canvas { display: block; width: min(62vmin, 560px); height: min(62vmin, 560px); }
+    .qr-card .qr-url { margin: 0; max-width: min(62vmin, 560px); text-align: center; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; color: #555555; overflow-wrap: anywhere; }
+
+    /* Narrow screens: each example becomes a stacked card with its three versions */
+    @media (max-width: 760px) {
+      .mcols { display: none; }
+      .mrows > .mrow { display: block; border-bottom: 0; border-top: 2px solid #000000; margin-bottom: 24px; }
+      .mhead { padding: 10px 0 12px; }
+      .question { font-size: 22px; }
+      .mcell { border-left: 0; border-top: 1px solid #dddddd; padding: 12px 12px 14px; margin: 0 -12px; }
+      .mcell.is-sound { border-top-color: #f2f2f2; }
+      .input-name { display: block; }
+      .cell-foot { padding-top: 8px; }
+      .c5 .links { flex-direction: row; flex-wrap: wrap; gap: 0 20px; align-items: baseline; }
+      .c5 .links a { display: inline-block; padding: 6px 0; }
+    }
+    @media (max-width: 600px) {
+      .qr-tile { display: none; }
+      .cell-foot { padding-top: 6px; }
+      .tiles { gap: 22px; }
+    }
   </style>
 </head>
 <body>
@@ -82,53 +186,278 @@
       <li><a href="class-04/sound-to-image/demo-pitch-to-frame/">Demo · Pitch to Frame</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-04/sound-to-image/demo-pitch-to-frame">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/BkP-lf5bR">web editor</a><span class="what">A look ahead. Finds the note in hertz with Pitchy.</span></li>
     </ul>
 
+    <section class="c5" aria-labelledby="class-05-making">
     <h2 id="class-05-making">Class 5 · Making Sound</h2>
     <p class="intro">Seven small examples, one way of making sound each: a recording, a changed recording, an echo, a tone, a loop, an instrument and speech. Touch only. Tap once to turn on sound.</p>
-    <ul>
-      <li><a href="class-05/making-sound/01-play-a-recording/">01 Play a Recording</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/01-play-a-recording">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/gOOzonRFz">web editor</a><span class="what">p5.sound. Load a recording and play it. Each tap starts it again.</span>
-        <div class="versions"><div class="version"><a href="class-05/making-sound/01-play-a-recording/">Touch</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/01-play-a-recording/"></canvas></div></div></li>
-      <li><a href="class-05/making-sound/02-bend-a-recording/">02 Bend a Recording</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/02-bend-a-recording">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/LUqBkJods">web editor</a><span class="what">p5.sound. A loop. Left and right is the speed, and the pitch moves with it. Up and down is the volume.</span>
-        <div class="versions"><div class="version"><a href="class-05/making-sound/02-bend-a-recording/">Touch</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/02-bend-a-recording/"></canvas></div></div></li>
-      <li><a href="class-05/making-sound/03-echo-a-recording/">03 Echo a Recording</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/03-echo-a-recording">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/eoqlbuOYz">web editor</a><span class="what">p5.sound. The bell goes through an echo, p5.Delay. Where you tap sets the time between repeats and how many.</span>
-        <div class="versions"><div class="version"><a href="class-05/making-sound/03-echo-a-recording/">Touch</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/03-echo-a-recording/"></canvas></div></div></li>
-      <li><a href="class-05/making-sound/04-make-a-tone/">04 Make a Tone</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/04-make-a-tone">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/VvesSoti8">web editor</a><span class="what">p5.sound. An oscillator. Hold a finger down: left is low, right is high. Nothing was recorded.</span>
-        <div class="versions"><div class="version"><a href="class-05/making-sound/04-make-a-tone/">Touch</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/04-make-a-tone/"></canvas></div></div></li>
-      <li><a href="class-05/making-sound/05-start-a-loop/">05 Start a Loop</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/05-start-a-loop">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/FGiy1hS68">web editor</a><span class="what">Tone.js. Eight notes loop on Tone's own clock. Drag to set the tempo.</span>
-        <div class="versions"><div class="version"><a href="class-05/making-sound/05-start-a-loop/">Touch</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/05-start-a-loop/"></canvas></div></div></li>
-      <li><a href="class-05/making-sound/06-play-an-instrument/">06 Play an Instrument</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/06-play-an-instrument">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/vZSkYuN2K">web editor</a><span class="what">smplr. A sampled marimba. Tap a key to strike that note.</span>
-        <div class="versions"><div class="version"><a href="class-05/making-sound/06-play-an-instrument/">Touch</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/06-play-an-instrument/"></canvas></div></div></li>
-      <li><a href="class-05/making-sound/07-say-the-time/">07 Say the Time</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/07-say-the-time">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/_QEqakWui">web editor</a><span class="what">Speech. The phone's own voice says the time. Where you tap sets how fast and how high.</span>
-        <div class="versions"><div class="version"><a href="class-05/making-sound/07-say-the-time/">Touch</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/07-say-the-time/"></canvas></div></div></li>
-    </ul>
+    <ol class="tiles">
+      <li class="tile">
+        <a class="tile-name" href="class-05/making-sound/01-play-a-recording/">01 Play a Recording</a>
+        <p class="tile-what">Load a recording and play it. Each tap starts it again.</p>
+        <p class="lib">p5.sound</p>
+        <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/01-play-a-recording/" data-title="01 Play a Recording" data-group="Class 5 · Making Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 01 Play a Recording"></button></div><p class="links"><a href="class-05/making-sound/01-play-a-recording/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/01-play-a-recording">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/gOOzonRFz">editor</a></p></div>
+      </li>
+      <li class="tile">
+        <a class="tile-name" href="class-05/making-sound/02-bend-a-recording/">02 Bend a Recording</a>
+        <p class="tile-what">A loop. Left and right is the speed, and the pitch moves with it. Up and down is the volume.</p>
+        <p class="lib">p5.sound</p>
+        <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/02-bend-a-recording/" data-title="02 Bend a Recording" data-group="Class 5 · Making Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 02 Bend a Recording"></button></div><p class="links"><a href="class-05/making-sound/02-bend-a-recording/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/02-bend-a-recording">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/LUqBkJods">editor</a></p></div>
+      </li>
+      <li class="tile">
+        <a class="tile-name" href="class-05/making-sound/03-echo-a-recording/">03 Echo a Recording</a>
+        <p class="tile-what">The bell goes through an echo, p5.Delay. Where you tap sets the time between repeats and how many.</p>
+        <p class="lib">p5.sound</p>
+        <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/03-echo-a-recording/" data-title="03 Echo a Recording" data-group="Class 5 · Making Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 03 Echo a Recording"></button></div><p class="links"><a href="class-05/making-sound/03-echo-a-recording/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/03-echo-a-recording">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/eoqlbuOYz">editor</a></p></div>
+      </li>
+      <li class="tile">
+        <a class="tile-name" href="class-05/making-sound/04-make-a-tone/">04 Make a Tone</a>
+        <p class="tile-what">An oscillator. Hold a finger down: left is low, right is high. Nothing was recorded.</p>
+        <p class="lib">p5.sound</p>
+        <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/04-make-a-tone/" data-title="04 Make a Tone" data-group="Class 5 · Making Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 04 Make a Tone"></button></div><p class="links"><a href="class-05/making-sound/04-make-a-tone/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/04-make-a-tone">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/VvesSoti8">editor</a></p></div>
+      </li>
+      <li class="tile">
+        <a class="tile-name" href="class-05/making-sound/05-start-a-loop/">05 Start a Loop</a>
+        <p class="tile-what">Eight notes loop on Tone's own clock. Drag to set the tempo.</p>
+        <p class="lib">Tone.js</p>
+        <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/05-start-a-loop/" data-title="05 Start a Loop" data-group="Class 5 · Making Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 05 Start a Loop"></button></div><p class="links"><a href="class-05/making-sound/05-start-a-loop/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/05-start-a-loop">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/FGiy1hS68">editor</a></p></div>
+      </li>
+      <li class="tile">
+        <a class="tile-name" href="class-05/making-sound/06-play-an-instrument/">06 Play an Instrument</a>
+        <p class="tile-what">A sampled marimba. Tap a key to strike that note.</p>
+        <p class="lib">smplr</p>
+        <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/06-play-an-instrument/" data-title="06 Play an Instrument" data-group="Class 5 · Making Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 06 Play an Instrument"></button></div><p class="links"><a href="class-05/making-sound/06-play-an-instrument/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/06-play-an-instrument">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/vZSkYuN2K">editor</a></p></div>
+      </li>
+      <li class="tile">
+        <a class="tile-name" href="class-05/making-sound/07-say-the-time/">07 Say the Time</a>
+        <p class="tile-what">The phone's own voice says the time. Where you tap sets how fast and how high.</p>
+        <p class="lib">speechSynthesis</p>
+        <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/making-sound/07-say-the-time/" data-title="07 Say the Time" data-group="Class 5 · Making Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 07 Say the Time"></button></div><p class="links"><a href="class-05/making-sound/07-say-the-time/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/making-sound/07-say-the-time">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/_QEqakWui">editor</a></p></div>
+      </li>
+    </ol>
+  </section>
 
+    <section class="c5" aria-labelledby="class-05">
     <h2 id="class-05">Class 5 · Input to Sound</h2>
     <p class="intro">Six questions, each with a touch, a motion and a sound version. The sound part of the code is the same in all three. Only the input changes. Open the three on three phones and compare. Use headphones with the sound versions.</p>
-    <ul>
-      <li><strong>01 Choice to Recording</strong><span class="what">Which one? Four recordings: wait, mark, wake, go. A zone, a lean or a kind of sound picks one. By sound, only two of the four can be reached.</span>
-        <div class="versions"><div class="version"><a href="class-05/input-to-sound/01-choice-to-recording-touch/">Touch</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/01-choice-to-recording-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/3LlpC_AUO">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/01-choice-to-recording-touch/"></canvas></div><div class="version"><a href="class-05/input-to-sound/01-choice-to-recording-motion/">Motion</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/01-choice-to-recording-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/Jtf-22RM8">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/01-choice-to-recording-motion/"></canvas></div><div class="version"><a href="class-05/input-to-sound/01-choice-to-recording-sound/">Sound</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/01-choice-to-recording-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/vWbdkDkua">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/01-choice-to-recording-sound/"></canvas></div></div></li>
-      <li><strong>02 Amount to Speed</strong><span class="what">How much? One looping clock tick. A pinch, a tilt or how loud it is sets its speed and pitch.</span>
-        <div class="versions"><div class="version"><a href="class-05/input-to-sound/02-amount-to-speed-touch/">Touch</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/02-amount-to-speed-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/dtLCs_Z0p">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/02-amount-to-speed-touch/"></canvas></div><div class="version"><a href="class-05/input-to-sound/02-amount-to-speed-motion/">Motion</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/02-amount-to-speed-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/NyY4wDsik">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/02-amount-to-speed-motion/"></canvas></div><div class="version"><a href="class-05/input-to-sound/02-amount-to-speed-sound/">Sound</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/02-amount-to-speed-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/dl7kJix0tw">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/02-amount-to-speed-sound/"></canvas></div></div></li>
-      <li><strong>03 Count to Voices</strong><span class="what">How many? Five oscillator voices from p5.sound. Fingers, shakes or claps add them.</span>
-        <div class="versions"><div class="version"><a href="class-05/input-to-sound/03-count-to-voices-touch/">Touch</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/03-count-to-voices-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/26iFufdyQ">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/03-count-to-voices-touch/"></canvas></div><div class="version"><a href="class-05/input-to-sound/03-count-to-voices-motion/">Motion</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/03-count-to-voices-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/u7HaV4P0e">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/03-count-to-voices-motion/"></canvas></div><div class="version"><a href="class-05/input-to-sound/03-count-to-voices-sound/">Sound</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/03-count-to-voices-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/E2bX-mkbd">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/03-count-to-voices-sound/"></canvas></div></div></li>
-      <li><strong>04 Gap to Tempo</strong><span class="what">When? A Tone.js metronome on its own clock. The gap between taps, shakes or claps sets the tempo.</span>
-        <div class="versions"><div class="version"><a href="class-05/input-to-sound/04-gap-to-tempo-touch/">Touch</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/04-gap-to-tempo-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/bXLtkTTXvR">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/04-gap-to-tempo-touch/"></canvas></div><div class="version"><a href="class-05/input-to-sound/04-gap-to-tempo-motion/">Motion</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/04-gap-to-tempo-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/jExXcPM7hT">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/04-gap-to-tempo-motion/"></canvas></div><div class="version"><a href="class-05/input-to-sound/04-gap-to-tempo-sound/">Sound</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/04-gap-to-tempo-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/_S1wBg5Zq">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/04-gap-to-tempo-sound/"></canvas></div></div></li>
-      <li><strong>05 Dial to Note</strong><span class="what">Which note? A sampled marimba from smplr. Two fingers, the whole phone or your voice turns the dial.</span>
-        <div class="versions"><div class="version"><a href="class-05/input-to-sound/05-dial-to-note-touch/">Touch</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/05-dial-to-note-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/ClfwXSXue">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/05-dial-to-note-touch/"></canvas></div><div class="version"><a href="class-05/input-to-sound/05-dial-to-note-motion/">Motion</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/05-dial-to-note-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/7tiH0-8M8">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/05-dial-to-note-motion/"></canvas></div><div class="version"><a href="class-05/input-to-sound/05-dial-to-note-sound/">Sound</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/05-dial-to-note-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/FdB7h18TS">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/05-dial-to-note-sound/"></canvas></div></div></li>
-      <li><strong>06 Hold to Speech</strong><span class="what">How long? The phone says how long a hold, a raise or a sound lasted. The longer it lasted, the slower it speaks.</span>
-        <div class="versions"><div class="version"><a href="class-05/input-to-sound/06-hold-to-speech-touch/">Touch</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/06-hold-to-speech-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/WTLo35Psf">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/06-hold-to-speech-touch/"></canvas></div><div class="version"><a href="class-05/input-to-sound/06-hold-to-speech-motion/">Motion</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/06-hold-to-speech-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/HXjtRpgXl">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/06-hold-to-speech-motion/"></canvas></div><div class="version"><a href="class-05/input-to-sound/06-hold-to-speech-sound/">Sound</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/06-hold-to-speech-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/MrPoa3p_b">editor</a><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/06-hold-to-speech-sound/"></canvas></div></div></li>
-    </ul>
+    <div class="matrix">
+      <div class="mrow mcols" aria-hidden="true"><span>Example and question</span><span>Touch</span><span>Motion</span><span class="col-sound">Sound</span></div>
+      <ol class="mrows">
+        <li class="mrow">
+          <div class="mhead"><p class="ex-name">01 Choice to Recording</p><p class="question">Which one?</p><p class="output">Four recordings: wait, mark, wake, go.</p><p class="lib">p5.sound</p></div>
+          <div class="mcell is-touch">
+            <p class="input-name">Touch</p>
+            <p class="gesture">A finger picks one of four zones.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/01-choice-to-recording-touch/" data-title="01 Choice to Recording · Touch" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 01 Choice to Recording · Touch"></button></div><p class="links"><a href="class-05/input-to-sound/01-choice-to-recording-touch/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/01-choice-to-recording-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/3LlpC_AUO">editor</a></p></div>
+          </div>
+          <div class="mcell is-motion">
+            <p class="input-name">Motion</p>
+            <p class="gesture">Hold it flat and tip it toward a corner.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/01-choice-to-recording-motion/" data-title="01 Choice to Recording · Motion" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 01 Choice to Recording · Motion"></button></div><p class="links"><a href="class-05/input-to-sound/01-choice-to-recording-motion/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/01-choice-to-recording-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/Jtf-22RM8">editor</a></p></div>
+          </div>
+          <div class="mcell is-sound lost">
+            <p class="input-name">Sound</p>
+            <p class="gesture">A low hum or a high whistle picks.</p>
+            <p class="why"><span class="sr-only">The question does not survive here. </span>Sound tells two kinds apart, not four. Only two recordings can play.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/01-choice-to-recording-sound/" data-title="01 Choice to Recording · Sound" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 01 Choice to Recording · Sound"></button></div><p class="links"><a href="class-05/input-to-sound/01-choice-to-recording-sound/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/01-choice-to-recording-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/vWbdkDkua">editor</a></p></div>
+          </div>
+        </li>
+        <li class="mrow">
+          <div class="mhead"><p class="ex-name">02 Amount to Speed</p><p class="question">How much?</p><p class="output">One looping clock tick. Speed and pitch move together.</p><p class="lib">p5.sound</p></div>
+          <div class="mcell is-touch">
+            <p class="input-name">Touch</p>
+            <p class="gesture">Two fingers. Close is slow, far apart is fast.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/02-amount-to-speed-touch/" data-title="02 Amount to Speed · Touch" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 02 Amount to Speed · Touch"></button></div><p class="links"><a href="class-05/input-to-sound/02-amount-to-speed-touch/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/02-amount-to-speed-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/dtLCs_Z0p">editor</a></p></div>
+          </div>
+          <div class="mcell is-motion">
+            <p class="input-name">Motion</p>
+            <p class="gesture">The angle. Flat is slow, upright is fast.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/02-amount-to-speed-motion/" data-title="02 Amount to Speed · Motion" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 02 Amount to Speed · Motion"></button></div><p class="links"><a href="class-05/input-to-sound/02-amount-to-speed-motion/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/02-amount-to-speed-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/NyY4wDsik">editor</a></p></div>
+          </div>
+          <div class="mcell is-sound">
+            <p class="input-name">Sound</p>
+            <p class="gesture">How loud. Quiet is slow, loud is fast.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/02-amount-to-speed-sound/" data-title="02 Amount to Speed · Sound" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 02 Amount to Speed · Sound"></button></div><p class="links"><a href="class-05/input-to-sound/02-amount-to-speed-sound/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/02-amount-to-speed-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/dl7kJix0tw">editor</a></p></div>
+          </div>
+        </li>
+        <li class="mrow">
+          <div class="mhead"><p class="ex-name">03 Count to Voices</p><p class="question">How many?</p><p class="output">Five oscillator voices of one chord.</p><p class="lib">p5.sound</p></div>
+          <div class="mcell is-touch">
+            <p class="input-name">Touch</p>
+            <p class="gesture">Each finger on the screen adds a voice.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/03-count-to-voices-touch/" data-title="03 Count to Voices · Touch" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 03 Count to Voices · Touch"></button></div><p class="links"><a href="class-05/input-to-sound/03-count-to-voices-touch/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/03-count-to-voices-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/26iFufdyQ">editor</a></p></div>
+          </div>
+          <div class="mcell is-motion lost">
+            <p class="input-name">Motion</p>
+            <p class="gesture">Each shake adds a voice for a few seconds.</p>
+            <p class="why"><span class="sr-only">The question does not survive here. </span>Shakes are counted over time, not at one moment.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/03-count-to-voices-motion/" data-title="03 Count to Voices · Motion" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 03 Count to Voices · Motion"></button></div><p class="links"><a href="class-05/input-to-sound/03-count-to-voices-motion/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/03-count-to-voices-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/u7HaV4P0e">editor</a></p></div>
+          </div>
+          <div class="mcell is-sound lost">
+            <p class="input-name">Sound</p>
+            <p class="gesture">Each clap adds a voice for a few seconds.</p>
+            <p class="why"><span class="sr-only">The question does not survive here. </span>Claps are counted over time. The voices can cover them.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/03-count-to-voices-sound/" data-title="03 Count to Voices · Sound" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 03 Count to Voices · Sound"></button></div><p class="links"><a href="class-05/input-to-sound/03-count-to-voices-sound/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/03-count-to-voices-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/E2bX-mkbd">editor</a></p></div>
+          </div>
+        </li>
+        <li class="mrow">
+          <div class="mhead"><p class="ex-name">04 Gap to Tempo</p><p class="question">When?</p><p class="output">A metronome on its own clock.</p><p class="lib">Tone.js</p></div>
+          <div class="mcell is-touch">
+            <p class="input-name">Touch</p>
+            <p class="gesture">Tap a steady beat.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/04-gap-to-tempo-touch/" data-title="04 Gap to Tempo · Touch" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 04 Gap to Tempo · Touch"></button></div><p class="links"><a href="class-05/input-to-sound/04-gap-to-tempo-touch/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/04-gap-to-tempo-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/bXLtkTTXvR">editor</a></p></div>
+          </div>
+          <div class="mcell is-motion">
+            <p class="input-name">Motion</p>
+            <p class="gesture">Shake a steady beat.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/04-gap-to-tempo-motion/" data-title="04 Gap to Tempo · Motion" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 04 Gap to Tempo · Motion"></button></div><p class="links"><a href="class-05/input-to-sound/04-gap-to-tempo-motion/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/04-gap-to-tempo-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/jExXcPM7hT">editor</a></p></div>
+          </div>
+          <div class="mcell is-sound">
+            <p class="input-name">Sound</p>
+            <p class="gesture">Clap a steady beat.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/04-gap-to-tempo-sound/" data-title="04 Gap to Tempo · Sound" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 04 Gap to Tempo · Sound"></button></div><p class="links"><a href="class-05/input-to-sound/04-gap-to-tempo-sound/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/04-gap-to-tempo-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/_S1wBg5Zq">editor</a></p></div>
+          </div>
+        </li>
+        <li class="mrow">
+          <div class="mhead"><p class="ex-name">05 Dial to Note</p><p class="question">Which note?</p><p class="output">A sampled marimba, one note of a scale.</p><p class="lib">smplr</p></div>
+          <div class="mcell is-touch">
+            <p class="input-name">Touch</p>
+            <p class="gesture">Two fingers turn the dial like a knob.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/05-dial-to-note-touch/" data-title="05 Dial to Note · Touch" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 05 Dial to Note · Touch"></button></div><p class="links"><a href="class-05/input-to-sound/05-dial-to-note-touch/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/05-dial-to-note-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/ClfwXSXue">editor</a></p></div>
+          </div>
+          <div class="mcell is-motion">
+            <p class="input-name">Motion</p>
+            <p class="gesture">Lay the phone flat and turn it.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/05-dial-to-note-motion/" data-title="05 Dial to Note · Motion" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 05 Dial to Note · Motion"></button></div><p class="links"><a href="class-05/input-to-sound/05-dial-to-note-motion/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/05-dial-to-note-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/7tiH0-8M8">editor</a></p></div>
+          </div>
+          <div class="mcell is-sound">
+            <p class="input-name">Sound</p>
+            <p class="gesture">Hum low, then high.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/05-dial-to-note-sound/" data-title="05 Dial to Note · Sound" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 05 Dial to Note · Sound"></button></div><p class="links"><a href="class-05/input-to-sound/05-dial-to-note-sound/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/05-dial-to-note-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/FdB7h18TS">editor</a></p></div>
+          </div>
+        </li>
+        <li class="mrow">
+          <div class="mhead"><p class="ex-name">06 Hold to Speech</p><p class="question">How long?</p><p class="output">The phone says how long it lasted. Longer is slower.</p><p class="lib">speechSynthesis</p></div>
+          <div class="mcell is-touch">
+            <p class="input-name">Touch</p>
+            <p class="gesture">Hold a finger down, then let go.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/06-hold-to-speech-touch/" data-title="06 Hold to Speech · Touch" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 06 Hold to Speech · Touch"></button></div><p class="links"><a href="class-05/input-to-sound/06-hold-to-speech-touch/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/06-hold-to-speech-touch">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/WTLo35Psf">editor</a></p></div>
+          </div>
+          <div class="mcell is-motion lost">
+            <p class="input-name">Motion</p>
+            <p class="gesture">Hold the phone upright, then lower it.</p>
+            <p class="why"><span class="sr-only">The question does not survive here. </span>The first words must come from a tap, not a movement.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/06-hold-to-speech-motion/" data-title="06 Hold to Speech · Motion" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 06 Hold to Speech · Motion"></button></div><p class="links"><a href="class-05/input-to-sound/06-hold-to-speech-motion/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/06-hold-to-speech-motion">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/HXjtRpgXl">editor</a></p></div>
+          </div>
+          <div class="mcell is-sound lost">
+            <p class="input-name">Sound</p>
+            <p class="gesture">Hum for a while, then stop.</p>
+            <p class="why"><span class="sr-only">The question does not survive here. </span>The first words must come from a tap. On a speaker it may time its own voice.</p>
+            <div class="cell-foot"><div class="qr-tile"><canvas class="qr" data-url="https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/06-hold-to-speech-sound/" data-title="06 Hold to Speech · Sound" data-group="Class 5 · Input to Sound"></canvas><button class="qr-expand" type="button" aria-expanded="false" aria-controls="qr-overlay" aria-label="Show a large QR code for 06 Hold to Speech · Sound"></button></div><p class="links"><a href="class-05/input-to-sound/06-hold-to-speech-sound/">open</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-05/input-to-sound/06-hold-to-speech-sound">code</a> <a class="code" href="https://editor.p5js.org/npuckett/sketches/MrPoa3p_b">editor</a></p></div>
+          </div>
+        </li>
+      </ol>
+      <ul class="legend">
+        <li><span class="swatch swatch-lost" aria-hidden="true"></span>The question does not survive the change of input. The grey line in the cell says why.</li>
+        <li><span class="swatch swatch-sound" aria-hidden="true"></span>Every sound version hears the phone's own speaker. Use headphones.</li>
+      </ul>
+    </div>
+  </section>
   </main>
 
-  <!-- QR codes for the Class 5 versions, so each one can be scanned from a laptop screen -->
+  <!-- One large QR at a time. The + on a QR, or the QR itself, opens it. -->
+  <div class="qr-overlay" id="qr-overlay" hidden>
+    <div class="qr-card" role="dialog" aria-modal="true" aria-labelledby="qr-overlay-title">
+      <button class="qr-expand is-close" type="button" id="qr-overlay-close" aria-label="Close the large QR code"></button>
+      <p class="qr-group" id="qr-overlay-group"></p>
+      <h3 id="qr-overlay-title"></h3>
+      <canvas id="qr-overlay-canvas"></canvas>
+      <p class="qr-url" id="qr-overlay-url"></p>
+    </div>
+  </div>
+
+  <!-- QR codes for the Class 5 examples, so each one can be scanned from a laptop screen -->
   <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
   <script>
-    document.querySelectorAll('canvas.qr').forEach(function (canvas) {
+    (function () {
       if (typeof QRious === 'undefined') {
-        canvas.style.display = 'none';
+        document.body.classList.add('no-qr');
         return;
       }
-      new QRious({ element: canvas, value: canvas.dataset.url, size: 208, level: 'M' });
-    });
+
+      document.querySelectorAll('canvas.qr').forEach(function (canvas) {
+        new QRious({ element: canvas, value: canvas.dataset.url, size: 208, level: 'M' });
+      });
+
+      var overlay = document.getElementById('qr-overlay');
+      var closeButton = document.getElementById('qr-overlay-close');
+      var bigCanvas = document.getElementById('qr-overlay-canvas');
+      var opener = null;
+
+      function bigSize() {
+        return Math.max(200, Math.min(560, Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.62)));
+      }
+
+      function drawBig() {
+        if (!opener) return;
+        var url = opener.parentNode.querySelector('canvas.qr').dataset.url;
+        var ratio = Math.min(window.devicePixelRatio || 1, 3);
+        new QRious({ element: bigCanvas, value: url, size: Math.round(bigSize() * ratio), level: 'M' });
+      }
+
+      function open(button) {
+        if (opener) close(false);
+        var small = button.parentNode.querySelector('canvas.qr');
+        opener = button;
+        document.getElementById('qr-overlay-group').textContent = small.dataset.group || '';
+        document.getElementById('qr-overlay-title').textContent = small.dataset.title || '';
+        document.getElementById('qr-overlay-url').textContent = small.dataset.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+        drawBig();
+        button.setAttribute('aria-expanded', 'true');
+        overlay.hidden = false;
+        document.body.classList.add('qr-open');
+        closeButton.focus();
+      }
+
+      function close(returnFocus) {
+        if (!opener) return;
+        var button = opener;
+        opener = null;
+        button.setAttribute('aria-expanded', 'false');
+        overlay.hidden = true;
+        document.body.classList.remove('qr-open');
+        if (returnFocus !== false) button.focus();
+      }
+
+      document.addEventListener('click', function (event) {
+        var button = event.target.closest('.qr-tile .qr-expand');
+        if (button) {
+          if (button === opener) close(); else open(button);
+          return;
+        }
+        var small = event.target.closest('.qr-tile canvas.qr');
+        if (small) open(small.parentNode.querySelector('.qr-expand'));
+      });
+
+      closeButton.addEventListener('click', function () { close(); });
+
+      // A click on the dark area around the card closes it.
+      overlay.addEventListener('click', function (event) {
+        if (event.target === overlay) close();
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (!opener) return;
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          close();
+        } else if (event.key === 'Tab') {
+          // The close button is the only control in the card. Keep focus there.
+          event.preventDefault();
+          closeButton.focus();
+        }
+      });
+
+      window.addEventListener('resize', drawBig);
+    })();
   </script>
 </body>
 </html>
