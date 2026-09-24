@@ -1,0 +1,36 @@
+{
+  "slug": "class-05-02-tilt-to-speed",
+  "title": "Class 05 · 02 Tilt to Speed",
+  "name": "Atelier1 F26 · Class 05 · 02 Tilt to Speed",
+  "projectId": null,
+  "contentHash": "sha256:9c034ada90a620c8f593edc0063effb3bdb06c549fad2c67c1bc643f43a00a0d",
+  "files": [
+    {
+      "name": "root",
+      "id": "1276d6457bf5f5f1958809e4",
+      "_id": "1276d6457bf5f5f1958809e4",
+      "fileType": "folder",
+      "children": [
+        "a7c97eee8f7139a4e4252a98",
+        "23dfa145b3fb7a8de12d94ca"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>02 Tilt to Speed</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5.sound: the sound. The GIF is plain p5.js -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.sound@0.3.0/dist/p5.sound.min.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "a7c97eee8f7139a4e4252a98",
+      "_id": "a7c97eee8f7139a4e4252a98",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 02 · Tilt to Speed\n// A GIF and a sound from the same tilt. Lay the phone flat and the jelly and the clock are slow.\n// Stand it up and both speed up together.\n// Motion in, GIF and sound out. Class 2's tilt, Class 3's gif.delay() and Class 5's rate().\n//\n// The recording: RAVAG interval signal, 1925. Austrian radio's clock, ticking 270 times\n// a minute between programmes. Public domain.\n// https://commons.wikimedia.org/wiki/File:RAVAG-Pausenzeichen.ogg\n\n// phones only start sound inside a tap. This catches the first tap, before\n// p5-phone's tap message does its own work, and wakes the sound system right there.\nlet unlocked = false;\nfunction unlockAudio() {\n  if (unlocked) {\n    return;\n  }\n  unlocked = true;\n  userStartAudio();\n}\ndocument.addEventListener('touchend', unlockAudio, { capture: true, once: true });\ndocument.addEventListener('click', unlockAudio, { capture: true, once: true });\n// with a mouse, p5-phone's tap message goes away before the browser sends 'click'\ndocument.addEventListener('pointerup', function (e) {\n  if (e.pointerType === 'mouse') {\n    unlockAudio();\n  }\n}, { capture: true });\n\n// the feel of the piece. change these before you change anything else.\n// to use your own GIF or recording, upload it to the sketch and put its file name here\nlet gifFile = 'https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-03/gif-library/gifs/jelloGif.gif';\nlet soundFile = 'https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-05/input-to-sound/sounds/wait-ravag.mp3';\nlet slowDelay = 200;   // milliseconds between GIF frames when the phone lies flat\nlet fastDelay = 20;    // milliseconds between GIF frames when it stands upright\nlet slowRate = 0.5;    // the recording's speed when flat. 1 is normal\nlet fastRate = 2;      // its speed when upright\nlet smoothing = 0.1;   // 1 is raw and jumpy, 0.05 is slow and calm\n\nlet gif;          // the GIF\nlet tick;         // the recording\nlet looping = false;\nlet amount = 0;   // 0 flat, 1 upright, smoothed\n\n// a laptop has no motion sensors. this turns true when the first real reading arrives.\nlet motionArrived = false;\nwindow.addEventListener('devicemotion', function (event) {\n  let g = event.accelerationIncludingGravity;\n  if (g && g.x !== null) {\n    motionArrived = true;\n  }\n});\n\nasync function setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n\n  // on a laptop, show a QR code of this page so you can open it on your phone\n  if (location.protocol === 'https:' && window.self === window.top) {\n    showDesktopQr();\n  }\n\n  angleMode(DEGREES); // rotation values in degrees\n  enablePermissionsTap(['motion', 'sound'], 'Tap to turn on motion and sound');\n\n  gif = await loadImage(gifFile);\n  tick = await loadSound(soundFile);\n}\n\nfunction draw() {\n  background(20);\n\n  // the loop starts as soon as the sound is on\n  if (unlocked && !looping) {\n    tick.loop();\n    tick.play();\n    looping = true;\n  }\n\n  // 1. read the tilt: 0 flat, 1 upright. the fallback: a finger, higher is more upright.\n  let raw = amount;\n  if (window.sensorsEnabled && motionArrived) {\n    raw = constrain(map(rotationX, 0, 90, 0, 1), 0, 1);\n  }\n  if (mouseIsPressed) {\n    raw = constrain(map(mouseY, height, 70, 0, 1), 0, 1);\n  }\n  // 2. smooth it\n  amount = lerp(amount, raw, smoothing);\n  // 3. map it onto both outputs, and use them\n  gif.delay(round(map(amount, 0, 1, slowDelay, fastDelay)));\n  if (looping) {\n    tick.rate(map(amount, 0, 1, slowRate, fastRate));\n  }\n\n  drawGif();\n\n  // the labels sit in the top 70 pixels\n  fill(255);\n  noStroke();\n  textSize(16);\n  text('tilt ' + nf(amount, 1, 2) + '   GIF delay ' + round(map(amount, 0, 1, slowDelay, fastDelay)) +\n       ' ms   rate ' + nf(map(amount, 0, 1, slowRate, fastRate), 1, 2), 20, 30);\n  if (!window.sensorsEnabled) {\n    text('tap to turn on motion and sound', 20, 52);\n  } else if (!motionArrived) {\n    text('no motion here. drag a finger up and down', 20, 52);\n  } else {\n    text('flat is slow, upright is fast, for both', 20, 52);\n  }\n  fill(160);\n  textSize(13);\n  text('One stream, two outputs. Tie them together, or pull them apart.', 20, height - 12);\n}\n\n// any touch wakes the sound system, in case the phone put it to sleep\nfunction mousePressed() {\n  userStartAudio();\n  return false;\n}\n\n// the GIF as large as fits, in the middle, under the labels\nfunction drawGif() {\n  let top = 70;\n  let bottom = height - 30;\n  let s = min(width * 0.9 / gif.width, (bottom - top) * 0.9 / gif.height);\n  imageMode(CENTER);\n  image(gif, width / 2, (top + bottom) / 2, gif.width * s, gif.height * s);\n  imageMode(CORNER);\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "23dfa145b3fb7a8de12d94ca",
+      "_id": "23dfa145b3fb7a8de12d94ca",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

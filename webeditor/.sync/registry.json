@@ -481,6 +481,54 @@
       },
       "lastPush": "2026-09-24T02:35:58.444Z",
       "lastVerify": "2026-09-24T02:35:58.444Z"
+    },
+    "class-05-01-tap-to-step": {
+      "projectId": "Y4zGVPB5P",
+      "name": "Atelier1 F26 · Class 05 · 01 Tap to Step",
+      "contentHash": "sha256:a9d318226f000a632e504077f5556d4badccbf7ca99c562ee65b189ebbb882e5",
+      "fileIds": {
+        "__root__": "448cbf7515661216e1c0311f",
+        "index.html": "d116580449bdb86c75d88c0d",
+        "sketch.js": "54afaf2fda74c2c9defc7181"
+      },
+      "lastPush": "2026-09-24T11:43:26.961Z",
+      "lastVerify": "2026-09-24T11:43:26.961Z"
+    },
+    "class-05-02-tilt-to-speed": {
+      "projectId": "ABiicEW7c",
+      "name": "Atelier1 F26 · Class 05 · 02 Tilt to Speed",
+      "contentHash": "sha256:9c034ada90a620c8f593edc0063effb3bdb06c549fad2c67c1bc643f43a00a0d",
+      "fileIds": {
+        "__root__": "f28867866b4146939652d6aa",
+        "index.html": "f4f9ecc3433ea5ad0e4f9e13",
+        "sketch.js": "a4b87fe339af60f96e9eb40b"
+      },
+      "lastPush": "2026-09-24T11:43:27.579Z",
+      "lastVerify": "2026-09-24T11:43:27.579Z"
+    },
+    "class-05-03-shake-to-play": {
+      "projectId": "79F_YA04J",
+      "name": "Atelier1 F26 · Class 05 · 03 Shake to Play",
+      "contentHash": "sha256:8f5db9de6cb5cf7b5085d1fdcbd47351fa4cad7c180a14b32c2473fbbbefbf78",
+      "fileIds": {
+        "__root__": "aa194c5cf0ad5936c2e55e07",
+        "index.html": "8af3a6a6fd5ccdf72683850e",
+        "sketch.js": "53b39e18f27cf20206b6156d"
+      },
+      "lastPush": "2026-09-24T11:43:28.191Z",
+      "lastVerify": "2026-09-24T11:43:28.191Z"
+    },
+    "class-05-04-drag-to-pitch": {
+      "projectId": "l9_m8rQE-",
+      "name": "Atelier1 F26 · Class 05 · 04 Drag to Pitch",
+      "contentHash": "sha256:18ece0e447ca2a68b39cac6acfc481c3c6f3cf1cbe837aa593c3454796d64e77",
+      "fileIds": {
+        "__root__": "6f56eb7c523c7652accc6061",
+        "index.html": "90960ccb1ee77a2cdc9be4d1",
+        "sketch.js": "eb92345d738487fac8c6eae6"
+      },
+      "lastPush": "2026-09-24T11:43:28.780Z",
+      "lastVerify": "2026-09-24T11:43:28.780Z"
     }
   }
 }

@@ -158,6 +158,19 @@ address. `class-05/input-to-sound/sounds/` holds backup copies.
 The sound versions open the microphone with echo cancellation off, so on a speaker the phone
 hears itself. Use headphones. One sound system per sketch: 04 loads Tone.js and not p5.sound.
 
+## Class 5 · GIF and sound, for next time
+
+Four small examples in `class-05/gif-and-sound/`. One input drives a GIF (from the Class 3
+GIF library) and a p5.sound sound at once. The microphone is left out: a phone that plays
+and listens hears itself.
+
+| Example | Input | GIF | Sound |
+| --- | --- | --- | --- |
+| [01-tap-to-step](class-05/gif-and-sound/01-tap-to-step/) | tap | one frame forward | one oscillator note, climbing with the frame |
+| [02-tilt-to-speed](class-05/gif-and-sound/02-tilt-to-speed/) | tilt (`rotationX`) | `delay()` | the tick loop's `rate()` |
+| [03-shake-to-play](class-05/gif-and-sound/03-shake-to-play/) | shake (`deviceShaken()`) | `play()` while it rings | the clock ring, for `playSeconds` |
+| [04-drag-to-pitch](class-05/gif-and-sound/04-drag-to-pitch/) | finger x | `setFrame()` | oscillator pitch from the frame |
+
 ## Web editor copies
 
 `p5-webeditor.config.json` publishes each example to the p5.js web editor with

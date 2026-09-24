@@ -61,7 +61,11 @@
       "class-05-05-dial-to-note-touch",
       "class-05-06-hold-to-speech-motion",
       "class-05-06-hold-to-speech-sound",
-      "class-05-06-hold-to-speech-touch"
+      "class-05-06-hold-to-speech-touch",
+      "class-05-01-tap-to-step",
+      "class-05-02-tilt-to-speed",
+      "class-05-03-shake-to-play",
+      "class-05-04-drag-to-pitch"
     ]
   },
   "verify": {
