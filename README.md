@@ -136,7 +136,7 @@ examples site, so there is no file to upload.
 | [04-make-a-tone](class-05/making-sound/04-make-a-tone/) | hold for a tone, x is the pitch | p5.sound `p5.Oscillator` |
 | [05-start-a-loop](class-05/making-sound/05-start-a-loop/) | eight notes on Tone's clock, drag for tempo | Tone.js `Synth`, `Loop`, Transport |
 | [06-play-an-instrument](class-05/making-sound/06-play-an-instrument/) | tap a key of a sampled marimba | smplr `Soundfont` |
-| [07-say-the-time](class-05/making-sound/07-say-the-time/) | the phone says the time, x is rate, y is pitch | `speechSynthesis` |
+| [07-say-the-time](class-05/making-sound/07-say-the-time/) | the phone says the time, x is rate, y is pitch; tap the bar for the next voice | `speechSynthesis` |
 
 ## Class 5 · Input to sound
 

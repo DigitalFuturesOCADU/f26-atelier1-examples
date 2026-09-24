@@ -1,6 +1,7 @@
 // 07 · Say the Time
 // Speech. The phone's own voice says what time it is. No library, no recording.
 // Where you tap sets how it speaks: left and right is how fast, up and down is how high.
+// Your phone has voices. Tap the bar at the top to hear the next one. It says its own name.
 //
 // The voice is the browser's own speech, speechSynthesis. It sits outside the sound system,
 // so there are no effects on it. Its settings are fixed when a sentence starts.
@@ -27,15 +28,51 @@ document.addEventListener('pointerup', function (e) {
 }, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
-let firstWord = 'Ready.'; // said on the first tap
-let slowestRate = 0.5;    // speech rate at the left edge. 1 is normal
-let fastestRate = 2;      // speech rate at the right edge
-let lowestPitch = 0.2;    // voice pitch at the bottom. 1 is normal
-let highestPitch = 2;     // voice pitch at the top. 2 is the highest
+let firstWord = 'Ready.';  // said on the first tap
+let voiceName = '';        // start on a voice by name, like 'Samantha' or 'Daniel'. '' is the phone's default
+let onlyMyLanguage = true; // true: only the voices in the phone's language. false: every voice
+let slowestRate = 0.5;     // speech rate at the left edge. 1 is normal
+let fastestRate = 2;       // speech rate at the right edge
+let lowestPitch = 0.2;     // voice pitch at the bottom. 1 is normal
+let highestPitch = 2;      // voice pitch at the top. 2 is the highest
 
+let voices = [];       // the voices on this phone
+let voiceNumber = -1;  // which one is in use. -1 is the phone's default
+let barTop = 80;       // the voice bar, under the labels
+let barHeight = 60;
 let lastSaid = '';
 let lastRate = 1;
 let lastPitch = 1;
+
+// your phone has voices. every phone has a different set.
+// the list can arrive a moment after the page opens, so it is read again when it changes.
+function loadVoices() {
+  let language = navigator.language.slice(0, 2); // 'en' from 'en-CA'
+  let all = speechSynthesis.getVoices();
+  voices = [];
+  for (let i = 0; i < all.length; i++) {
+    if (!onlyMyLanguage || all[i].lang.startsWith(language)) {
+      voices.push(all[i]);
+    }
+  }
+  // start on the voice named in voiceName, or else on the phone's default
+  voiceNumber = -1;
+  for (let i = 0; i < voices.length; i++) {
+    if (voiceName !== '' && voices[i].name.includes(voiceName)) {
+      voiceNumber = i;
+      break;
+    }
+  }
+  if (voiceNumber < 0) {
+    for (let i = 0; i < voices.length; i++) {
+      if (voices[i].default) {
+        voiceNumber = i;
+      }
+    }
+  }
+}
+loadVoices();
+speechSynthesis.addEventListener('voiceschanged', loadVoices);
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -71,6 +108,8 @@ function draw() {
   }
   textAlign(LEFT, BASELINE);
 
+  drawVoiceBar();
+
   // the labels sit in the top 70 pixels
   fill(255);
   textSize(16);
@@ -82,7 +121,40 @@ function draw() {
   }
   fill(160);
   textSize(13);
-  text('Nothing to download: the voice is already on the phone.', 20, height - 12);
+  text('Your phone has voices. Every phone has a different set.', 20, height - 12);
+}
+
+// the voice bar: which voice is in use, out of how many. tap it for the next one.
+function drawVoiceBar() {
+  noFill();
+  stroke(90);
+  rect(20, barTop, width - 40, barHeight, 8);
+  noStroke();
+  fill(255);
+  textSize(16);
+  if (voices.length === 0) {
+    text('the phone\'s default voice', 32, barTop + 25);
+  } else if (voiceNumber < 0) {
+    text('the phone\'s default voice · ' + voices.length + ' voices', 32, barTop + 25);
+  } else {
+    text(voices[voiceNumber].name, 32, barTop + 25);
+  }
+  fill(160);
+  textSize(13);
+  if (voices.length > 0) {
+    text('voice ' + (voiceNumber + 1) + ' of ' + voices.length + ' · tap here for the next one', 32, barTop + 46);
+  }
+}
+
+// the next voice in the list. it says its own name.
+function nextVoice() {
+  if (voices.length === 0) {
+    return;
+  }
+  voiceNumber = (voiceNumber + 1) % voices.length;
+  voiceName = voices[voiceNumber].name;
+  speechSynthesis.cancel();
+  sayText('My name is ' + voiceName + '.', 1, 1);
 }
 
 function mousePressed() {
@@ -90,18 +162,27 @@ function mousePressed() {
   if (!unlocked) {
     return false;
   }
+  // a tap on the voice bar picks the next voice
+  if (mouseY >= barTop && mouseY <= barTop + barHeight) {
+    nextVoice();
+    return false;
+  }
   // 1. read the tap. 2. map it onto a rate and a pitch. 3. say the time with them.
   let rate = map(mouseX, 0, width, slowestRate, fastestRate, true);
-  let pitch = map(mouseY, height, 70, lowestPitch, highestPitch, true);
+  let pitch = map(mouseY, height, barTop + barHeight, lowestPitch, highestPitch, true);
   speechSynthesis.cancel(); // stop the last sentence, so a new tap is never ignored
   let words = 'It is ' + hour() + ' ' + nf(minute(), 2) + ', and ' + second() + ' seconds.';
   sayText(words, rate, pitch);
   return false;
 }
 
-// say something. the rate and pitch are fixed now, for the whole sentence.
+// say something in the chosen voice. the rate and pitch are fixed now, for the whole sentence.
 function sayText(words, rate, pitch) {
   let sentence = new SpeechSynthesisUtterance(words);
+  if (voiceNumber >= 0) {
+    sentence.voice = voices[voiceNumber];
+    sentence.lang = voices[voiceNumber].lang;
+  }
   sentence.rate = rate;
   sentence.pitch = pitch;
   speechSynthesis.speak(sentence);
