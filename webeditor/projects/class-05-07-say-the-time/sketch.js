@@ -63,10 +63,11 @@ function draw() {
   }
   textSize(min(40, width / 12));
   if (lastSaid !== '') {
-    text('"' + lastSaid + '"', width / 2, cy);
+    // a box as wide as the screen, so a long sentence wraps onto more lines
+    text('"' + lastSaid + '"', 20, cy - 100, width - 40, 200);
     fill(160);
     textSize(16);
-    text('rate ' + nf(lastRate, 1, 2) + '   pitch ' + nf(lastPitch, 1, 2), width / 2, cy + 50);
+    text('rate ' + nf(lastRate, 1, 2) + '   pitch ' + nf(lastPitch, 1, 2), width / 2, cy + 120);
   }
   textAlign(LEFT, BASELINE);
 
@@ -77,7 +78,7 @@ function draw() {
   if (!unlocked) {
     text('tap to turn on sound', 20, 52);
   } else {
-    text('tap: left is slow, right is fast, higher is a higher voice', 20, 52);
+    text('tap: left is slow, right is fast, up is higher', 20, 52);
   }
   fill(160);
   textSize(13);

@@ -117,7 +117,7 @@ function draw() {
   }
   fill(160);
   textSize(13);
-  text('Two clocks: the loop keeps its own time. The screen catches up.', 20, height - 12);
+  text('Two clocks: the loop keeps its own time. The screen follows.', 20, height - 12);
 }
 
 function windowResized() {

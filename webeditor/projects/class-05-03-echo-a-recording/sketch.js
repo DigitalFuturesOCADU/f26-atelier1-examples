@@ -85,11 +85,11 @@ function draw() {
   // the labels sit in the top 70 pixels
   fill(255);
   textSize(16);
-  text('p5.Delay · ' + nf(echoTime, 1, 2) + ' s between repeats   feedback ' + nf(feedback, 1, 2), 20, 30);
+  text('p5.Delay · every ' + nf(echoTime, 1, 2) + ' s · feedback ' + nf(feedback, 1, 2), 20, 30);
   if (!unlocked) {
     text('tap to turn on sound', 20, 52);
   } else {
-    text('tap: left is quick repeats, right is slow, higher is more of them', 20, 52);
+    text('tap: left to right is the gap, up is more repeats', 20, 52);
   }
   fill(160);
   textSize(13);

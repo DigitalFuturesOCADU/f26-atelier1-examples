@@ -102,7 +102,7 @@ function draw() {
   }
   fill(160);
   textSize(13);
-  text('Every note is a recording. They download when the page opens.', 20, height - 12);
+  text('Every note is a recording, downloaded when the page opens.', 20, height - 12);
 }
 
 function mousePressed() {
