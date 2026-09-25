@@ -1,0 +1,36 @@
+{
+  "slug": "class-06-04-tilt-to-echo",
+  "title": "Class 06 · 04 Tilt to Echo",
+  "name": "Atelier1 F26 · Class 06 · 04 Tilt to Echo",
+  "projectId": null,
+  "contentHash": "sha256:7496d77245b2d47a9cb8572efa479960b9c329d2a3b73cfb30a4f4618928325b",
+  "files": [
+    {
+      "name": "root",
+      "id": "973afce478a70575e9fedd81",
+      "_id": "973afce478a70575e9fedd81",
+      "fileType": "folder",
+      "children": [
+        "9a7874d0125678f24f480876",
+        "e3ccb9544bfcb6ed10639eb2"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>04 Tilt to Echo</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "9a7874d0125678f24f480876",
+      "_id": "9a7874d0125678f24f480876",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 04 · Tilt to Echo\n// 01's brush, with a longer memory. Every frame, the last frame is drawn back\n// a little bigger and a little turned, then the new mark goes on top.\n// Old marks spiral outward as echoes. Hold still and the brush draws a tunnel.\n// Motion in, a drawing out. WEBGL, for createFramebuffer().\n//\n// A framebuffer is a canvas you can draw into and then use as an image.\n// This sketch keeps two and swaps them each frame: read from one, draw into the other.\n\n// the feel of the piece. change these before you change anything else.\nlet grow = 1.015;      // how much bigger each echo is. 1 is no growth\nlet twist = 0.6;       // how far each echo turns, in degrees\nlet keep = 250;        // how much of each echo survives. 255 keeps it all\nlet speed = 0.4;       // how far a full tilt pushes the brush each frame\nlet friction = 0.96;   // 1 rolls forever, 0.8 stops quickly\nlet size = 24;         // the brush\n\nlet before;            // last frame\nlet after;             // this frame\nlet label;             // an HTML line for the words\nlet x = 0;             // where the brush is. in WEBGL (0, 0) is the middle\nlet y = 0;\nlet vx = 0;\nlet vy = 0;\nlet restX = null;      // the forward tilt that counts as level. set by the first reading\n\n// a laptop has no motion sensors. this turns true when the first real reading arrives.\nlet motionArrived = false;\nwindow.addEventListener('devicemotion', function (event) {\n  let g = event.accelerationIncludingGravity;\n  if (g && g.x !== null) {\n    motionArrived = true;\n  }\n});\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight, WEBGL);\n  pixelDensity(1); // two full-screen framebuffers at full sharpness is a lot for a phone\n  lockGestures();\n\n  // on a laptop, show a QR code of this page so you can open it on your phone\n  if (location.protocol === 'https:' && window.self === window.top) {\n    showDesktopQr();\n  }\n\n  enableGyroTap('Tap to turn on motion');\n  angleMode(DEGREES);\n  colorMode(HSB, 360, 100, 100, 255);\n  label = makeLabel();\n\n  before = createFramebuffer({ depth: false });\n  after = createFramebuffer({ depth: false });\n}\n\nfunction draw() {\n  // 1. read the tilt as a push. the fallback: a finger pulls the brush toward it.\n  let pushX = 0;\n  let pushY = 0;\n  if (window.sensorsEnabled && motionArrived) {\n    if (restX === null) {\n      restX = rotationX;\n    }\n    pushX = constrain(rotationY, -45, 45) / 45;\n    pushY = constrain(rotationX - restX, -45, 45) / 45;\n  }\n  if (mouseIsPressed) {\n    pushX = constrain((mouseX - width / 2 - x) / 200, -1, 1);\n    pushY = constrain((mouseY - height / 2 - y) / 200, -1, 1);\n  }\n\n  // 2. move the brush, the same as 01\n  vx = (vx + pushX * speed) * friction;\n  vy = (vy + pushY * speed) * friction;\n  x = constrain(x + vx, -width / 2, width / 2);\n  y = constrain(y + vy, -height / 2, height / 2);\n\n  // 3. draw into 'after': last frame, grown and turned and faded, then the new mark\n  after.draw(function () {\n    background(0, 0, 8);\n    push();\n    rotate(twist);\n    scale(grow);\n    tint(255, keep);\n    imageMode(CENTER);\n    image(before, 0, 0);\n    pop();\n\n    noStroke();\n    fill(frameCount % 360, 70, 100);\n    circle(x, y, size);\n  });\n\n  // 4. show it, then swap, so this frame becomes next frame's 'before'\n  imageMode(CENTER);\n  image(after, 0, 0);\n  let swap = before;\n  before = after;\n  after = swap;\n\n  if (!window.sensorsEnabled) {\n    label.html('tap to turn on motion');\n  } else if (!motionArrived) {\n    label.html('no motion here. hold a finger down to steer');\n  } else {\n    label.html('tilt to draw. hold still for a tunnel');\n  }\n}\n\n// In WEBGL, text() only works after loadFont(). Words that only label the\n// screen are simpler as one line of HTML on top of the canvas.\nfunction makeLabel() {\n  let div = createDiv('');\n  div.position(16, 12);\n  div.style('color', '#ffffff');\n  div.style('font', '15px sans-serif');\n  div.style('pointer-events', 'none');\n  return div;\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n  before.resize(width, height);\n  after.resize(width, height);\n}\n",
+      "id": "e3ccb9544bfcb6ed10639eb2",
+      "_id": "e3ccb9544bfcb6ed10639eb2",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

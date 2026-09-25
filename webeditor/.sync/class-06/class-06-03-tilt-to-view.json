@@ -1,0 +1,36 @@
+{
+  "slug": "class-06-03-tilt-to-view",
+  "title": "Class 06 · 03 Tilt to View",
+  "name": "Atelier1 F26 · Class 06 · 03 Tilt to View",
+  "projectId": null,
+  "contentHash": "sha256:ff8efbb72ca1d7dbf00b9a0fc999d25fcdb9d76bde937d6d7715ad531f605dc9",
+  "files": [
+    {
+      "name": "root",
+      "id": "3a32356f06d47d7f1ce4549b",
+      "_id": "3a32356f06d47d7f1ce4549b",
+      "fileType": "folder",
+      "children": [
+        "9d0aa9ca72574e7cdefc440f",
+        "6d03f7f84c424ab59579e00d"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>03 Tilt to View</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "9d0aa9ca72574e7cdefc440f",
+      "_id": "9d0aa9ca72574e7cdefc440f",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 03 · Tilt to View\n// A small world made once, then looked at through the phone.\n// Tilt the phone and the camera circles the world, as if the screen were a window.\n// Motion in, a 3D view out. The first sketch here in WEBGL.\n//\n// Two things are new. createCanvas(..., WEBGL) turns on 3D, and (0, 0) moves to the\n// middle of the screen. buildGeometry() draws hundreds of boxes once, in setup,\n// and keeps them as one shape, so draw() only has to show it.\n\n// the feel of the piece. change these before you change anything else.\nlet count = 300;       // how many boxes in the world\nlet turn = 2;          // how far the camera goes round for each degree of tilt\nlet smoothing = 0.1;   // 1 is raw and jumpy, 0.05 is slow and calm\n\nlet world;             // the shape made by buildGeometry()\nlet label;             // an HTML line for the words. see the note at the bottom\nlet yaw = 0;           // camera: round the side, in degrees\nlet pitch = -20;       // camera: up and down, in degrees\nlet restX = null;      // the forward tilt that counts as level. set by the first reading\n\n// a laptop has no motion sensors. this turns true when the first real reading arrives.\nlet motionArrived = false;\nwindow.addEventListener('devicemotion', function (event) {\n  let g = event.accelerationIncludingGravity;\n  if (g && g.x !== null) {\n    motionArrived = true;\n  }\n});\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight, WEBGL);\n  pixelDensity(1); // 3D on a phone screen at full sharpness gets hot. 1 is enough\n  lockGestures();\n\n  // on a laptop, show a QR code of this page so you can open it on your phone\n  if (location.protocol === 'https:' && window.self === window.top) {\n    showDesktopQr();\n  }\n\n  enableGyroTap('Tap to turn on motion');\n  angleMode(DEGREES);\n  label = makeLabel();\n\n  // build the world once. random() runs here only, so the world stays the same.\n  world = buildGeometry(function () {\n    noStroke();\n    for (let i = 0; i < count; i++) {\n      let angle = random(360);\n      let r = random(40, 260);\n      let h = random(10, 120) * (1 - r / 320);\n      push();\n      translate(cos(angle) * r, -h / 2, sin(angle) * r);\n      fill(map(r, 40, 260, 255, 60), 120, map(r, 40, 260, 80, 255));\n      box(random(8, 20), h, random(8, 20));\n      pop();\n    }\n  });\n}\n\nfunction draw() {\n  background(20);\n\n  // 1. read the tilt. the fallback: drag a finger across and up and down.\n  let targetYaw = yaw;\n  let targetPitch = pitch;\n  if (window.sensorsEnabled && motionArrived) {\n    if (restX === null) {\n      restX = rotationX;\n    }\n    targetYaw = constrain(rotationY, -60, 60) * turn;\n    targetPitch = constrain(-20 - (rotationX - restX), -80, -5);\n  }\n  if (mouseIsPressed) {\n    targetYaw = map(mouseX, 0, width, -120, 120);\n    targetPitch = map(mouseY, 0, height, -5, -80);\n  }\n  // 2. smooth it\n  yaw = lerp(yaw, targetYaw, smoothing);\n  pitch = lerp(pitch, targetPitch, smoothing);\n\n  // 3. place the camera on a sphere round the middle, looking at the middle\n  let d = 700;\n  let cx = d * cos(pitch) * sin(yaw);\n  let cy = d * sin(pitch);\n  let cz = d * cos(pitch) * cos(yaw);\n  camera(cx, cy, cz, 0, -30, 0, 0, 1, 0);\n\n  // 4. light it and show it\n  ambientLight(120);\n  directionalLight(255, 255, 255, 0.5, 1, -0.3);\n  model(world);\n\n  // the ground\n  push();\n  rotateX(90);\n  fill(40);\n  noStroke();\n  circle(0, 0, 620);\n  pop();\n\n  if (!window.sensorsEnabled) {\n    label.html('tap to turn on motion');\n  } else if (!motionArrived) {\n    label.html('no motion here. drag a finger to look around');\n  } else {\n    label.html('tilt left and right to go round, forward and back to look down');\n  }\n}\n\n// In WEBGL, text() only works after loadFont(). Words that only label the\n// screen are simpler as one line of HTML on top of the canvas.\nfunction makeLabel() {\n  let div = createDiv('');\n  div.position(16, 12);\n  div.style('color', '#ffffff');\n  div.style('font', '15px sans-serif');\n  div.style('pointer-events', 'none');\n  return div;\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "6d03f7f84c424ab59579e00d",
+      "_id": "6d03f7f84c424ab59579e00d",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

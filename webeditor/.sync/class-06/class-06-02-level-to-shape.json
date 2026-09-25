@@ -1,0 +1,36 @@
+{
+  "slug": "class-06-02-level-to-shape",
+  "title": "Class 06 · 02 Level to Shape",
+  "name": "Atelier1 F26 · Class 06 · 02 Level to Shape",
+  "projectId": null,
+  "contentHash": "sha256:1db08c566986e43fec469cfee8c022f6bbbf80dd00be33bd68cd028b253484a1",
+  "files": [
+    {
+      "name": "root",
+      "id": "4125dc45204f25851c5e5c8f",
+      "_id": "4125dc45204f25851c5e5c8f",
+      "fileType": "folder",
+      "children": [
+        "c8791194696d4758e5e52933",
+        "d0d9827d4fe9a85f94739220"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>02 Level to Shape</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5.sound: the microphone -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.sound@0.3.0/dist/p5.sound.min.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "c8791194696d4758e5e52933",
+      "_id": "c8791194696d4758e5e52933",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 02 · Level to Shape\n// The last few seconds of sound, wrapped around a circle.\n// Each frame the newest level goes in at the top and the oldest falls out,\n// so the shape turns slowly and a clap travels round it like a bump in a ring.\n// Sound in, a drawn shape out. Class 4's level, drawn with splineVertex() instead of a circle.\n\n// the feel of the piece. change these before you change anything else.\nlet points = 90;     // how many levels the ring remembers. more is a longer memory\nlet boost = 5;       // phones hear quietly. raise it if the shape barely moves\nlet smoothing = 0.3; // 1 is raw and jumpy. 0.05 is slow and calm\nlet reach = 0.8;     // how far a loud sound pushes out, as a share of the radius\n\nlet mic;             // the microphone\nlet meter;           // measures how loud the microphone is\nlet level = 0;\nlet history = [];    // the remembered levels, newest first\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n\n  // on a laptop, show a QR code of this page so you can open it on your phone\n  if (location.protocol === 'https:' && window.self === window.top) {\n    showDesktopQr();\n  }\n\n  setupMic();\n  for (let i = 0; i < points; i++) {\n    history.push(0);\n  }\n}\n\nfunction draw() {\n  background(20);\n\n  // 1. read the input: how loud is it, from 0 to 1. the fallback: higher finger is louder.\n  let raw = getMicLevel();\n  if (mouseIsPressed) {\n    raw = constrain(map(mouseY, height, 0, 0, 1), 0, 1);\n  }\n  // 2. smooth it\n  level = lerp(level, raw, smoothing);\n  // 3. remember it: in at the front, the oldest out at the back\n  history.unshift(level);\n  history.pop();\n\n  // 4. draw the memory as one closed curve. each level is a distance from the centre.\n  let radius = min(width, height) * 0.25;\n  push();\n  translate(width / 2, height / 2 + 20);\n  fill(255, 90, 60);\n  stroke(255);\n  strokeWeight(2);\n  beginShape();\n  for (let i = 0; i < points; i++) {\n    let angle = map(i, 0, points, 0, TWO_PI) - HALF_PI;\n    let r = radius * (1 + history[i] * reach);\n    splineVertex(cos(angle) * r, sin(angle) * r);\n  }\n  endShape(CLOSE);\n\n  // the quiet circle, for comparison\n  noFill();\n  stroke(255, 60);\n  strokeWeight(1);\n  circle(0, 0, radius * 2);\n  pop();\n\n  // the labels sit in the top 70 pixels\n  noStroke();\n  fill(255);\n  textSize(15);\n  text('level: ' + nf(level, 1, 2), 16, 26);\n  text(micStatus(), 16, 48);\n}\n\n// any touch wakes the sound system, in case the phone put it to sleep\nfunction mousePressed() {\n  wakeAudio();\n  return false;\n}\n\n// ---------- the microphone. this part is the same in every sketch. ----------\n\n// call this once in setup\nfunction setupMic() {\n  mic = new p5.AudioIn(); // p5-phone looks for a variable with exactly this name\n  meter = new p5.Amplitude();\n  routeMic();\n  enableMicTap('Tap to turn on the microphone');\n}\n\n// p5.sound sends the microphone straight to the speaker unless you stop it.\n// This unplugs it from the speaker and plugs it into the level meter.\nfunction routeMic() {\n  mic.disconnect();\n  mic.connect(meter);\n}\n\n// how loud it is right now, from 0 to 1. it is 0 when there is no microphone.\nfunction getMicLevel() {\n  if (!window.micOpen) {\n    return 0;\n  }\n  routeMic();\n  return constrain(meter.getLevel() * boost, 0, 1);\n}\n\n// one line for the screen that says what the microphone is doing\nfunction micStatus() {\n  if (window.micOpen) {\n    return 'listening. clap, hum, or blow on the microphone';\n  }\n  if (window.micEnabled) {\n    return 'waiting for the microphone. if it never comes, use a finger';\n  }\n  return 'tap to turn on the microphone';\n}\n\n// a phone can put the sound system to sleep when you leave the page.\n// any touch wakes it up again.\nfunction wakeAudio() {\n  if (getAudioContext().state !== 'running') {\n    userStartAudio();\n  }\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "d0d9827d4fe9a85f94739220",
+      "_id": "d0d9827d4fe9a85f94739220",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "slug": "class-06-05-level-to-surface",
+  "title": "Class 06 · 05 Level to Surface",
+  "name": "Atelier1 F26 · Class 06 · 05 Level to Surface",
+  "projectId": null,
+  "contentHash": "sha256:8225d526ba9fe856fa5487207476dde5c087139e296527f82aa39c57c4b8c328",
+  "files": [
+    {
+      "name": "root",
+      "id": "7eca72273d8a78b3052ce007",
+      "_id": "7eca72273d8a78b3052ce007",
+      "fileType": "folder",
+      "children": [
+        "82f3fb1ffb44486c5e28c228",
+        "7ab68ff172a1ca937abe2102"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>05 Level to Surface</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5.sound: the microphone -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.sound@0.3.0/dist/p5.sound.min.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "82f3fb1ffb44486c5e28c228",
+      "_id": "82f3fb1ffb44486c5e28c228",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 05 · Level to Surface\n// A sphere whose skin moves with the room. Quiet, it is a smooth ball.\n// Loud, ripples push out of it, and the louder it is the deeper they go.\n// Sound in, a moving surface out. WEBGL, with a shader written in p5.strands.\n//\n// A shader is a small program the graphics chip runs for every point of a shape at once.\n// That is why thousands of points can move every frame on a phone.\n// p5.strands lets you write it in JavaScript. buildMaterialShader() turns the\n// function 'ripples' below into a shader.\n\n// the feel of the piece. change these before you change anything else.\nlet boost = 5;       // phones hear quietly. raise it if the sphere barely moves\nlet smoothing = 0.2; // 1 is raw and jumpy. 0.05 is slow and calm\nlet depth = 0.35;    // how far the loudest sound pushes the skin out. 1 is the radius\nlet bumps = 8;       // how tight the ripples are\n\nlet mic;             // the microphone\nlet meter;           // measures how loud the microphone is\nlet level = 0;\nlet skin;            // the shader\nlet label;           // an HTML line for the words\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight, WEBGL);\n  pixelDensity(1); // 3D on a phone screen at full sharpness gets hot. 1 is enough\n  lockGestures();\n\n  // on a laptop, show a QR code of this page so you can open it on your phone\n  if (location.protocol === 'https:' && window.self === window.top) {\n    showDesktopQr();\n  }\n\n  setupMic();\n  label = makeLabel();\n  skin = buildMaterialShader(ripples);\n}\n\n// This function becomes the shader. It runs on the graphics chip, once for every\n// point on the sphere, every frame. It can read the sketch's variables only through\n// uniformFloat(), which hands one number across each frame.\n// objectInputs is the sphere before it is sized and placed, so its radius is 1.\nfunction ripples() {\n  let loud = uniformFloat(() => level * depth);\n  let count = uniformFloat(() => bumps);\n  let time = millis() * 0.002;\n\n  objectInputs.begin();\n  let p = objectInputs.position;\n  let wave = sin(p.x * count + time) * sin(p.y * count + time * 0.7);\n  // push each point out along the direction its surface faces\n  objectInputs.position += objectInputs.normal * wave * loud;\n  objectInputs.end();\n}\n\nfunction draw() {\n  background(20);\n\n  // 1. read the input: how loud is it, from 0 to 1. the fallback: higher finger is louder.\n  let raw = getMicLevel();\n  if (mouseIsPressed) {\n    raw = constrain(map(mouseY, height, 0, 0, 1), 0, 1);\n  }\n  // 2. smooth it. the shader reads 'level' through uniformFloat()\n  level = lerp(level, raw, smoothing);\n\n  // 3. light it and show it\n  let r = min(width, height) * 0.28;\n  rotateY(frameCount * 0.3);\n  ambientLight(60);\n  directionalLight(255, 255, 255, -0.4, 0.6, -1);\n  specularMaterial(255);\n  shininess(40);\n  fill(255, 90, 60);\n  noStroke();\n  shader(skin);\n  sphere(r, 96, 64); // more detail than usual, so the ripples have points to move\n\n  label.html('level: ' + nf(level, 1, 2) + '<br>' + micStatus());\n}\n\n// any touch wakes the sound system, in case the phone put it to sleep\nfunction mousePressed() {\n  wakeAudio();\n  return false;\n}\n\n// In WEBGL, text() only works after loadFont(). Words that only label the\n// screen are simpler as one line of HTML on top of the canvas.\nfunction makeLabel() {\n  let div = createDiv('');\n  div.position(16, 12);\n  div.style('color', '#ffffff');\n  div.style('font', '15px/1.5 sans-serif');\n  div.style('pointer-events', 'none');\n  return div;\n}\n\n// ---------- the microphone. this part is the same in every sketch. ----------\n\n// call this once in setup\nfunction setupMic() {\n  mic = new p5.AudioIn(); // p5-phone looks for a variable with exactly this name\n  meter = new p5.Amplitude();\n  routeMic();\n  enableMicTap('Tap to turn on the microphone');\n}\n\n// p5.sound sends the microphone straight to the speaker unless you stop it.\n// This unplugs it from the speaker and plugs it into the level meter.\nfunction routeMic() {\n  mic.disconnect();\n  mic.connect(meter);\n}\n\n// how loud it is right now, from 0 to 1. it is 0 when there is no microphone.\nfunction getMicLevel() {\n  if (!window.micOpen) {\n    return 0;\n  }\n  routeMic();\n  return constrain(meter.getLevel() * boost, 0, 1);\n}\n\n// one line for the screen that says what the microphone is doing\nfunction micStatus() {\n  if (window.micOpen) {\n    return 'listening. clap, hum, or blow on the microphone';\n  }\n  if (window.micEnabled) {\n    return 'waiting for the microphone. if it never comes, use a finger';\n  }\n  return 'tap to turn on the microphone';\n}\n\n// a phone can put the sound system to sleep when you leave the page.\n// any touch wakes it up again.\nfunction wakeAudio() {\n  if (getAudioContext().state !== 'running') {\n    userStartAudio();\n  }\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "7ab68ff172a1ca937abe2102",
+      "_id": "7ab68ff172a1ca937abe2102",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

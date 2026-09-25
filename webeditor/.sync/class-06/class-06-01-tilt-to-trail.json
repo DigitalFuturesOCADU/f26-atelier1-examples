@@ -1,0 +1,36 @@
+{
+  "slug": "class-06-01-tilt-to-trail",
+  "title": "Class 06 · 01 Tilt to Trail",
+  "name": "Atelier1 F26 · Class 06 · 01 Tilt to Trail",
+  "projectId": null,
+  "contentHash": "sha256:65aee41f9d8b10e1c5ad7a13509df6a89c7fdff6a58ab16752baf5e450098e0a",
+  "files": [
+    {
+      "name": "root",
+      "id": "64aff1b2b52ccd2422586c2d",
+      "_id": "64aff1b2b52ccd2422586c2d",
+      "fileType": "folder",
+      "children": [
+        "2177684fa6d3ffe594d624e7",
+        "7d93d003677c6ee598675085"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>01 Tilt to Trail</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "2177684fa6d3ffe594d624e7",
+      "_id": "2177684fa6d3ffe594d624e7",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 01 · Tilt to Trail\n// The phone is a brush. Tilt it and the mark rolls across the screen.\n// The screen is never wiped clean. Each frame lays a thin veil over the last one,\n// so the drawing remembers where the phone has been, and slowly forgets.\n// Motion in, a drawing out. Class 2's tilt, and Class 5's draw loop as a clock.\n\n// the feel of the piece. change these before you change anything else.\nlet fade = 12;         // how fast the trail forgets. 0 never forgets, 255 forgets at once\nlet speed = 0.4;       // how far a full tilt pushes the brush each frame\nlet friction = 0.96;   // 1 rolls forever, 0.8 stops quickly\nlet thinnest = 2;      // line weight when the brush is slow\nlet thickest = 28;     // line weight when it is fast\n\nlet x, y;              // where the brush is\nlet px, py;            // where it was last frame\nlet vx = 0;            // how fast it is moving\nlet vy = 0;\nlet restX = null;      // the forward tilt that counts as level. set by the first reading\n\n// a laptop has no motion sensors. this turns true when the first real reading arrives.\nlet motionArrived = false;\nwindow.addEventListener('devicemotion', function (event) {\n  let g = event.accelerationIncludingGravity;\n  if (g && g.x !== null) {\n    motionArrived = true;\n  }\n});\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n  lockGestures();\n\n  // on a laptop, show a QR code of this page so you can open it on your phone\n  if (location.protocol === 'https:' && window.self === window.top) {\n    showDesktopQr();\n  }\n\n  enableGyroTap('Tap to turn on motion');\n  angleMode(DEGREES);\n  colorMode(HSB, 360, 100, 100, 255);\n  background(0, 0, 8);\n\n  x = width / 2;\n  y = height / 2;\n  px = x;\n  py = y;\n}\n\nfunction draw() {\n  // 1. the veil: a see-through rectangle instead of background()\n  noStroke();\n  fill(0, 0, 8, fade);\n  rect(0, 0, width, height);\n\n  // 2. read the tilt as a push. the fallback: a finger pulls the brush toward it.\n  let pushX = 0;\n  let pushY = 0;\n  if (window.sensorsEnabled && motionArrived) {\n    // however you are holding the phone when motion turns on counts as level\n    if (restX === null) {\n      restX = rotationX;\n    }\n    pushX = constrain(rotationY, -45, 45) / 45;\n    pushY = constrain(rotationX - restX, -45, 45) / 45;\n  }\n  if (mouseIsPressed) {\n    pushX = constrain((mouseX - x) / 200, -1, 1);\n    pushY = constrain((mouseY - y) / 200, -1, 1);\n  }\n\n  // 3. the push changes the speed, friction takes some away, the speed moves the brush\n  vx = (vx + pushX * speed) * friction;\n  vy = (vy + pushY * speed) * friction;\n  px = x;\n  py = y;\n  x = constrain(x + vx, 0, width);\n  y = constrain(y + vy, 0, height);\n\n  // 4. the mark: faster is thicker, and the colour turns with the direction of travel\n  let fast = dist(px, py, x, y);\n  stroke(atan2(vy, vx) + 180, 70, 100);\n  strokeWeight(map(fast, 0, 15, thinnest, thickest, true));\n  line(px, py, x, y);\n\n  // the label sits on a dark band so the trail never hides it\n  noStroke();\n  fill(0, 0, 8);\n  rect(0, 0, width, 40);\n  fill(0, 0, 100);\n  textSize(15);\n  if (!window.sensorsEnabled) {\n    text('tap to turn on motion', 16, 26);\n  } else if (!motionArrived) {\n    text('no motion here. hold a finger down to steer', 16, 26);\n  } else {\n    text('tilt to draw. hold still and it fades', 16, 26);\n  }\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n  background(0, 0, 8);\n}\n",
+      "id": "7d93d003677c6ee598675085",
+      "_id": "7d93d003677c6ee598675085",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}
