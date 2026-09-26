@@ -92,7 +92,6 @@ function nextFrame() {
 // the fallback: a tap stands in for the sound.
 // the first tap belongs to the microphone message, so it is not counted.
 function mousePressed() {
-  wakeAudio();
   if (window.micEnabled) {
     nextFrame();
   }
@@ -137,14 +136,6 @@ function micStatus() {
     return 'waiting for the microphone. if it never comes, use a finger';
   }
   return 'tap to turn on the microphone';
-}
-
-// a phone can put the sound system to sleep when you leave the page.
-// any touch wakes it up again.
-function wakeAudio() {
-  if (getAudioContext().state !== 'running') {
-    userStartAudio();
-  }
 }
 
 function windowResized() {

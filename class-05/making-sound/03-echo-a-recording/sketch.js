@@ -7,24 +7,12 @@
 // The recording: Lovely meditation bell. CC0. https://archive.org/details/LovelyMeditationBell
 // This copy is on the examples site, so it always loads.
 
-// phones only start sound inside a tap. This catches the first tap, before
-// p5-phone's tap message does its own work, and wakes the sound system right there.
-let unlocked = false;
-function unlockAudio() {
-  if (unlocked) {
-    return;
-  }
+// phones only start sound inside a tap. p5-phone's tap message starts p5.sound right there,
+// then calls userSetupComplete() once everything is on.
+let unlocked = false; // has the tap turned the sound on?
+function userSetupComplete() {
   unlocked = true;
-  userStartAudio();
 }
-document.addEventListener('touchend', unlockAudio, { capture: true, once: true });
-document.addEventListener('click', unlockAudio, { capture: true, once: true });
-// with a mouse, p5-phone's tap message goes away before the browser sends 'click'
-document.addEventListener('pointerup', function (e) {
-  if (e.pointerType === 'mouse') {
-    unlockAudio();
-  }
-}, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
 // to use your own recording, upload it to the sketch and put its file name here, like 'mySound.mp3'
@@ -101,7 +89,6 @@ function mousePressed() {
   if (!unlocked || bell === undefined) {
     return false;
   }
-  userStartAudio(); // a phone can put the sound to sleep. any tap wakes it.
 
   // 1. read the tap. 2. map it onto the echo. 3. use it, then strike the bell.
   echoTime = map(mouseX, 0, width, shortest, longest, true);

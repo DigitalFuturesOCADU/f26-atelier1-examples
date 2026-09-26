@@ -13,25 +13,12 @@
 // Not tested on a phone yet. If it changes nothing, delete this line.
 if ('audioSession' in navigator) navigator.audioSession.type = 'playback';
 
-// H5: phones only start sound inside a tap. This catches the first tap, before
-// p5-phone's tap message does its own work, and starts the sound system right there.
-let unlocked = false;
-function unlockAudio() {
-  if (unlocked) {
-    return;
-  }
+// phones only start sound inside a tap. p5-phone's tap message starts p5.sound right there,
+// then calls userSetupComplete() once everything is on.
+let unlocked = false; // has the tap turned the sound on?
+function userSetupComplete() {
   unlocked = true;
-  userStartAudio();
 }
-document.addEventListener('touchend', unlockAudio, { capture: true, once: true });
-document.addEventListener('click', unlockAudio, { capture: true, once: true });
-// with a mouse, p5-phone's tap message goes away before the browser sends 'click',
-// so the release of the mouse button is caught here as well.
-document.addEventListener('pointerup', function (e) {
-  if (e.pointerType === 'mouse') {
-    unlockAudio();
-  }
-}, { capture: true });
 
 // The recording is loaded from its own site by its full web address.
 // That is why this sketch has no file to upload.
@@ -206,14 +193,6 @@ function drawNotes() {
   }
 }
 
-// a phone can put the sound system to sleep when you leave the page.
-// any touch wakes it up again.
-function wakeAudio() {
-  if (getAudioContext().state !== 'running') {
-    userStartAudio();
-  }
-}
-
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
@@ -262,9 +241,4 @@ function drawInput() {
     circle(touches[0].x, touches[0].y, 40);
     circle(touches[1].x, touches[1].y, 40);
   }
-}
-
-function mousePressed() {
-  wakeAudio();
-  return false;
 }

@@ -8,25 +8,12 @@
 // the browser's own sound system. smplr plays through it.
 let audio = new AudioContext();
 
-// phones only start sound inside a tap. p5-phone's sound tap starts p5.sound, not this.
-// So this catches the first tap, before p5-phone's tap message does its own work,
-// and starts the sound system right there.
-let unlocked = false;
-function unlockAudio() {
-  if (unlocked) {
-    return;
-  }
+// phones only start sound inside a tap. p5-phone's tap message starts this sound system
+// right there (it starts any AudioContext the sketch makes), then calls userSetupComplete().
+let unlocked = false; // has the tap turned the sound on?
+function userSetupComplete() {
   unlocked = true;
-  audio.resume();
 }
-document.addEventListener('touchend', unlockAudio, { capture: true, once: true });
-document.addEventListener('click', unlockAudio, { capture: true, once: true });
-// with a mouse, p5-phone's tap message goes away before the browser sends 'click'
-document.addEventListener('pointerup', function (e) {
-  if (e.pointerType === 'mouse') {
-    unlockAudio();
-  }
-}, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
 // C major pentatonic: five notes to an octave, and none of them clash.

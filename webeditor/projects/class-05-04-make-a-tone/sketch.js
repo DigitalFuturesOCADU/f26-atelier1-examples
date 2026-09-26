@@ -3,24 +3,12 @@
 // Hold a finger down and it sounds. Left and right is the pitch. Let go and it fades.
 // The shape of the wave is the colour of the tone. Try each waveType below.
 
-// phones only start sound inside a tap. This catches the first tap, before
-// p5-phone's tap message does its own work, and wakes the sound system right there.
-let unlocked = false;
-function unlockAudio() {
-  if (unlocked) {
-    return;
-  }
+// phones only start sound inside a tap. p5-phone's tap message starts p5.sound right there,
+// then calls userSetupComplete() once everything is on.
+let unlocked = false; // has the tap turned the sound on?
+function userSetupComplete() {
   unlocked = true;
-  userStartAudio();
 }
-document.addEventListener('touchend', unlockAudio, { capture: true, once: true });
-document.addEventListener('click', unlockAudio, { capture: true, once: true });
-// with a mouse, p5-phone's tap message goes away before the browser sends 'click'
-document.addEventListener('pointerup', function (e) {
-  if (e.pointerType === 'mouse') {
-    unlockAudio();
-  }
-}, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
 let waveType = 'sine'; // 'sine', 'triangle', 'sawtooth' or 'square'
@@ -114,7 +102,6 @@ function waveShape(phase) {
 }
 
 function mousePressed() {
-  userStartAudio(); // a phone can put the sound to sleep. any tap wakes it.
   if (unlocked) {
     osc.amp(volume, fadeTime); // fade in
   }

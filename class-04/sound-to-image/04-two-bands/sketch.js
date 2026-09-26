@@ -126,12 +126,6 @@ function drawBars(spectrum) {
   }
 }
 
-// any touch wakes the sound system, in case the phone put it to sleep
-function mousePressed() {
-  wakeAudio();
-  return false;
-}
-
 // ---------- the microphone. this part is the same in every sketch. ----------
 
 // call this once in setup
@@ -171,14 +165,6 @@ function micStatus() {
     return 'waiting for the microphone. if it never comes, use a finger';
   }
   return 'tap to turn on the microphone';
-}
-
-// a phone can put the sound system to sleep when you leave the page.
-// any touch wakes it up again.
-function wakeAudio() {
-  if (getAudioContext().state !== 'running') {
-    userStartAudio();
-  }
 }
 
 function windowResized() {

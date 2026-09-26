@@ -78,12 +78,6 @@ function draw() {
   text(micStatus(), 20, 52);
 }
 
-// any touch wakes the sound system, in case the phone put it to sleep
-function mousePressed() {
-  wakeAudio();
-  return false;
-}
-
 // ---------- the microphone. this part is the same in every sketch. ----------
 // two changes from 01 to 04: the tap asks for motion and the microphone together,
 // and the status line, because here the finger stands in for the motion, not the sound.
@@ -124,14 +118,6 @@ function micStatus() {
     return 'no microphone yet. the rest still works';
   }
   return 'tap to turn on motion and the microphone';
-}
-
-// a phone can put the sound system to sleep when you leave the page.
-// any touch wakes it up again.
-function wakeAudio() {
-  if (getAudioContext().state !== 'running') {
-    userStartAudio();
-  }
 }
 
 function windowResized() {

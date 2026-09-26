@@ -259,21 +259,6 @@ function drawInput() {
   noStroke();
 }
 
-// any touch wakes the sound system, in case the phone put it to sleep
-function mousePressed() {
-  wakeAudio();
-  return false;
-}
-
-// a phone can put the sound system to sleep when you leave the page.
-// any touch wakes it up again.
-// (the touch and motion versions have no sound system of their own, so this one lives here.)
-function wakeAudio() {
-  if (getAudioContext().state !== 'running') {
-    userStartAudio();
-  }
-}
-
 // ---------- the microphone. this part is the same in every sketch. ----------
 // (windowResized() is in the sound part above, so it is not repeated here.)
 

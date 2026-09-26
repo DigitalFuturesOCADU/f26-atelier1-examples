@@ -3,7 +3,7 @@
   "title": "Class 05 · 07 Say the Time",
   "name": "Atelier1 F26 · Class 05 · 07 Say the Time",
   "projectId": "_QEqakWui",
-  "contentHash": "sha256:b7bccba24ffc173abf5b9de48add4c713c1e3626ea4bb2f1b60091574c03f8cc",
+  "contentHash": "sha256:c412c1a66bfa1b6aca62331e39e6a8fc2106595b4b9169bdfecaeab8a6a6f86e",
   "files": [
     {
       "name": "root",
@@ -17,7 +17,7 @@
     },
     {
       "name": "index.html",
-      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>07 Say the Time</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- no sound library: speech is built into the browser -->\n\n  <!-- p5-phone: the sound tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.14.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>07 Say the Time</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- no sound library: speech is built into the browser -->\n\n  <!-- p5-phone: the sound tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.15.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
       "id": "63db5505fffbfec8d2655b20",
       "_id": "63db5505fffbfec8d2655b20",
       "fileType": "file",

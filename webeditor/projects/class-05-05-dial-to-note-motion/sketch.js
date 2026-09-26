@@ -17,26 +17,12 @@ if ('audioSession' in navigator) navigator.audioSession.type = 'playback';
 // the browser's own sound system. smplr plays through it.
 let audio = new AudioContext();
 
-// H5: phones only start sound inside a tap. p5-phone's sound tap starts p5.sound, not this.
-// So this catches the first tap, before p5-phone's tap message does its own work,
-// and starts the sound system right there.
-let unlocked = false;
-function unlockAudio() {
-  if (unlocked) {
-    return;
-  }
+// phones only start sound inside a tap. p5-phone's tap message starts this sound system
+// right there (it starts any AudioContext the sketch makes), then calls userSetupComplete().
+let unlocked = false; // has the tap turned the sound on?
+function userSetupComplete() {
   unlocked = true;
-  audio.resume();
 }
-document.addEventListener('touchend', unlockAudio, { capture: true, once: true });
-document.addEventListener('click', unlockAudio, { capture: true, once: true });
-// with a mouse, p5-phone's tap message goes away before the browser sends 'click',
-// so the release of the mouse button is caught here as well.
-document.addEventListener('pointerup', function (e) {
-  if (e.pointerType === 'mouse') {
-    unlockAudio();
-  }
-}, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
 // the scale: C major pentatonic, two octaves. five notes to an octave, none of them clash.
@@ -182,14 +168,6 @@ function drawNotes() {
   }
 }
 
-// a phone can put the sound system to sleep when you leave the page.
-// any touch wakes it up again.
-function wakeAudio() {
-  if (audio.state !== 'running') {
-    audio.resume();
-  }
-}
-
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
@@ -240,10 +218,4 @@ function inputStatus() {
 
 // the turn needs nothing extra on screen. the dial's pointer is the turn.
 function drawInput() {
-}
-
-// any touch wakes the sound system, in case the phone put it to sleep
-function mousePressed() {
-  wakeAudio();
-  return false;
 }

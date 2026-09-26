@@ -78,12 +78,6 @@ function draw() {
   label.html('level: ' + nf(level, 1, 2) + '<br>' + micStatus());
 }
 
-// any touch wakes the sound system, in case the phone put it to sleep
-function mousePressed() {
-  wakeAudio();
-  return false;
-}
-
 // In WEBGL, text() only works after loadFont(). Words that only label the
 // screen are simpler as one line of HTML on top of the canvas.
 function makeLabel() {
@@ -130,14 +124,6 @@ function micStatus() {
     return 'waiting for the microphone. if it never comes, use a finger';
   }
   return 'tap to turn on the microphone';
-}
-
-// a phone can put the sound system to sleep when you leave the page.
-// any touch wakes it up again.
-function wakeAudio() {
-  if (getAudioContext().state !== 'running') {
-    userStartAudio();
-  }
 }
 
 function windowResized() {

@@ -6,25 +6,12 @@
 // draw() runs about 60 times a second, but it slows down when the phone is busy,
 // and a note that waited for draw() would wobble. The screen follows the sound, not the other way.
 
-// phones only start sound inside a tap. p5-phone's sound tap starts p5.sound, not Tone.js.
-// So this catches the first tap, before p5-phone's tap message does its own work,
-// and starts Tone.js right there.
-let unlocked = false;
-function unlockAudio() {
-  if (unlocked) {
-    return;
-  }
+// phones only start sound inside a tap. p5-phone's tap message starts Tone.js right there,
+// then calls userSetupComplete() once everything is on.
+let unlocked = false; // has the tap turned the sound on?
+function userSetupComplete() {
   unlocked = true;
-  Tone.start();
 }
-document.addEventListener('touchend', unlockAudio, { capture: true, once: true });
-document.addEventListener('click', unlockAudio, { capture: true, once: true });
-// with a mouse, p5-phone's tap message goes away before the browser sends 'click'
-document.addEventListener('pointerup', function (e) {
-  if (e.pointerType === 'mouse') {
-    unlockAudio();
-  }
-}, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
 let pattern = ['C4', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4']; // one note per step

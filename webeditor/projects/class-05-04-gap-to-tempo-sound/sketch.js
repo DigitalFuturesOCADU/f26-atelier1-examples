@@ -14,26 +14,12 @@
 // H7: the audio session line in the touch and motion versions is left out here.
 // Opening the microphone changes the phone's audio session anyway.
 
-// H5: phones only start sound inside a tap. p5-phone's sound tap starts p5.sound, not Tone.js.
-// So this catches the first tap, before p5-phone's tap message does its own work,
-// and starts Tone.js right there.
-let unlocked = false;
-function unlockAudio() {
-  if (unlocked) {
-    return;
-  }
+// phones only start sound inside a tap. p5-phone's tap message starts Tone.js right there,
+// then calls userSetupComplete() once everything is on.
+let unlocked = false; // has the tap turned the sound on?
+function userSetupComplete() {
   unlocked = true;
-  Tone.start();
 }
-document.addEventListener('touchend', unlockAudio, { capture: true, once: true });
-document.addEventListener('click', unlockAudio, { capture: true, once: true });
-// with a mouse, p5-phone's tap message goes away before the browser sends 'click',
-// so the release of the mouse button is caught here as well.
-document.addEventListener('pointerup', function (e) {
-  if (e.pointerType === 'mouse') {
-    unlockAudio();
-  }
-}, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
 let startTempo = 90;  // beats per minute before anyone sets one
@@ -210,14 +196,6 @@ function drawNotes() {
   }
 }
 
-// a phone can put the sound system to sleep when you leave the page.
-// any touch wakes it up again.
-function wakeAudio() {
-  if (Tone.getContext().state !== 'running') {
-    Tone.start();
-  }
-}
-
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
@@ -318,10 +296,4 @@ function drawInput() {
   strokeWeight(2);
   line(0, height - threshold * height, 40, height - threshold * height);
   noStroke();
-}
-
-// any touch wakes the sound system, in case the phone put it to sleep
-function mousePressed() {
-  wakeAudio();
-  return false;
 }

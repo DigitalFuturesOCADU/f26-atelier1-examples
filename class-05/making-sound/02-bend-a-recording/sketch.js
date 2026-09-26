@@ -8,24 +8,12 @@
 // https://commons.wikimedia.org/wiki/File:RAVAG-Pausenzeichen.ogg
 // This copy is on the examples site, so it always loads.
 
-// phones only start sound inside a tap. This catches the first tap, before
-// p5-phone's tap message does its own work, and wakes the sound system right there.
-let unlocked = false;
-function unlockAudio() {
-  if (unlocked) {
-    return;
-  }
+// phones only start sound inside a tap. p5-phone's tap message starts p5.sound right there,
+// then calls userSetupComplete() once everything is on.
+let unlocked = false; // has the tap turned the sound on?
+function userSetupComplete() {
   unlocked = true;
-  userStartAudio();
 }
-document.addEventListener('touchend', unlockAudio, { capture: true, once: true });
-document.addEventListener('click', unlockAudio, { capture: true, once: true });
-// with a mouse, p5-phone's tap message goes away before the browser sends 'click'
-document.addEventListener('pointerup', function (e) {
-  if (e.pointerType === 'mouse') {
-    unlockAudio();
-  }
-}, { capture: true });
 
 // the feel of the piece. change these before you change anything else.
 // to use your own recording, upload it to the sketch and put its file name here, like 'mySound.mp3'
@@ -91,11 +79,6 @@ function draw() {
   fill(160);
   textSize(13);
   text('Slow it right down and listen to what the small speaker loses.', 20, height - 12);
-}
-
-function mousePressed() {
-  userStartAudio(); // a phone can put the sound to sleep. any tap wakes it.
-  return false;
 }
 
 function windowResized() {
