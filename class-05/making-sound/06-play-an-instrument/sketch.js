@@ -97,7 +97,6 @@ function mousePressed() {
   if (!unlocked || !instrumentReady) {
     return false;
   }
-  audio.resume(); // a phone can put the sound to sleep. any tap wakes it.
 
   // 1. read the tap. 2. map it onto a key. 3. strike that note.
   let k = constrain(floor(mouseX / width * keys.length), 0, keys.length - 1);

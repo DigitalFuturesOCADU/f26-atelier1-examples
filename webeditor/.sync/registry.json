@@ -245,13 +245,13 @@
     "class-05-06-play-an-instrument": {
       "projectId": "vZSkYuN2K",
       "name": "Atelier1 F26 · Class 05 · 06 Play an Instrument",
-      "contentHash": "sha256:06f261574df2c451c91b288dcdd40fd7ebc872080125521255e5f7e2c82c5e57",
+      "contentHash": "sha256:6617618a1948ffbb88dca63df06c87dbcc37c5504201ae366aaaf61a8aa84f99",
       "fileIds": {
         "__root__": "a89e98e6ecb450a8680eb5f8",
         "index.html": "7afae68b5e82900495ac8adc",
         "sketch.js": "55c8cc4b78508ac2493f9c9f"
       },
-      "lastPush": "2026-09-26T21:54:23.362Z",
+      "lastPush": "2026-09-26T21:56:40.200Z",
       "lastVerify": "2026-09-24T03:05:33.028Z"
     },
     "class-05-07-say-the-time": {
