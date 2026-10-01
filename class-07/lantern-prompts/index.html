@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build the Lantern · Prompts</title>
+  <!-- The prompts from the Build the Lantern page on Canvas (Class 7), each with a Copy button,
+       because Canvas pages cannot run one. Made from the same source as the Canvas page
+       (f26-atelier1 planning, 2026-10-01). Keep the two in step. -->
+  <style>
+    body { margin: 0; padding: 24px 16px; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; color: #1a1a1a; background: #ffffff; }
+    main { max-width: 720px; margin: 0 auto; }
+    header { padding-bottom: 12px; border-bottom: 3px solid #000000; margin-bottom: 24px; }
+    h1 { margin: 0; font-size: 28px; }
+    .sub { margin: 6px 0 0; color: #666666; }
+    h2 { font-size: 18px; padding-bottom: 6px; border-bottom: 2px solid #000000; margin: 32px 0 6px; }
+    section { scroll-margin-top: 16px; }
+    section:target h2 { background: #f4f4f4; }
+    .where { margin: 0 0 10px; color: #666666; font-size: 15px; }
+    .cmd { position: relative; }
+    pre { background: #f4f4f4; border: 1px solid #cccccc; padding: 12px 16px 44px; margin: 0; font-family: Menlo, Consolas, 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap; word-wrap: break-word; }
+    .copy { position: absolute; right: 10px; bottom: 10px; font: 600 14px system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; background: #000000; color: #ffffff; border: 0; padding: 6px 16px; cursor: pointer; }
+    .copy.done { background: #444444; }
+    a { color: #000000; font-weight: 600; }
+    footer { margin-top: 32px; padding-top: 12px; border-top: 1px solid #dddddd; color: #666666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Build the Lantern · Prompts</h1>
+      <p class="sub">Class 7 · One Variable. Every prompt from the Canvas page, with a Copy button. The steps, and what you should see after each one, are on Canvas.</p>
+    </header>
+    <section id="first-prompt">
+      <h2>Step 8 · The first prompt</h2>
+      <p class="where">In the chat, after the two images.</p>
+      <div class="cmd"><pre>I&#x27;m designing a phone sketch for a design class. The goal of this chat is one file, plan.md: a detailed plan that a coding agent in my repo will build from, one small step at a time, in p5.js 2 with the p5-phone library. I write the parts that describe my idea. You ask me questions, tell me what a phone can and cannot do, and at the end write the build steps for the agent. No code.
+
+Read these first, so you know what the phone and the libraries can do, and what my plan needs:
+- p5-phone skill: https://raw.githubusercontent.com/npuckett/p5-phone/main/SKILL.md
+- p5.js 2 skill: https://raw.githubusercontent.com/DigitalFuturesOCADU/atelier1-f26-agentStart-p5/main/.agents/skills/p5js-2x/SKILL.md
+- My plan template: https://raw.githubusercontent.com/DigitalFuturesOCADU/atelier1-f26-agentStart-p5/main/plan.md
+
+I&#x27;m attaching two images. layout-lantern.jpg is a layout: match where things sit and their size. mood-night-lanterns.jpg is inspiration: take the feel only. Use these file names in the References table. They will be in the references folder in my repo.
+
+My idea: the phone is a lantern for people walking together in the dark. It glows while you walk and fades when you stop.
+
+Ask me questions, one at a time, until everything above Steps in the template is clear. Tell me when something I want is hard or impossible on a phone. Do not write my answers for me.</pre><button type="button" class="copy">Copy</button></div>
+    </section>
+    <section id="plan-prompt">
+      <h2>Step 10 · Ask for plan.md</h2>
+      <p class="where">In the chat, once it has no more questions.</p>
+      <div class="cmd"><pre>Now write my plan.md as a file I can download.
+- Use my template&#x27;s headings, in the same order.
+- Above Steps, use my answers from this chat, in my own words. Do not rewrite them or add your own. If something is missing, leave its [brackets] for me to fill in.
+- Then write the Steps for the coding agent. For each step: what to build, in a sentence or two; which p5-phone and p5.js functions to use, from the skills; what I should see on my laptop, and on my phone; any new numbers, named at the top of sketch.js so I can tune them.
+- Keep each step small enough to check on my phone in a few minutes. Put the riskiest phone parts (permissions, sensors, keeping the screen on) early.
+- After the Steps, list what you had to assume.
+- Leave Changes empty. No code.</pre><button type="button" class="copy">Copy</button></div>
+    </section>
+    <section id="check-prompt">
+      <h2>Step 15 · Check the Steps</h2>
+      <p class="where">In OpenCode, with the agent menu on Plan.</p>
+      <div class="cmd"><pre>@plan.md Check the Steps against this project and its skills. What is wrong, missing or too big? Do not change any files.</pre><button type="button" class="copy">Copy</button></div>
+    </section>
+    <section id="fix-prompt">
+      <h2>Step 17 · Fix the Steps</h2>
+      <p class="where">In OpenCode, with the agent menu on Build.</p>
+      <div class="cmd"><pre>Make those changes to the Steps in plan.md. Change nothing else.</pre><button type="button" class="copy">Copy</button></div>
+    </section>
+    <section id="step-prompt">
+      <h2>Step 18 · Build step 1</h2>
+      <p class="where">In OpenCode, on Build. Then Do step 2. and so on.</p>
+      <div class="cmd"><pre>Do step 1.</pre><button type="button" class="copy">Copy</button></div>
+    </section>
+    <section id="project-prompt">
+      <h2>Your project · The first prompt</h2>
+      <p class="where">The same as step 8, with your images and your idea in the brackets.</p>
+      <div class="cmd"><pre>I&#x27;m designing a phone sketch for a design class. The goal of this chat is one file, plan.md: a detailed plan that a coding agent in my repo will build from, one small step at a time, in p5.js 2 with the p5-phone library. I write the parts that describe my idea. You ask me questions, tell me what a phone can and cannot do, and at the end write the build steps for the agent. No code.
+
+Read these first, so you know what the phone and the libraries can do, and what my plan needs:
+- p5-phone skill: https://raw.githubusercontent.com/npuckett/p5-phone/main/SKILL.md
+- p5.js 2 skill: https://raw.githubusercontent.com/DigitalFuturesOCADU/atelier1-f26-agentStart-p5/main/.agents/skills/p5js-2x/SKILL.md
+- My plan template: https://raw.githubusercontent.com/DigitalFuturesOCADU/atelier1-f26-agentStart-p5/main/plan.md
+
+I&#x27;m attaching [your-layout.jpg]. It is a layout: match where things sit and their size. [your-mood.jpg] is inspiration: take the feel only. Use these file names in the References table. They will be in the references folder in my repo.
+
+My idea: [your project sentence: phone as what, to do what, for whom]
+
+Ask me questions, one at a time, until everything above Steps in the template is clear. Tell me when something I want is hard or impossible on a phone. Do not write my answers for me.</pre><button type="button" class="copy">Copy</button></div>
+    </section>
+    <footer>Atelier 1 · Fall 2026 · <a href="../../">All examples</a></footer>
+  </main>
+  <script>
+    document.querySelectorAll('.copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var text = b.previousElementSibling.textContent;
+        var ok = function () { b.textContent = 'Copied'; b.classList.add('done'); setTimeout(function () { b.textContent = 'Copy'; b.classList.remove('done'); }, 1500); };
+        function fallback() {
+          var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); ok(); } catch (e) {} document.body.removeChild(ta);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback); else fallback();
+      });
+    });
+  </script>
+</body>
+</html>
