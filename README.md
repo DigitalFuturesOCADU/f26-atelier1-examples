@@ -188,5 +188,6 @@ npx p5-webeditor-sync sync --batch class-04
 images are uploaded to each web editor sketch by hand. A sync replaces a sketch's whole file
 list with what it sends, so it drops those images (the four Class 2 sketches have one each).
 For those sketches, change `index.html` and `sketch.js` in place instead. That is how every
-sketch was moved to p5-phone 1.15.0 on 2026-09-26: fetch the project, swap only those two
-files' text, save it back. The Class 3 GIF-control sketches are not on the web editor.
+sketch was moved to p5-phone 1.15.0 on 2026-09-26 and to 1.15.3 on 2026-10-06: fetch the
+project, swap only those two files' text, save it back. Then a dry-run sync shows every
+sketch as unchanged. The Class 3 GIF-control sketches are not on the web editor.

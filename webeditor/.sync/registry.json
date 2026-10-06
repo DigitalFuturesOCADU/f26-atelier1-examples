@@ -5,589 +5,589 @@
     "class-02-01-load-image": {
       "projectId": "kzj_dZckP",
       "name": "Atelier1 F26 · Class 02 · 01 Load an Image",
-      "contentHash": "sha256:71e3bb5f459b6a285c9a775c16fe44c8ee890405df87dc554a1be9695a68e261",
+      "contentHash": "sha256:6c67cc2370b468e85ed8cde027708d2ae8dfe834ac342d470f741d06c4e682fa",
       "fileIds": {
         "__root__": "17f63528f1127350cb53d927",
         "index.html": "deed66f0d12ad6f004d3dfca",
         "sketch.js": "abf7d253fa446c2709478665"
       },
-      "lastPush": "2026-09-26T21:53:34.998Z",
+      "lastPush": "2026-10-06T18:51:39.917Z",
       "lastVerify": "2026-09-15T11:52:59.436Z"
     },
     "class-02-02-tilt-to-scale": {
       "projectId": "Z5I5kjEuvn",
       "name": "Atelier1 F26 · Class 02 · 02 Tilt to Scale",
-      "contentHash": "sha256:99aef9c0086447df50fd36d33a94a8e182a9f06d89606d19df13140f70cae1e0",
+      "contentHash": "sha256:6eb8926e373c58c00ced561becfe53c382928fc24f0f2f8e4a6c7dc32b64802f",
       "fileIds": {
         "__root__": "5582da60842b5640ac64e95e",
         "index.html": "81a6f6ec50f002d57ae7cecd",
         "sketch.js": "4b839c26eb9bd11518e38c64"
       },
-      "lastPush": "2026-09-26T21:53:36.141Z",
+      "lastPush": "2026-10-06T18:51:40.987Z",
       "lastVerify": "2026-09-15T11:53:00.102Z"
     },
     "class-02-03-shake-to-filter": {
       "projectId": "lVgmS7scx",
       "name": "Atelier1 F26 · Class 02 · 03 Shake to Filter",
-      "contentHash": "sha256:83896201782310fed2e7648896827ff95c7dd2755259da9db96be8756a663462",
+      "contentHash": "sha256:b8308f0a1164b92e5cf2a147a9be8e4877e9dfc00cf22fe68534af6811a2a67c",
       "fileIds": {
         "__root__": "db8829a901eaa0af96321d2f",
         "index.html": "e219534df590df490b7de9e1",
         "sketch.js": "42634e56938aae65d7da07ee"
       },
-      "lastPush": "2026-09-26T21:53:37.305Z",
+      "lastPush": "2026-10-06T18:51:42.032Z",
       "lastVerify": "2026-09-15T11:53:00.708Z"
     },
     "class-02-04-move-to-spin": {
       "projectId": "nxdCFWpuh",
       "name": "Atelier1 F26 · Class 02 · 04 Move to Spin",
-      "contentHash": "sha256:b2aaa08234e4af8e04382bbbe0c1d36b9dc4f817fcba9a8df3b9b3e2290d83cd",
+      "contentHash": "sha256:c31a147a9717fa88808467919114d8826277efb77b7c3afc61abb8e516793019",
       "fileIds": {
         "__root__": "866f45f13b9f8d3e36dbec54",
         "index.html": "e82cb1d6cf78c6758197ceb2",
         "sketch.js": "a179942e04078ab23eb00ac6"
       },
-      "lastPush": "2026-09-26T21:53:38.445Z",
+      "lastPush": "2026-10-06T18:51:43.103Z",
       "lastVerify": "2026-09-15T11:53:01.316Z"
     },
     "class-03-shake-for-a-new-image": {
       "projectId": "wGvIdnPqy",
       "name": "Atelier1 F26 · Class 03 · Shake for a New Image",
-      "contentHash": "sha256:eecf2e3b08c1da02757cda12e90429d7b755b29f8df7c91e6e185e67fbd66148",
+      "contentHash": "sha256:f23fc0e5f65e3e00915d5b499a47d6ae28ee16ab1db5d7f162ec74f2a95deddd",
       "fileIds": {
         "__root__": "9af488eb183539f52b311fac",
         "index.html": "ef26701249819072a77cf04e",
         "sketch.js": "375cac21e772a4a1e46ce566"
       },
-      "lastPush": "2026-09-26T21:53:39.578Z",
+      "lastPush": "2026-10-06T18:51:44.139Z",
       "lastVerify": "2026-09-17T11:16:29.718Z"
     },
     "class-04-01-level-to-frame": {
       "projectId": "Kiu99oef9",
       "name": "Atelier1 F26 · Class 04 · 01 Level to Frame",
-      "contentHash": "sha256:c8e95f748b3141f3e23a1873e5b75e3bb80b5b7ec707fcba4e2c42ee062d5e69",
+      "contentHash": "sha256:2d55b0c8a15f13f5ce7227fad465b2963f15100b988ea21b572f97cc5f500bff",
       "fileIds": {
         "__root__": "c08d65db5b9a4c6313f34bfc",
         "index.html": "23ef8beb817d422762eda819",
         "sketch.js": "19fb95a0d195017ef952d32d"
       },
-      "lastPush": "2026-09-26T21:53:40.722Z",
+      "lastPush": "2026-10-06T18:51:45.198Z",
       "lastVerify": "2026-09-21T21:21:57.832Z"
     },
     "class-04-02-clap-to-step": {
       "projectId": "HXPQv7Df-",
       "name": "Atelier1 F26 · Class 04 · 02 Clap to Step",
-      "contentHash": "sha256:2638aaf05b9931325e306309b1f37ada8c71796e57f0b20767cf871926026c8d",
+      "contentHash": "sha256:5f921f14282d911a9bb03a1c682e34e57f29f216f39113fc4ec96e783c442895",
       "fileIds": {
         "__root__": "0ea5919d013b18b0f744fbdf",
         "index.html": "f79d43abfa0386d0a4bc49fc",
         "sketch.js": "f06a2ae17cdc834022c8cd04"
       },
-      "lastPush": "2026-09-26T21:53:41.863Z",
+      "lastPush": "2026-10-06T18:51:46.232Z",
       "lastVerify": "2026-09-21T21:21:58.519Z"
     },
     "class-04-03-hold-and-silence": {
       "projectId": "CJALUHvLY",
       "name": "Atelier1 F26 · Class 04 · 03 Hold and Silence",
-      "contentHash": "sha256:c38cdaa24eab61a198ae73953bcd61114c29db5769d9116b4c583a22276c80c8",
+      "contentHash": "sha256:7ff0eb3bc9b133c97ec7d69524e0cabbe3ef5036159aef0f9fd6163e0686f424",
       "fileIds": {
         "__root__": "b2e0aca24d418b07378aae34",
         "index.html": "31e07899a3173c876fafe922",
         "sketch.js": "60675c1d318fd73aec5d7248"
       },
-      "lastPush": "2026-09-26T21:53:43.033Z",
+      "lastPush": "2026-10-06T18:51:47.277Z",
       "lastVerify": "2026-09-21T21:21:59.235Z"
     },
     "class-04-04-two-bands": {
       "projectId": "fU8GwfNHz",
       "name": "Atelier1 F26 · Class 04 · 04 Two Bands",
-      "contentHash": "sha256:62fc75e50e783e231f85d2187dd75f0c98d347a23cf9a826b5e027d08d798526",
+      "contentHash": "sha256:94136cb1a3018dfc384bb182b645f33e68f165ce73e0f8197fc832129859b476",
       "fileIds": {
         "__root__": "c4f8cc9767e4297c0d11842d",
         "index.html": "a46db0465c742bc0cfff2a55",
         "sketch.js": "2a651f5412f4b6675064abeb"
       },
-      "lastPush": "2026-09-26T21:53:44.241Z",
+      "lastPush": "2026-10-06T18:51:48.550Z",
       "lastVerify": "2026-09-21T21:21:59.884Z"
     },
     "class-04-05-label-to-image": {
       "projectId": "e5BKKMXcJ",
       "name": "Atelier1 F26 · Class 04 · 05 Label to Image",
-      "contentHash": "sha256:34688caf470df09b2295fddb34f83b2f98593d0770b51abf9a926d14bd904651",
+      "contentHash": "sha256:6b466bbcfae015340a5077c9e635dca042bbb7b77c4383dd8dad8882960c3557",
       "fileIds": {
         "__root__": "18b8c66485a379e32d9233b2",
         "index.html": "e43b06640d4a508484925f87",
         "sketch.js": "fe1f9543db3a2326793cb8ae"
       },
-      "lastPush": "2026-09-26T21:53:45.376Z",
+      "lastPush": "2026-10-06T18:51:49.581Z",
       "lastVerify": "2026-09-21T21:22:00.513Z"
     },
     "class-04-06-word-to-image": {
       "projectId": "wnzOiFz5W",
       "name": "Atelier1 F26 · Class 04 · 06 Word to Image",
-      "contentHash": "sha256:61d6c526111a49afbcd3b1a5114de2eeb5b8b29a6c78fe3604e9865675dc1ae6",
+      "contentHash": "sha256:4412a55af6e4ad80d5bec0cca98b5d9416b6779de3a94739c61c2373b5dccbc8",
       "fileIds": {
         "__root__": "28c0db9206da26450a492e6b",
         "index.html": "4fa55af54d1b48c7a655e47a",
         "sketch.js": "5aaee295195b683204d21409"
       },
-      "lastPush": "2026-09-26T21:53:46.524Z",
+      "lastPush": "2026-10-06T18:51:50.621Z",
       "lastVerify": "2026-09-22T11:42:24.179Z"
     },
     "class-04-07-sentence-to-image": {
       "projectId": "_-kiGZNVP",
       "name": "Atelier1 F26 · Class 04 · 07 Sentence to Image",
-      "contentHash": "sha256:94fb34dc0f01b2ca15ed8a703efbf703c9ae3d3cf44c906a6c4356834f8535d8",
+      "contentHash": "sha256:79624bf2dd727ddc6f497a26352566e830bf17bfc49489d3c8236d55ccecf06a",
       "fileIds": {
         "__root__": "dfc6267d8da1bcbe07eed613",
         "index.html": "0a539b8d96b8e1840d07ac5f",
         "sketch.js": "77755d85fa2e365c0cec47d0"
       },
-      "lastPush": "2026-09-26T21:53:47.686Z",
+      "lastPush": "2026-10-06T18:51:51.683Z",
       "lastVerify": "2026-09-21T21:22:01.739Z"
     },
     "class-04-demo-pitch-to-frame": {
       "projectId": "BkP-lf5bR",
       "name": "Atelier1 F26 · Class 04 · Demo · Pitch to Frame",
-      "contentHash": "sha256:b38782dea7595b557aed0c2ed2aeb1d2b874e64fca65cd3ba407a25e49221bb4",
+      "contentHash": "sha256:f2459b8f00df84d45ab36ec9a0cfdf3b17aa1fa7202eefb5e2956e3f9ba3e93e",
       "fileIds": {
         "__root__": "1bbb3cbfff0ce0bf236995a3",
         "index.html": "29a065dd87bbab0833af60d4",
         "sketch.js": "d55ee2c9af7724762a1f8099"
       },
-      "lastPush": "2026-09-26T21:53:51.160Z",
+      "lastPush": "2026-10-06T18:51:52.707Z",
       "lastVerify": "2026-09-21T21:22:02.376Z"
     },
     "class-04-08-raise-to-listen": {
       "projectId": "QGxSV8I-D",
       "name": "Atelier1 F26 · Class 04 · 08 Raise to Listen",
-      "contentHash": "sha256:b10eea86510e32e1c2bfefe58ca7d620c63795409a8dac7c1f04efdbe73f286f",
+      "contentHash": "sha256:f58eb3ab574b9bf44e3dc3198b697dd0ace152e3a6b8c0585cf688c690d528b5",
       "fileIds": {
         "__root__": "6f211d093ee57e5a5d606fea",
         "index.html": "b94ee530a636f54a61fe3743",
         "sketch.js": "732f65b47ce776166da676ca"
       },
-      "lastPush": "2026-09-26T21:53:48.857Z",
+      "lastPush": "2026-10-06T18:51:53.784Z",
       "lastVerify": "2026-09-24T02:35:59.217Z"
     },
     "class-04-09-holder-and-room": {
       "projectId": "phPd-czOb",
       "name": "Atelier1 F26 · Class 04 · 09 Holder and Room",
-      "contentHash": "sha256:78f8225aa496d27d044e6da67b4eb8aad89fd7f42ed315b30254837db8ebaa4c",
+      "contentHash": "sha256:1292fbc65fd1f3c80b6be4e83d5eeb65dd1b7f29efc3aced72e726452acb6342",
       "fileIds": {
         "__root__": "b269737397a8974f420b44cf",
         "index.html": "7e97f5a2615aca9b97f04965",
         "sketch.js": "fad5afdc8d4dd9b303786382"
       },
-      "lastPush": "2026-09-26T21:53:50.012Z",
+      "lastPush": "2026-10-06T18:51:54.806Z",
       "lastVerify": "2026-09-24T02:36:00.007Z"
     },
     "class-05-01-play-a-recording": {
       "projectId": "gOOzonRFz",
       "name": "Atelier1 F26 · Class 05 · 01 Play a Recording",
-      "contentHash": "sha256:501ce4259222601424a01b1a64ddfbcd7064bf96377285ade332574867e4a08b",
+      "contentHash": "sha256:15ca90a375fa5de18ebb77d0d44166216de431c09456807413926aa87e0d1984",
       "fileIds": {
         "__root__": "836fa07634c9f13601579561",
         "index.html": "05cadc2159a14a71cf2d189d",
         "sketch.js": "c6a1a4b0b7321eb200dfee2e"
       },
-      "lastPush": "2026-09-26T21:53:55.760Z",
+      "lastPush": "2026-10-06T18:51:55.843Z",
       "lastVerify": "2026-09-24T02:35:43.671Z"
     },
     "class-05-02-bend-a-recording": {
       "projectId": "LUqBkJods",
       "name": "Atelier1 F26 · Class 05 · 02 Bend a Recording",
-      "contentHash": "sha256:ff5493c5cb23b02ab6157a6f520181c18182bfd1cc12cf1cc62b71adfb6cf028",
+      "contentHash": "sha256:0e7acbb8e0df5d423d0368bf55d8797c268c907c8f3e34ab6fcdacccb4811100",
       "fileIds": {
         "__root__": "b3e29a3d7f8adaa48f5c3396",
         "index.html": "7f946891eb2c25e616614bd4",
         "sketch.js": "9f3c6dd7577dc2d35e4d57ea"
       },
-      "lastPush": "2026-09-26T21:54:01.527Z",
+      "lastPush": "2026-10-06T18:51:56.888Z",
       "lastVerify": "2026-09-24T03:20:31.408Z"
     },
     "class-05-03-echo-a-recording": {
       "projectId": "eoqlbuOYz",
       "name": "Atelier1 F26 · Class 05 · 03 Echo a Recording",
-      "contentHash": "sha256:38c5b20ea63eb27da7c525ab92af6502350c11e6479a4e01c97011acb3ae3c9b",
+      "contentHash": "sha256:6b07994f5c3ab0bb22571b501b7e8e74cc9c9ec1214371b89e30846a888d9179",
       "fileIds": {
         "__root__": "0d85e35136e8c7c5e1309c62",
         "index.html": "9a6e2232fca5bcdab4a6137d",
         "sketch.js": "885c48f626a75037e598d6a7"
       },
-      "lastPush": "2026-09-26T21:54:07.260Z",
+      "lastPush": "2026-10-06T18:51:57.915Z",
       "lastVerify": "2026-09-24T03:05:31.700Z"
     },
     "class-05-04-make-a-tone": {
       "projectId": "VvesSoti8",
       "name": "Atelier1 F26 · Class 05 · 04 Make a Tone",
-      "contentHash": "sha256:62b3c7a0ec60d01909f4dc08c9a6c3c0489cdef4c2ce4bb18e4c40f22fed71da",
+      "contentHash": "sha256:e9481f56921832d80b5fe09cfd3120803c61dfa61fce7da1db475fff387bbe34",
       "fileIds": {
         "__root__": "f11a599023c5e265a803002e",
         "index.html": "e0519059b4d9153cd5c2fdac",
         "sketch.js": "d44ddfd3b73f0ff49614007b"
       },
-      "lastPush": "2026-09-26T21:54:14.151Z",
+      "lastPush": "2026-10-06T18:51:58.926Z",
       "lastVerify": "2026-09-24T02:35:45.523Z"
     },
     "class-05-05-start-a-loop": {
       "projectId": "FGiy1hS68",
       "name": "Atelier1 F26 · Class 05 · 05 Start a Loop",
-      "contentHash": "sha256:c01ca366880cbd619f69566170b801f2e4e322d78927a2f6a8280e70c9fabb14",
+      "contentHash": "sha256:90831691f6d4749b024399d1bdb0146da6f627a7042a4e8d0a998a65b7c0169a",
       "fileIds": {
         "__root__": "958d89ceeb544b3faf4c579b",
         "index.html": "81aaec55387a0ac71e511ed1",
         "sketch.js": "a1c94192149bfeb19f525521"
       },
-      "lastPush": "2026-09-26T21:54:18.754Z",
+      "lastPush": "2026-10-06T18:51:59.958Z",
       "lastVerify": "2026-09-24T03:05:32.412Z"
     },
     "class-05-06-play-an-instrument": {
       "projectId": "vZSkYuN2K",
       "name": "Atelier1 F26 · Class 05 · 06 Play an Instrument",
-      "contentHash": "sha256:6617618a1948ffbb88dca63df06c87dbcc37c5504201ae366aaaf61a8aa84f99",
+      "contentHash": "sha256:44c5b95acac724929b0713068c5e5b24b1d336c33b1af74da673e078b9cdb369",
       "fileIds": {
         "__root__": "a89e98e6ecb450a8680eb5f8",
         "index.html": "7afae68b5e82900495ac8adc",
         "sketch.js": "55c8cc4b78508ac2493f9c9f"
       },
-      "lastPush": "2026-09-26T21:56:40.200Z",
+      "lastPush": "2026-10-06T18:52:00.985Z",
       "lastVerify": "2026-09-24T03:05:33.028Z"
     },
     "class-05-07-say-the-time": {
       "projectId": "_QEqakWui",
       "name": "Atelier1 F26 · Class 05 · 07 Say the Time",
-      "contentHash": "sha256:c412c1a66bfa1b6aca62331e39e6a8fc2106595b4b9169bdfecaeab8a6a6f86e",
+      "contentHash": "sha256:faeafe7a45d5bdefcd0dc1fe5f3e9ad79208a91a14c0a47ac3eb7d4a6e4e32b5",
       "fileIds": {
         "__root__": "56ac6fb6e5e1895d154f8377",
         "index.html": "63db5505fffbfec8d2655b20",
         "sketch.js": "d8a34c8c6a28cf38b71ca60d"
       },
-      "lastPush": "2026-09-26T21:54:24.514Z",
+      "lastPush": "2026-10-06T18:52:02.020Z",
       "lastVerify": "2026-09-24T11:32:16.828Z"
     },
     "class-05-01-choice-to-recording-motion": {
       "projectId": "Jtf-22RM8",
       "name": "Atelier1 F26 · Class 05 · 01 Choice to Recording · Motion",
-      "contentHash": "sha256:5705f7fa3f2220d41c9d62dab48ad80167571ec648013a0db27e25a94f70969b",
+      "contentHash": "sha256:4a285a3d0d69308aacfa7365f144698907136e8fbc9da0cb9bf3e994aeca418e",
       "fileIds": {
         "__root__": "d8722ecb202c53f0f9edbf9e",
         "index.html": "874a12fa231d7765c2d6d86d",
         "sketch.js": "a20053deebc57cdbfe0ff29d"
       },
-      "lastPush": "2026-09-26T21:53:52.324Z",
+      "lastPush": "2026-10-06T18:52:03.056Z",
       "lastVerify": "2026-09-24T02:35:47.954Z"
     },
     "class-05-01-choice-to-recording-sound": {
       "projectId": "vWbdkDkua",
       "name": "Atelier1 F26 · Class 05 · 01 Choice to Recording · Sound",
-      "contentHash": "sha256:247011579eec687942079f8f135c7204fbee9c38f1763349f0ef1b22e833d532",
+      "contentHash": "sha256:e3880de5530dc7fc7852042296eb1f5fda3d0bf0b9b8a2e21390e756e97698d3",
       "fileIds": {
         "__root__": "23d6701470b5b4899aa50f6e",
         "index.html": "a103d916a427b4934ff20255",
         "sketch.js": "a76ba7b9a9915a9e81e4d5d6"
       },
-      "lastPush": "2026-09-26T21:53:53.491Z",
+      "lastPush": "2026-10-06T18:52:04.089Z",
       "lastVerify": "2026-09-24T02:35:48.586Z"
     },
     "class-05-01-choice-to-recording-touch": {
       "projectId": "3LlpC_AUO",
       "name": "Atelier1 F26 · Class 05 · 01 Choice to Recording · Touch",
-      "contentHash": "sha256:e60a05d1368010237053df44719316276ddf84ae9101b0bfbcad7a995c5c6d1e",
+      "contentHash": "sha256:eb4046d54903c14d07d047bc78c8f9dd84453d2a8ddaa9f0822903cd3e95541f",
       "fileIds": {
         "__root__": "78d569c272631e61391b8a34",
         "index.html": "81462c0e36d33ba9c0faed93",
         "sketch.js": "1d367941262f18405c142c6b"
       },
-      "lastPush": "2026-09-26T21:53:54.635Z",
+      "lastPush": "2026-10-06T18:52:05.146Z",
       "lastVerify": "2026-09-24T02:35:49.204Z"
     },
     "class-05-02-amount-to-speed-motion": {
       "projectId": "NyY4wDsik",
       "name": "Atelier1 F26 · Class 05 · 02 Amount to Speed · Motion",
-      "contentHash": "sha256:30572cb726934daf8c3b0acf2c65cc4d834a1159495750000329c82c2aff625d",
+      "contentHash": "sha256:78977bb0805e0561a0af6d7acc005063d34bd79823469ead9a9587dbeb619808",
       "fileIds": {
         "__root__": "113fdb2e75d9117f55d2dc2b",
         "index.html": "74306c5c4120dd24df7069a2",
         "sketch.js": "3ed6ecc2df04dd30187fcd4f"
       },
-      "lastPush": "2026-09-26T21:53:58.055Z",
+      "lastPush": "2026-10-06T18:52:06.256Z",
       "lastVerify": "2026-09-24T02:35:49.804Z"
     },
     "class-05-02-amount-to-speed-sound": {
       "projectId": "dl7kJix0tw",
       "name": "Atelier1 F26 · Class 05 · 02 Amount to Speed · Sound",
-      "contentHash": "sha256:e57fdf6926535a2a2b98725d0d092ecffd1fbc3e9554b464a6bb3812394c4539",
+      "contentHash": "sha256:dc268974f9073a0c86b91ca752416519130be5fa270e2db33a2c3dee7cff09bc",
       "fileIds": {
         "__root__": "e2403509917818b06cb4e7a5",
         "index.html": "d5263ce4a8ece4acab56d775",
         "sketch.js": "d4a0d7d21cd0d4b517e9215a"
       },
-      "lastPush": "2026-09-26T21:53:59.223Z",
+      "lastPush": "2026-10-06T18:52:07.325Z",
       "lastVerify": "2026-09-24T02:35:50.406Z"
     },
     "class-05-02-amount-to-speed-touch": {
       "projectId": "dtLCs_Z0p",
       "name": "Atelier1 F26 · Class 05 · 02 Amount to Speed · Touch",
-      "contentHash": "sha256:17b0a70d68383519b95a7460ff2a65367659c9bc511cd35f198461bf05f9f62c",
+      "contentHash": "sha256:049e91ef160efdd3e1b5c3554b93118043ecd9141a0c8f15684c02a577c8dcf6",
       "fileIds": {
         "__root__": "08c607d3de34113e96a55bb2",
         "index.html": "260d531e9354b2a7d62551b6",
         "sketch.js": "7dd6c418e8d045611469c2b4"
       },
-      "lastPush": "2026-09-26T21:54:00.379Z",
+      "lastPush": "2026-10-06T18:52:08.348Z",
       "lastVerify": "2026-09-24T02:35:51.026Z"
     },
     "class-05-03-count-to-voices-motion": {
       "projectId": "u7HaV4P0e",
       "name": "Atelier1 F26 · Class 05 · 03 Count to Voices · Motion",
-      "contentHash": "sha256:cb73c48db343d8301081b430933c3e97c0bc3a1c4fa23d10f387e8f8fd442711",
+      "contentHash": "sha256:da6486d280ede497bf4b9e389445a5deae66cc4414421650281db858699e76fc",
       "fileIds": {
         "__root__": "9f8f80bf6354f854c43b4642",
         "index.html": "b5a6466cb090367a2d88d512",
         "sketch.js": "bf72ade29c77fed08f7a2ad2"
       },
-      "lastPush": "2026-09-26T21:54:03.826Z",
+      "lastPush": "2026-10-06T18:52:09.396Z",
       "lastVerify": "2026-09-24T02:35:51.637Z"
     },
     "class-05-03-count-to-voices-sound": {
       "projectId": "E2bX-mkbd",
       "name": "Atelier1 F26 · Class 05 · 03 Count to Voices · Sound",
-      "contentHash": "sha256:9ad4931ba2146e4ce74362e3293a080078b6de69b3e84b3f63618992664c99ee",
+      "contentHash": "sha256:c6395b9a43c49d585f204f6c164c2332e96c60502ff6266ce755b0eb9daaf153",
       "fileIds": {
         "__root__": "dc17e5e6fdae68a152a3dfa5",
         "index.html": "5facc0a39f882b176e247269",
         "sketch.js": "2e1884cbe448b684b704d4fa"
       },
-      "lastPush": "2026-09-26T21:54:04.989Z",
+      "lastPush": "2026-10-06T18:52:10.435Z",
       "lastVerify": "2026-09-24T02:35:52.238Z"
     },
     "class-05-03-count-to-voices-touch": {
       "projectId": "26iFufdyQ",
       "name": "Atelier1 F26 · Class 05 · 03 Count to Voices · Touch",
-      "contentHash": "sha256:796c746a41aaefd405cd0af7259fd412c8ccea7bc82ce2c9ffd34477180b2611",
+      "contentHash": "sha256:0eac40362a8b743076b366675603a6bffb0579b3114456542255e510522fa889",
       "fileIds": {
         "__root__": "338c9582fc3b52debff037ac",
         "index.html": "2879d0a63c8fcad845e4645c",
         "sketch.js": "99a3243b12813eb89bc881a5"
       },
-      "lastPush": "2026-09-26T21:54:06.117Z",
+      "lastPush": "2026-10-06T18:52:11.465Z",
       "lastVerify": "2026-09-24T02:35:52.881Z"
     },
     "class-05-04-gap-to-tempo-motion": {
       "projectId": "jExXcPM7hT",
       "name": "Atelier1 F26 · Class 05 · 04 Gap to Tempo · Motion",
-      "contentHash": "sha256:c9701e7fc7194a9fd067476fe581475f1fabbc611c57b78ace8f25daef9cfea4",
+      "contentHash": "sha256:5841a2f69ac4f8e5d4f6ef6081f43c8bf61a8c2f9c68fed0eb78a9f1c659491a",
       "fileIds": {
         "__root__": "79eb7d1149e0fc509ee64c76",
         "index.html": "e0e584da08ec0c2461d391c8",
         "sketch.js": "ede69abf2a2b969433b8a8f9"
       },
-      "lastPush": "2026-09-26T21:54:10.727Z",
+      "lastPush": "2026-10-06T18:52:12.513Z",
       "lastVerify": "2026-09-24T02:35:53.499Z"
     },
     "class-05-04-gap-to-tempo-sound": {
       "projectId": "_S1wBg5Zq",
       "name": "Atelier1 F26 · Class 05 · 04 Gap to Tempo · Sound",
-      "contentHash": "sha256:c33d585922498a6daead768b1cc0b2c88f847e816517fa063073395f5e74fad4",
+      "contentHash": "sha256:d0e30034239664c2219190953a5218d1401e9d2effa62c92fda46dc31f80b5d9",
       "fileIds": {
         "__root__": "ffa0428b3b8174e8a2f91230",
         "index.html": "189fd8a97693994925e29758",
         "sketch.js": "b9771d13abbb2a34aa0822bf"
       },
-      "lastPush": "2026-09-26T21:54:11.861Z",
+      "lastPush": "2026-10-06T18:52:13.546Z",
       "lastVerify": "2026-09-24T02:35:54.215Z"
     },
     "class-05-04-gap-to-tempo-touch": {
       "projectId": "bXLtkTTXvR",
       "name": "Atelier1 F26 · Class 05 · 04 Gap to Tempo · Touch",
-      "contentHash": "sha256:b2c4f8d98361cc4c1b3007b3cb52406e58050f971dc777662ff147467fe90bee",
+      "contentHash": "sha256:58f276f64899f72bddbee8ad2315ae058f8f35ebd96e9054ba08bc1520472c9b",
       "fileIds": {
         "__root__": "8937e1f15310b9ae00d851d9",
         "index.html": "404df1af005abaae827aff94",
         "sketch.js": "6ade7debba2b6a80032171fa"
       },
-      "lastPush": "2026-09-26T21:54:12.998Z",
+      "lastPush": "2026-10-06T18:52:14.567Z",
       "lastVerify": "2026-09-24T02:35:54.803Z"
     },
     "class-05-05-dial-to-note-motion": {
       "projectId": "7tiH0-8M8",
       "name": "Atelier1 F26 · Class 05 · 05 Dial to Note · Motion",
-      "contentHash": "sha256:039efeee7dd8373c5bd50407c040ba977c9988c1fe93c054eff6622e848052d8",
+      "contentHash": "sha256:c1f909903eee6c22823f76be2171ced2e50ff45caaea8acbb4ff9674382ca286",
       "fileIds": {
         "__root__": "c791f7814c30eea1cace7477",
         "index.html": "73f78c4eebe1daade10de8f3",
         "sketch.js": "8f70f7240388a01e65b4474f"
       },
-      "lastPush": "2026-09-26T21:54:15.290Z",
+      "lastPush": "2026-10-06T18:52:15.607Z",
       "lastVerify": "2026-09-24T02:35:55.417Z"
     },
     "class-05-05-dial-to-note-sound": {
       "projectId": "FdB7h18TS",
       "name": "Atelier1 F26 · Class 05 · 05 Dial to Note · Sound",
-      "contentHash": "sha256:a8544b6ef462584f771545b15d1ca260dea13fb299ac373fa2feb66a49186ac9",
+      "contentHash": "sha256:94cb0914c8347bce4541beec65ae65d799437e414684ac46c1e788d17eb1558a",
       "fileIds": {
         "__root__": "4032ae8becfba732e95d8f93",
         "index.html": "92d555bb22c7fb93f99db58a",
         "sketch.js": "b910e2499a97e06e56dee769"
       },
-      "lastPush": "2026-09-26T21:54:16.460Z",
+      "lastPush": "2026-10-06T18:52:16.643Z",
       "lastVerify": "2026-09-24T02:35:56.025Z"
     },
     "class-05-05-dial-to-note-touch": {
       "projectId": "ClfwXSXue",
       "name": "Atelier1 F26 · Class 05 · 05 Dial to Note · Touch",
-      "contentHash": "sha256:4ebeee0499ff92a900c19ba5f63e3980a2f59d428e021c0f17dbe27f81827b36",
+      "contentHash": "sha256:be205be3b22b2d46253136a8079b0b6d097ba93657d3619b84030670e3828224",
       "fileIds": {
         "__root__": "0af324703969f38e3efb147c",
         "index.html": "781d2683207d1ced1d91c91c",
         "sketch.js": "56a9afd5211e4252c87d77e6"
       },
-      "lastPush": "2026-09-26T21:54:17.610Z",
+      "lastPush": "2026-10-06T18:52:17.699Z",
       "lastVerify": "2026-09-24T02:35:56.643Z"
     },
     "class-05-06-hold-to-speech-motion": {
       "projectId": "HXjtRpgXl",
       "name": "Atelier1 F26 · Class 05 · 06 Hold to Speech · Motion",
-      "contentHash": "sha256:c14805a6c1cabe6ec828112834598c06b27540916235f18e721e4f15ccbfdf8e",
+      "contentHash": "sha256:584c5fb20aa82610c290d08edf51e29763ef7b679b0aad7d6b6dea2064782d3c",
       "fileIds": {
         "__root__": "12b9003b0c669d33ee16c828",
         "index.html": "be669c48e150072bb9aad6ef",
         "sketch.js": "4c3e471706453f63b6d5c13d"
       },
-      "lastPush": "2026-09-26T21:54:19.911Z",
+      "lastPush": "2026-10-06T18:52:18.761Z",
       "lastVerify": "2026-09-24T02:35:57.238Z"
     },
     "class-05-06-hold-to-speech-sound": {
       "projectId": "MrPoa3p_b",
       "name": "Atelier1 F26 · Class 05 · 06 Hold to Speech · Sound",
-      "contentHash": "sha256:923ffe17d5b7dd5f2b00a7fb5401196cbcb384cabfa8e67cf40ded6eae1af769",
+      "contentHash": "sha256:3aab640555168b8d69fb35953b67e173816a99f42e1340f7def3bb17ad8c7943",
       "fileIds": {
         "__root__": "423f02665add17795ee272bf",
         "index.html": "9c284eefe12e1b3ba39af39a",
         "sketch.js": "60ed772040a73d9f6cd7950b"
       },
-      "lastPush": "2026-09-26T21:54:21.053Z",
+      "lastPush": "2026-10-06T18:52:19.790Z",
       "lastVerify": "2026-09-24T02:35:57.835Z"
     },
     "class-05-06-hold-to-speech-touch": {
       "projectId": "WTLo35Psf",
       "name": "Atelier1 F26 · Class 05 · 06 Hold to Speech · Touch",
-      "contentHash": "sha256:19c6ba6ae9dbdc485f651e82d9af9f57252a0ef6a0dcfb7714db12b5b780db07",
+      "contentHash": "sha256:a214bca4b5175a0557eef1cdba799d387218de56ff9f5e467d2372088c8740b7",
       "fileIds": {
         "__root__": "223f4f3425ce41cb346d1e90",
         "index.html": "9b325a804ddaa1c3b5b96e86",
         "sketch.js": "752451fb24c370a737d89171"
       },
-      "lastPush": "2026-09-26T21:54:22.209Z",
+      "lastPush": "2026-10-06T18:52:20.835Z",
       "lastVerify": "2026-09-24T02:35:58.444Z"
     },
     "class-05-01-tap-to-step": {
       "projectId": "Y4zGVPB5P",
       "name": "Atelier1 F26 · Class 05 · 01 Tap to Step",
-      "contentHash": "sha256:a7e1e0d987e35521223ae436e763efaa1abc60905bdf65b3a7830f2022cc8f8c",
+      "contentHash": "sha256:2ea5e2ad8a3fa846297bc2be2f85aa8c2f2fe721cf888f52e1c7ce154b0f072c",
       "fileIds": {
         "__root__": "448cbf7515661216e1c0311f",
         "index.html": "d116580449bdb86c75d88c0d",
         "sketch.js": "54afaf2fda74c2c9defc7181"
       },
-      "lastPush": "2026-09-26T21:53:56.906Z",
+      "lastPush": "2026-10-06T18:52:21.868Z",
       "lastVerify": "2026-09-24T11:43:26.961Z"
     },
     "class-05-02-tilt-to-speed": {
       "projectId": "ABiicEW7c",
       "name": "Atelier1 F26 · Class 05 · 02 Tilt to Speed",
-      "contentHash": "sha256:4059030f2a192eeb851a95c5cd7ef7b05b1c2dc990673c7e413ca4ec51e5124d",
+      "contentHash": "sha256:92a578331b977c238fd00fc8325d624ddabc3cff2135e4f25c9a2c4bbc7328ea",
       "fileIds": {
         "__root__": "f28867866b4146939652d6aa",
         "index.html": "f4f9ecc3433ea5ad0e4f9e13",
         "sketch.js": "a4b87fe339af60f96e9eb40b"
       },
-      "lastPush": "2026-09-26T21:54:02.688Z",
+      "lastPush": "2026-10-06T18:52:22.885Z",
       "lastVerify": "2026-09-24T11:43:27.579Z"
     },
     "class-05-03-shake-to-play": {
       "projectId": "79F_YA04J",
       "name": "Atelier1 F26 · Class 05 · 03 Shake to Play",
-      "contentHash": "sha256:4426f9d5f8d79ade765cf626b66ae6d8d6d3fa55a5cbb69ea212b2d4db56d5b7",
+      "contentHash": "sha256:a78937161fa418343833f946fb4d3d6d4c528dd7fe71e0c6deb70ed7d347fb88",
       "fileIds": {
         "__root__": "aa194c5cf0ad5936c2e55e07",
         "index.html": "8af3a6a6fd5ccdf72683850e",
         "sketch.js": "53b39e18f27cf20206b6156d"
       },
-      "lastPush": "2026-09-26T21:54:08.407Z",
+      "lastPush": "2026-10-06T18:52:23.906Z",
       "lastVerify": "2026-09-24T11:52:54.931Z"
     },
     "class-05-04-drag-to-pitch": {
       "projectId": "l9_m8rQE-",
       "name": "Atelier1 F26 · Class 05 · 04 Drag to Pitch",
-      "contentHash": "sha256:23eaca3916c7e77e736c0c7ffea06b28141c8cdc1d80aab9ba657d7842fcefd5",
+      "contentHash": "sha256:6a082d5a77ba955ccc90dc1ee044a583ecc5430d309d3cc4cc2d5a11f714fed1",
       "fileIds": {
         "__root__": "6f56eb7c523c7652accc6061",
         "index.html": "90960ccb1ee77a2cdc9be4d1",
         "sketch.js": "eb92345d738487fac8c6eae6"
       },
-      "lastPush": "2026-09-26T21:54:09.562Z",
+      "lastPush": "2026-10-06T18:52:24.931Z",
       "lastVerify": "2026-09-24T11:43:28.780Z"
     },
     "class-06-01-tilt-to-trail": {
       "projectId": "54fHeM8AH",
       "name": "Atelier1 F26 · Class 06 · 01 Tilt to Trail",
-      "contentHash": "sha256:1436557bb312c6300b755423498c236ff6d6603dd226e1d3226a7098acd6a9ea",
+      "contentHash": "sha256:171c3094de9c66a1c6240bbf27c23d3f815365f15451f779aa70fda607eb8dec",
       "fileIds": {
         "__root__": "ee0d9cd1517be21dac445e55",
         "index.html": "d79adecad4ff5dce57f70845",
         "sketch.js": "4c9537a562d82869fd54cd5c"
       },
-      "lastPush": "2026-09-26T21:54:25.649Z",
+      "lastPush": "2026-10-06T18:52:25.964Z",
       "lastVerify": "2026-09-25T14:42:31.405Z"
     },
     "class-06-02-level-to-shape": {
       "projectId": "C08Zb5EFZ",
       "name": "Atelier1 F26 · Class 06 · 02 Level to Shape",
-      "contentHash": "sha256:2f6d85cb06bab2bf4a82edd42a876b84a4239805dadb37f05f4dd9d9903cea08",
+      "contentHash": "sha256:12ea7d3069b55e5ab088e6be50898fa218d1df171a53a3963398b333b69e0224",
       "fileIds": {
         "__root__": "0dfdd7d787ad43699565a195",
         "index.html": "099bd78ef4b603fd26da12a5",
         "sketch.js": "2f97775f516e85e2166bd3e5"
       },
-      "lastPush": "2026-09-26T21:54:26.782Z",
+      "lastPush": "2026-10-06T18:52:27.025Z",
       "lastVerify": "2026-09-25T14:42:32.045Z"
     },
     "class-06-03-tilt-to-view": {
       "projectId": "he338VZQu",
       "name": "Atelier1 F26 · Class 06 · 03 Tilt to View",
-      "contentHash": "sha256:b09a85a9c17dd51d6b803ecdeb205e94f252b16292d11a6e910ee67db8766bda",
+      "contentHash": "sha256:8a12e9e7a206b9b574f5b2a7ff43845bd9061be47e210946252d6b240813f1f7",
       "fileIds": {
         "__root__": "c0e514867e1a582e2b0c94c0",
         "index.html": "a49e10b42c117a72ff091f92",
         "sketch.js": "18c678bf3106d6d34d2c38e7"
       },
-      "lastPush": "2026-09-26T21:54:27.898Z",
+      "lastPush": "2026-10-06T18:52:28.082Z",
       "lastVerify": "2026-09-25T15:01:41.646Z"
     },
     "class-06-04-tilt-to-echo": {
       "projectId": "gwb5Hp3IE",
       "name": "Atelier1 F26 · Class 06 · 04 Tilt to Echo",
-      "contentHash": "sha256:5bb752b068350facf56e1be85fc46f382ca5173c66a340587aff5960748e7e5e",
+      "contentHash": "sha256:a2a0e70e699f1e463e8d54c2ff315d48cf88834a740517dcf7612c5d9d681e42",
       "fileIds": {
         "__root__": "82cc8e8dee0d10b693d3542f",
         "index.html": "2cbc9c96aca1b4fba860e59c",
         "sketch.js": "ca0d7ea2b663337f63a0a9e8"
       },
-      "lastPush": "2026-09-26T21:54:29.025Z",
+      "lastPush": "2026-10-06T18:52:29.124Z",
       "lastVerify": "2026-09-25T14:42:33.213Z"
     },
     "class-06-05-level-to-surface": {
       "projectId": "9BM_O0Wcw",
       "name": "Atelier1 F26 · Class 06 · 05 Level to Surface",
-      "contentHash": "sha256:ff5a927011afd477223a475effaf887a1ecebbfe9e5400533958590f5d0bc407",
+      "contentHash": "sha256:357b80256595927587d68cd76667510d138478bd3dbdd227dd85891ceded7ade",
       "fileIds": {
         "__root__": "9defdcc612d769f0f867367c",
         "index.html": "7307f9d42c826148fa516316",
         "sketch.js": "c43d020f9295de78673653f3"
       },
-      "lastPush": "2026-09-26T21:54:30.207Z",
+      "lastPush": "2026-10-06T18:52:30.219Z",
       "lastVerify": "2026-09-25T14:42:33.815Z"
     }
   }

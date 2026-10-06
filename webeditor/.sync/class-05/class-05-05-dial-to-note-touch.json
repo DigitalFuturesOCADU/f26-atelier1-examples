@@ -3,7 +3,7 @@
   "title": "Class 05 · 05 Dial to Note · Touch",
   "name": "Atelier1 F26 · Class 05 · 05 Dial to Note · Touch",
   "projectId": "ClfwXSXue",
-  "contentHash": "sha256:4ebeee0499ff92a900c19ba5f63e3980a2f59d428e021c0f17dbe27f81827b36",
+  "contentHash": "sha256:be205be3b22b2d46253136a8079b0b6d097ba93657d3619b84030670e3828224",
   "files": [
     {
       "name": "root",
@@ -17,7 +17,7 @@
     },
     {
       "name": "index.html",
-      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>05 Dial to Note · Touch</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- smplr, the sampled marimba, is a module. It is loaded inside sketch.js, not here.\n       It plays through the browser's own sound system, so p5.sound is not loaded. -->\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.15.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>05 Dial to Note · Touch</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n\n  <!-- smplr, the sampled marimba, is a module. It is loaded inside sketch.js, not here.\n       It plays through the browser's own sound system, so p5.sound is not loaded. -->\n\n  <!-- p5-phone: the permission tap and gesture lock -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.15.3/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
       "id": "781d2683207d1ced1d91c91c",
       "_id": "781d2683207d1ced1d91c91c",
       "fileType": "file",
