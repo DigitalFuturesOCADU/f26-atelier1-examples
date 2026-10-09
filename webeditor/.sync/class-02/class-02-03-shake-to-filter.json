@@ -3,7 +3,7 @@
   "title": "Class 02 · 03 Shake to Filter",
   "name": "Atelier1 F26 · Class 02 · 03 Shake to Filter",
   "projectId": "lVgmS7scx",
-  "contentHash": "sha256:b8308f0a1164b92e5cf2a147a9be8e4877e9dfc00cf22fe68534af6811a2a67c",
+  "contentHash": "sha256:02f05617a6f91a0d1f2d45691cd5200131e393587521380cdb4f9777465c25ad",
   "files": [
     {
       "name": "root",
@@ -12,7 +12,8 @@
       "fileType": "folder",
       "children": [
         "e219534df590df490b7de9e1",
-        "42634e56938aae65d7da07ee"
+        "42634e56938aae65d7da07ee",
+        "d1f0b1698d81a34772697a17"
       ]
     },
     {
@@ -31,6 +32,26 @@
       "fileType": "file",
       "children": [],
       "isSelectedFile": true
+    },
+    {
+      "name": "spaceSuit2.png",
+      "content": "",
+      "url": null,
+      "id": "d1f0b1698d81a34772697a17",
+      "_id": "d1f0b1698d81a34772697a17",
+      "fileType": "file",
+      "children": []
+    }
+  ],
+  "assets": [
+    {
+      "path": "spaceSuit2.png",
+      "name": "spaceSuit2.png",
+      "fileId": "d1f0b1698d81a34772697a17",
+      "size": 251447,
+      "sha256": "78318da15eeecd7bc0801c4b13c2d955825bf8ed2080b9a94fb7a43cb7c4c146",
+      "contentType": "image/png",
+      "url": null
     }
   ]
 }

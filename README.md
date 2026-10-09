@@ -179,15 +179,16 @@ and listens hears itself.
 
 ```bash
 ./webeditor/stage.sh
-npx p5-webeditor-sync sync --batch class-02
-npx p5-webeditor-sync sync --batch class-03
-npx p5-webeditor-sync sync --batch class-04
+npx p5-webeditor-sync@latest sync --batch class-02
+npx p5-webeditor-sync@latest sync --batch class-03
+npx p5-webeditor-sync@latest sync --batch class-04
 ```
 
-`stage.sh` copies only `index.html` and `sketch.js`. The tool sends files as text, so
-images are uploaded to each web editor sketch by hand. A sync replaces a sketch's whole file
-list with what it sends, so it drops those images (the four Class 2 sketches have one each).
-For those sketches, change `index.html` and `sketch.js` in place instead. That is how every
-sketch was moved to p5-phone 1.15.0 on 2026-09-26 and to 1.15.3 on 2026-10-06: fetch the
-project, swap only those two files' text, save it back. Then a dry-run sync shows every
-sketch as unchanged. The Class 3 GIF-control sketches are not on the web editor.
+`stage.sh` copies each example's files, images included, and p5-webeditor-sync 1.2.0 and
+later upload images intact as web editor assets (`@latest` stops `npx` reusing an older
+cached copy). A sync replaces a sketch's whole file list with what it sends, so keep every
+image a sketch uses in its example folder: one added only in the web editor is dropped on
+the next sync. The four Class 2 sketches have had synced copies of `spaceSuit2.png` since
+2026-10-08. Before that the tool sent images as text, so they were edited in place instead.
+The Class 3 GIF-control sketches are not on the web editor; their staged folders include
+`stitch.gif`, so a Class 3 sync uploads it with them.

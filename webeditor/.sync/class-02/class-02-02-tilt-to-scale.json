@@ -3,7 +3,7 @@
   "title": "Class 02 · 02 Tilt to Scale",
   "name": "Atelier1 F26 · Class 02 · 02 Tilt to Scale",
   "projectId": "Z5I5kjEuvn",
-  "contentHash": "sha256:6eb8926e373c58c00ced561becfe53c382928fc24f0f2f8e4a6c7dc32b64802f",
+  "contentHash": "sha256:6a7b384a15ecd977fe0723ab2e0473363265c509a9d4770f7c7c32d683ac813b",
   "files": [
     {
       "name": "root",
@@ -12,7 +12,8 @@
       "fileType": "folder",
       "children": [
         "81a6f6ec50f002d57ae7cecd",
-        "4b839c26eb9bd11518e38c64"
+        "4b839c26eb9bd11518e38c64",
+        "5d5f419cf9278f691a6c7b8a"
       ]
     },
     {
@@ -31,6 +32,26 @@
       "fileType": "file",
       "children": [],
       "isSelectedFile": true
+    },
+    {
+      "name": "spaceSuit2.png",
+      "content": "",
+      "url": null,
+      "id": "5d5f419cf9278f691a6c7b8a",
+      "_id": "5d5f419cf9278f691a6c7b8a",
+      "fileType": "file",
+      "children": []
+    }
+  ],
+  "assets": [
+    {
+      "path": "spaceSuit2.png",
+      "name": "spaceSuit2.png",
+      "fileId": "5d5f419cf9278f691a6c7b8a",
+      "size": 251447,
+      "sha256": "78318da15eeecd7bc0801c4b13c2d955825bf8ed2080b9a94fb7a43cb7c4c146",
+      "contentType": "image/png",
+      "url": null
     }
   ]
 }
