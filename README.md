@@ -212,6 +212,10 @@ site, not from the web editor. `tests/share-load/` checks a server with 30 fake 
 | [03-hot-potato](class-11/03-hot-potato/projector/) | a shake throws (`shareEmit('throw')`) | who has it and the clock; writes `shared.round` | `hot-potato` |
 | [04-show-of-hands-networked](class-11/04-show-of-hands-networked/projector/) | `vote` A or B | the tally, but not where people are | `show-of-hands` |
 
+`class-11/05-common-signal-starter/` is the starter for the Common Signal activity: one page, the same on
+both phones of a pair. Same pair name, same room (`app: 'common-signal'`). It sends one value and
+shows yours and your partner's. Change the value in `readMyValue()`.
+
 ## Class 12 · Talking to things
 
 `class-12/the-class-lamp/`: Level 2, the hub. `hub/` is a laptop page (Chrome) that joins the

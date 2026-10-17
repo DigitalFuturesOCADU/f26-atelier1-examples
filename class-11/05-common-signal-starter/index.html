@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>05 Common Signal Starter</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background: #141414;
+      font-family: system-ui, sans-serif;
+    }
+    canvas {
+      touch-action: none; /* a finger on the canvas never scrolls the page */
+    }
+    /* the start screen: a pair name and a Join button. the sketch hides it after the tap */
+    #start {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 24px;
+      box-sizing: border-box;
+      background: #141414;
+      color: #ffffff;
+      text-align: center;
+    }
+    #start h1 { margin: 0; font-size: 26px; }
+    #start p { margin: 0 0 6px; max-width: 320px; font-size: 18px; line-height: 1.4; color: #9a9a9a; }
+    #start input, #start button {
+      width: 100%;
+      max-width: 320px;
+      box-sizing: border-box;
+      padding: 12px;
+      font-size: 22px;   /* 16 or more stops iPhone zooming in on the field */
+    }
+    #start button { padding: 14px; font-weight: 700; }
+    /* a disabled button must also ignore touches, or the join tap still fires on a phone */
+    #start button:disabled { opacity: 0.4; pointer-events: none; }
+  </style>
+
+  <!-- a laptop sends one empty tilt reading. this drops it before p5 sees it -->
+  <script>window.addEventListener('deviceorientation', function (e) { if (e.beta === null) e.stopImmediatePropagation(); }, true);</script>
+
+  <!-- the class server address. it sets window.CLASS_SHARE_HOST.
+       in your own copy, delete this line and paste the address into SHARE_HOST in sketch.js -->
+  <script src="../class-server.js"></script>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- p5-phone: tilt, the join tap and Share -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.15.4/dist/p5-phone.min.js"></script>
+</head>
+<body>
+  <div id="start">
+    <h1>05 Common Signal Starter</h1>
+    <p>Type a pair name that only you and your partner use. Your partner types the same one.</p>
+    <input id="pair" placeholder="pair name" autocapitalize="none" autocomplete="off" spellcheck="false">
+    <button id="join" disabled>Join</button>
+  </div>
+  <script src="sketch.js"></script>
+</body>
+</html>
