@@ -212,6 +212,14 @@ site, not from the web editor. `tests/share-load/` checks a server with 30 fake 
 | [03-hot-potato](class-11/03-hot-potato/projector/) | a shake throws (`shareEmit('throw')`) | who has it and the clock; writes `shared.round` | `hot-potato` |
 | [04-show-of-hands-networked](class-11/04-show-of-hands-networked/projector/) | `vote` A or B | the tally, but not where people are | `show-of-hands` |
 
+## Class 12 · Talking to things
+
+`class-12/the-class-lamp/`: Level 2, the hub. `hub/` is a laptop page (Chrome) that joins the
+Crowd Tilt room from Class 11, reads `shared.average`, and writes three one-byte values (hue,
+brightness, pixel count) over Web Bluetooth. `arduino/ClassLamp/` is the Uno R4 WiFi sketch: P5PhoneBLE
+plus an Adafruit NeoPixel strip on D6, with the R4's LED matrix as a stand-in. It needs P5PhoneBLE
+0.1.1 or later (0.1.0 does not compile on the R4).
+
 ## Web editor copies
 
 `p5-webeditor.config.json` publishes each example to the p5.js web editor with
