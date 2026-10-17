@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10 Show of Hands: Projector</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #101010;
+    }
+    canvas {
+      touch-action: none; /* a finger on the canvas never scrolls the page */
+    }
+  </style>
+
+  <!-- a tilt reading that is all null (desktop Chrome) would flood p5 with warnings. this drops it -->
+  <script>window.addEventListener('deviceorientation', function (e) { if (e.beta === null) e.stopImmediatePropagation(); }, true);</script>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- p5-phone: the camera, the camera tap and the QR code -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.15.4/dist/p5-phone.min.js"></script>
+
+  <!-- js-aruco2: finds the markers. classic scripts, cv.js first -->
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/cv.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/aruco.js"></script>
+
+  <!-- helpers that sit next to sketch.js: the camera switch button and the scaled-down camera frame -->
+  <script src="camera-switch.js"></script>
+  <script src="frame.js"></script>
+</head>
+<body>
+  <script src="sketch.js"></script>
+</body>
+</html>

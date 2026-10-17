@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>09 Show of Hands: Phone</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #141414;
+    }
+    canvas {
+      touch-action: none; /* a finger on the canvas never scrolls the page */
+    }
+
+    /* the start screen: pick a seat number, then tap Start */
+    #start {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.2vh;
+      padding: 16px 20px;
+      background: #141414;
+      color: #f2f2f2;
+      font: 18px/1.35 system-ui, -apple-system, sans-serif;
+      text-align: center;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+    #start h1 { margin: 0; font-size: 26px; }
+    #start p { margin: 0; max-width: 330px; color: #b8b8b8; }
+    #start .label { color: #f2f2f2; font-weight: 600; }
+    #picker { display: flex; align-items: center; gap: 14px; }
+    #picker button {
+      width: 84px;
+      height: 84px;
+      border: 0;
+      border-radius: 18px;
+      background: #2c2c2c;
+      color: #fff;
+      font: 700 52px/1 system-ui, sans-serif;
+      touch-action: manipulation;
+    }
+    #picker button:active { background: #555; }
+    #seat {
+      min-width: 2.1ch;
+      font: 700 88px/1 system-ui, sans-serif;
+      font-variant-numeric: tabular-nums;
+    }
+    #go {
+      width: 100%;
+      max-width: 340px;
+      height: 72px;
+      border: 0;
+      border-radius: 18px;
+      background: #fff;
+      color: #111;
+      font: 700 28px/1 system-ui, sans-serif;
+    }
+    #go:active { background: #cfcfcf; }
+    #desktop-note { display: none; }
+  </style>
+
+  <!-- the phone sends no data at all. a tilt sensor reading that is all null (desktop Chrome)
+       would flood p5 with warnings, so this drops it before p5 sees it -->
+  <script>window.addEventListener('deviceorientation', function (e) { if (e.beta === null) e.stopImmediatePropagation(); }, true);</script>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- p5-phone: the motion permission and the gesture lock -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.15.4/dist/p5-phone.min.js"></script>
+
+  <!-- js-aruco2: only its dictionary is used here, to draw the marker. classic scripts, cv.js first -->
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/cv.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/aruco.js"></script>
+</head>
+<body>
+  <div id="start">
+    <h1>Show of Hands</h1>
+    <p class="label">Your seat number</p>
+    <div id="picker">
+      <button id="minus" type="button" aria-label="Lower the seat number">&minus;</button>
+      <div id="seat">7</div>
+      <button id="plus" type="button" aria-label="Raise the seat number">+</button>
+    </div>
+    <p>Turn the screen brightness all the way up. A web page cannot do that for you.</p>
+    <button id="go" type="button">Start</button>
+    <p>Then tilt left for A or right for B. Hold your phone up to the camera.</p>
+    <p id="desktop-note">On a laptop, press the left or right arrow key, or click the left or right half.</p>
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
