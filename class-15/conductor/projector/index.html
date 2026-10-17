@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conductor: Projector</title>
+  <style>
+    :root {
+      --u: 1;                /* one design unit. 1 is a 1920 by 1080 screen. sketch.js sets it */
+      --col: 340px;          /* the width of the column on the right. sketch.js sets it */
+      --amber: #ffc800;
+      --grey: #9a9a9a;
+      --line: #333333;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #141414;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      font-size: calc(24px * var(--u));
+      overflow: hidden;
+    }
+    #app { display: flex; height: 100vh; }
+    #main { flex: 1 1 auto; min-width: 0; overflow-y: auto; padding: calc(32px * var(--u)) calc(40px * var(--u)) calc(40px * var(--u)); }
+    #side { flex: 0 0 var(--col); padding: calc(32px * var(--u)) calc(16px * var(--u)) 0 0; display: flex; flex-direction: column; }
+
+    h1 { margin: 0; font-size: calc(56px * var(--u)); line-height: 1.1; }
+    h2 { margin: 0; font-size: calc(26px * var(--u)); letter-spacing: 0; }
+    p { margin: 0; }
+    .grey { color: var(--grey); }
+    .small { font-size: calc(20px * var(--u)); }
+    .hint { color: var(--grey); font-size: calc(18px * var(--u)); }
+
+    #top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: calc(24px * var(--u)); }
+    #tagline { color: var(--grey); font-size: calc(28px * var(--u)); margin-top: 6px; }
+
+    button {
+      font: inherit; font-size: calc(22px * var(--u));
+      color: #ffffff; background: #262626; border: 2px solid #4a4a4a; border-radius: 6px;
+      padding: calc(8px * var(--u)) calc(16px * var(--u)); cursor: pointer;
+    }
+    button:hover { border-color: #888888; }
+    button.on { background: var(--amber); color: #141414; border-color: var(--amber); font-weight: 700; }
+    button .key { color: var(--grey); font-size: calc(18px * var(--u)); margin-right: 8px; font-weight: 400; }
+    button.on .key { color: #141414; }
+    input[type=text] {
+      font: inherit; font-size: calc(24px * var(--u)); color: #ffffff; background: #1d1d1d;
+      border: 2px solid #4a4a4a; border-radius: 6px; padding: calc(8px * var(--u)) calc(14px * var(--u));
+      flex: 1 1 280px; min-width: 0;
+    }
+    input[type=text]:focus { outline: none; border-color: var(--amber); }
+
+    #controls { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: calc(14px * var(--u)) 0; margin-bottom: calc(24px * var(--u)); }
+    .row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: calc(8px * var(--u)) 0; }
+    .label { flex: 0 0 calc(70px * var(--u)); color: var(--grey); font-size: calc(20px * var(--u)); font-weight: 700; }
+
+    .chip { display: inline-block; padding: 2px 12px; border-radius: 4px; font-weight: 700; }
+
+    #rolesRow { display: flex; gap: calc(16px * var(--u)); flex-wrap: wrap; margin-bottom: calc(16px * var(--u)); }
+    .roleCard { flex: 1 1 calc(210px * var(--u)); min-height: calc(150px * var(--u)); border-radius: 8px; padding: calc(14px * var(--u)) calc(16px * var(--u)); }
+    .roleCard .shape { font-size: calc(30px * var(--u)); line-height: 1; }
+    .roleCard .name { font-size: calc(34px * var(--u)); font-weight: 700; }
+    .roleCard .count { font-size: calc(80px * var(--u)); font-weight: 700; line-height: 1; float: right; }
+    .roleCard .who { clear: both; font-size: calc(19px * var(--u)); opacity: 0.9; padding-top: 6px; }
+
+    #reach { color: var(--grey); font-size: calc(22px * var(--u)); margin-bottom: calc(20px * var(--u)); }
+    #reach b { color: #ffffff; }
+
+    .logRow { display: flex; gap: 16px; align-items: baseline; padding: calc(8px * var(--u)) 0; border-top: 1px solid var(--line); }
+    .logRow .t { flex: 0 0 calc(80px * var(--u)); color: var(--grey); }
+    .logRow .w { flex: 0 0 calc(130px * var(--u)); font-weight: 700; }
+    .logRow .c { flex: 1 1 auto; font-size: calc(34px * var(--u)); font-weight: 700; }
+    .logRow .s { flex: 0 0 calc(210px * var(--u)); text-align: right; color: var(--grey); }
+    .logRow .s.done { color: #5ce08a; }
+    .logRow.event .c { font-size: calc(24px * var(--u)); font-weight: 400; color: var(--grey); }
+
+    /* the read aloud view: the next cue in big type, for a person to say out loud */
+    #readView { display: none; border: 2px solid var(--amber); border-radius: 8px; padding: calc(24px * var(--u)) calc(32px * var(--u)); margin-bottom: calc(20px * var(--u)); }
+    #readView .to { font-size: calc(34px * var(--u)); font-weight: 700; }
+    #readView .words { font-size: calc(150px * var(--u)); font-weight: 700; line-height: 1.05; margin-top: calc(12px * var(--u)); overflow-wrap: anywhere; }
+    #readView .words.empty { color: var(--grey); font-size: calc(60px * var(--u)); }
+    body.read #readView { display: block; }
+    body.read #rolesRow, body.read #reach { display: none; }
+    /* F hides everything except the big cue, for the person standing at the front */
+    body.reader #top, body.reader #controls, body.reader #scorePanel, body.reader #logPanel { display: none; }
+    body.reader #main { display: flex; flex-direction: column; justify-content: center; }
+    body.reader #readView { border: none; }
+    body.reader #readView .words { font-size: calc(220px * var(--u)); }
+
+    #scorePanel { margin-top: calc(24px * var(--u)); }
+    #scorePanel .head { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: calc(10px * var(--u)); }
+    #clock { color: var(--amber); font-weight: 700; flex: 1 1 auto; }
+    table { width: 100%; border-collapse: collapse; font-size: calc(21px * var(--u)); }
+    th { text-align: left; color: var(--grey); font-weight: 700; border-bottom: 2px solid #555555; padding: 6px 12px 6px 0; }
+    td { border-bottom: 1px solid var(--line); padding: 6px 12px 6px 0; vertical-align: top; }
+    td.none { color: var(--grey); }
+
+    #phoneCount { font-size: calc(150px * var(--u)); font-weight: 700; line-height: 1; }
+    #side .block { margin-bottom: calc(18px * var(--u)); }
+    #status { display: flex; align-items: center; gap: 10px; }
+    #dot { width: calc(18px * var(--u)); height: calc(18px * var(--u)); border-radius: 50%; background: #ffc800; flex: 0 0 auto; }
+    #joinWords { margin-top: auto; padding-bottom: calc(var(--qr) + 64px); }
+    #joinWords .scan { color: var(--amber); font-weight: 700; font-size: calc(34px * var(--u)); margin-bottom: 6px; }
+    #joinWords .addr { color: var(--grey); font-size: calc(22px * var(--u)); overflow-wrap: anywhere; }
+  </style>
+
+  <!-- a phone that opens this page goes to the phone page instead, with the same server and
+       room. Add ?projector=1 to use a phone here on purpose. -->
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var phone = window.matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 700;
+      if (phone && !q.has('projector')) location.replace('../phone/' + location.search);
+    })();
+  </script>
+
+  <!-- the class server address. Nick sets it once in class-11/class-server.js. If this file is
+       missing, add ?shareHost=https://your-server.workers.dev to the end of this page address -->
+  <script src="../../../class-11/class-server.js"></script>
+
+  <!-- p5.js 2.x. p5 only runs the page here. there is no canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- p5-phone: Share, and the join code -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.15.4/dist/p5-phone.min.js"></script>
+
+  <script src="roles.js"></script>
+</head>
+<body>
+  <div id="app">
+    <main id="main">
+      <header id="top">
+        <div>
+          <h1>Conductor</h1>
+          <p id="tagline">The phone organizes the people.</p>
+        </div>
+        <div>
+          <button id="modePhones"><span class="key">M</span>Phones</button>
+          <button id="modeRead"><span class="key">M</span>Read aloud</button>
+        </div>
+      </header>
+
+      <section id="controls">
+        <div class="row"><span class="label">TO</span><span id="targets"></span><span class="hint">left and right arrows. It goes back to Everyone after each cue.</span></div>
+        <div class="row"><span class="label">CUE</span><span id="cueButtons"></span></div>
+        <div class="row"><span class="label">OWN</span><input id="freeText" type="text" maxlength="80" placeholder="Type a cue of your own, then press Enter" autocomplete="off"><button id="sendFree">Send</button></div>
+      </section>
+
+      <section id="stage">
+        <div id="readView"></div>
+        <div id="rolesRow"></div>
+        <p id="reach"></p>
+        <div id="logPanel">
+          <h2>CUE LOG</h2>
+          <div id="log"></div>
+        </div>
+      </section>
+
+      <section id="scorePanel">
+        <div class="head">
+          <h2>SESSION SCORE</h2>
+          <span id="clock"></span>
+          <button id="copyScore"><span class="key">C</span>Copy score</button>
+          <button id="shuffle"><span class="key">S</span>Shuffle roles</button>
+          <button id="newSession">New session</button>
+        </div>
+        <div id="scoreTable"></div>
+        <p class="hint" style="margin-top: 10px;">Copy score puts a table on your clipboard. Paste it into a note. The last column is for you to fill in.</p>
+      </section>
+    </main>
+
+    <aside id="side">
+      <div class="block">
+        <p class="grey small" style="font-weight: 700;">PHONES</p>
+        <p id="phoneCount">0</p>
+      </div>
+      <div class="block">
+        <p class="grey small" style="font-weight: 700;">ROLES</p>
+        <button id="roles3"><span class="key">R</span>3</button>
+        <button id="roles4"><span class="key">R</span>4</button>
+      </div>
+      <div class="block">
+        <p id="status"><span id="dot"></span><span id="statusWords">Connecting</span></p>
+        <p id="roomName" class="grey small" style="margin-top: 6px;"></p>
+        <p class="hint" style="margin-top: 14px;">F shows only the big cue.</p>
+      </div>
+      <div id="joinWords"></div>
+    </aside>
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>

@@ -231,6 +231,21 @@ wall, and every phone sees the same creature standing on it. No network: the mar
 place. three.js 0.185.1 (import map), three-phone 0.2.0 camera, js-aruco2 2.0.0 pose. Set the printed
 size with `MARKER_SIZE_MM` or `?size=` (190 mm needs Tabloid or A3; use 150 on Letter).
 
+## Class 14 · Traces and residue
+
+`class-14/the-wall/`: a `wall/` page (the laptop shared on the call) and a `phone/` page, Share room
+`the-wall` with `keep: '7d'`. Each mark is its own key in `shared` (`{ x, y, t, hue }`), so marks added
+at the same moment are not lost; each fades over 24 hours and is deleted after. Both pages pin p5-phone
+1.15.4, which has no keep option: the wall forgets when everyone leaves and says so. Change the version
+in both `index.html` files when the release with the keep option is out.
+
+## Class 15 · Organizing people
+
+`class-15/conductor/`: a `projector/` page gives every phone a role (`shared.roles`) and sends cues with
+`shareEmit('cue', ...)` to everyone or to one role; it builds a session score you can copy. Read aloud
+mode (M) shows the cue for a person to say. The `phone/` page shows its role and the cues, buzzes on
+Android, and can speak a cue or flash the torch if the participant turns those on.
+
 ## Web editor copies
 
 `p5-webeditor.config.json` publishes each example to the p5.js web editor with

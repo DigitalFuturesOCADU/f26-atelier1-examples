@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Conductor: Phone</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: #141414;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      overflow: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #screen {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      padding: max(18px, env(safe-area-inset-top)) 20px max(14px, env(safe-area-inset-bottom));
+      background: #141414; color: #ffffff;
+    }
+    #top { display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; opacity: 0.85; min-height: 20px; }
+    #center { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .glyph { font-size: 30vmin; line-height: 1; }
+    .roleName { font-size: 17vmin; font-weight: 800; line-height: 1.05; margin-top: 2vmin; }
+    .sub { font-size: 20px; line-height: 1.35; margin-top: 4vmin; max-width: 22em; opacity: 0.92; }
+    .small { font-size: 16px; opacity: 0.85; }
+    #cueRole { font-size: 22px; font-weight: 700; margin-bottom: 2vmin; }
+    #cueText { width: 100%; font-weight: 800; line-height: 1.05; overflow-wrap: normal; }
+    #lastCue { margin-top: 3vmin; font-size: 18px; opacity: 0.85; max-width: 22em; }
+    .pop { animation: pop 0.5s ease-out; }
+    @keyframes pop { 0% { filter: invert(1); } 100% { filter: invert(0); } }
+
+    #toggles { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+    #toggles button {
+      font: inherit; color: inherit; text-align: left;
+      background: rgba(0, 0, 0, 0.28); border: 2px solid currentColor; border-radius: 10px;
+      padding: 10px 14px; cursor: pointer;
+    }
+    #toggles button.on { background: #ffffff; color: #141414; border-color: #ffffff; }
+    #toggles .t { display: block; font-size: 18px; font-weight: 700; }
+    #toggles .s { display: block; font-size: 14px; opacity: 0.85; margin-top: 2px; }
+    #toggles button[disabled] { opacity: 0.45; cursor: default; }
+    #foot { margin-top: 12px; font-size: 14px; opacity: 0.8; text-align: center; }
+  </style>
+
+  <!-- a laptop sends one empty tilt reading. this drops it before p5 sees it -->
+  <script>window.addEventListener('deviceorientation', function (e) { if (e.beta === null) e.stopImmediatePropagation(); }, true);</script>
+
+  <!-- the class server address. the projector's code carries its own, so a phone needs no setup -->
+  <script src="../../../class-11/class-server.js"></script>
+
+  <!-- p5.js 2.x. p5 only runs the page here. there is no canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- p5-phone: vibration, the torch and Share -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.15.4/dist/p5-phone.min.js"></script>
+
+  <script src="roles.js"></script>
+</head>
+<body>
+  <div id="screen">
+    <div id="top"><span>CONDUCTOR</span><span id="who"></span></div>
+    <div id="center" aria-live="assertive"></div>
+    <div id="toggles">
+      <button id="speakBtn"><span class="t"></span><span class="s"></span></button>
+      <button id="flashBtn"><span class="t"></span><span class="s"></span></button>
+    </div>
+    <div id="foot"></div>
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
