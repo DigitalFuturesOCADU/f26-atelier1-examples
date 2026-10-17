@@ -13,6 +13,16 @@
     }
   </style>
 
+  <!-- a phone that opens this projector page goes to the phone page instead, with the same
+       server and room. Add ?projector=1 to use a phone as the projector on purpose. -->
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var phone = window.matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 700;
+      if (phone && !q.has('projector')) location.replace('../phone/' + location.search);
+    })();
+  </script>
+
   <!-- the class server address. Nick sets it once in class-11/class-server.js -->
   <script src="../../class-server.js"></script>
 
