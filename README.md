@@ -171,6 +171,28 @@ and listens hears itself.
 | [03-shake-to-play](class-05/gif-and-sound/03-shake-to-play/) | shake (`deviceShaken()`) | `play()` while it rings | the clock ring, for `playSeconds` |
 | [04-drag-to-pitch](class-05/gif-and-sound/04-drag-to-pitch/) | finger x | `setFrame()` | oscillator pitch from the frame |
 
+## Class 10 · Cameras are sensors
+
+Ten examples in `class-10/camera/`. 01 to 08 are phone-first copies of examples from
+[browserCV](https://npuckett.github.io/browserCV-2026/), which is the full set for laptop and phone.
+09 and 10 are new: Show of Hands, a vote that travels as light from phone screens to one camera.
+Every camera example shows a red dot and "Camera on" while the camera runs, and records nothing.
+p5.js 2.2.3 and p5-phone 1.15.4. Each folder carries its own helper files, so it can go into the
+web editor as it is.
+
+| Example | What it notices | Camera | Library |
+| --- | --- | --- | --- |
+| [01-color-tracking](class-10/camera/01-color-tracking/) | one colour you tap | rear | none |
+| [02-brightness-tracking](class-10/camera/02-brightness-tracking/) | the brightest spot | rear | none |
+| [03-motion-detection](class-10/camera/03-motion-detection/) | what moved since the last frame | front | none |
+| [04-hand-pose](class-10/camera/04-hand-pose/) | hands, 21 points each | front | ml5 1.4.0 |
+| [05-face-mesh](class-10/camera/05-face-mesh/) | a face, 468 points | front | ml5 1.4.0 |
+| [06-body-pose](class-10/camera/06-body-pose/) | a body, 33 points | front | ml5 1.4.0 |
+| [07-gesture-recognizer](class-10/camera/07-gesture-recognizer/) | seven named gestures and None | front | MediaPipe tasks-vision 1.1.0 |
+| [08-aruco-markers](class-10/camera/08-aruco-markers/) | printed ArUco markers: id, position, turn | rear | js-aruco2 2.0.0 |
+| [09-show-of-hands-phone](class-10/camera/09-show-of-hands-phone/) | (no camera) the phone shows marker `seat` for A or `seat + 100` for B | none | js-aruco2 2.0.0 |
+| [10-show-of-hands-projector](class-10/camera/10-show-of-hands-projector/) | every marker in the room: the tally and where | laptop webcam | js-aruco2 2.0.0 |
+
 ## Web editor copies
 
 `p5-webeditor.config.json` publishes each example to the p5.js web editor with
