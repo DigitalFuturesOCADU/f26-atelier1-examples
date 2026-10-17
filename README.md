@@ -220,6 +220,13 @@ brightness, pixel count) over Web Bluetooth. `arduino/ClassLamp/` is the Uno R4 
 plus an Adafruit NeoPixel strip on D6, with the R4's LED matrix as a stand-in. It needs P5PhoneBLE
 0.1.1 or later (0.1.0 does not compile on the R4).
 
+## Class 13 · Looking through
+
+`class-13/the-creature-on-the-wall/`: one printed ArUco marker (ARUCO_MIP_36h12, id 0) on the
+wall, and every phone sees the same creature standing on it. No network: the marker is the shared
+place. three.js 0.185.1 (import map), three-phone 0.2.0 camera, js-aruco2 2.0.0 pose. Set the printed
+size with `MARKER_SIZE_MM` or `?size=` (190 mm needs Tabloid or A3; use 150 on Letter).
+
 ## Web editor copies
 
 `p5-webeditor.config.json` publishes each example to the p5.js web editor with

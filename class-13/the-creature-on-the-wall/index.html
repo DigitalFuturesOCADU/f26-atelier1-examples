@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>The Creature on the Wall</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #101318;
+    }
+    canvas {
+      display: block;
+      touch-action: none; /* a finger on the canvas never scrolls the page */
+    }
+  </style>
+
+  <!-- three-phone 0.2.0: the camera and the permission tap. A plain script that puts its names on window. -->
+  <script src="https://cdn.jsdelivr.net/npm/three-phone@0.2.0/dist/three-phone.min.js"></script>
+
+  <!-- js-aruco2 2.0.0 finds the marker and works out its pose. Plain scripts, in this order. -->
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/cv.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/aruco.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/svd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/posit1.js"></script>
+
+  <!-- helpers, in this folder -->
+  <script src="frame.js"></script>
+  <script src="three-helpers.js"></script>
+
+  <!-- three.js 0.185.1, through an import map -->
+  <script type="importmap">
+  { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/" } }
+  </script>
+</head>
+<body>
+  <!-- this module makes THREE global, then runs sketch.js as a plain script -->
+  <script type="module">
+    import * as THREE from 'three';
+    window.THREE = THREE;
+    const s = document.createElement('script');
+    s.src = 'sketch.js';
+    document.body.appendChild(s);
+  </script>
+</body>
+</html>
