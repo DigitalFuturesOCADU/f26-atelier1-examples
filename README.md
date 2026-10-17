@@ -193,6 +193,25 @@ web editor as it is.
 | [09-show-of-hands-phone](class-10/camera/09-show-of-hands-phone/) | (no camera) the phone shows marker `seat` for A or `seat + 100` for B | none | js-aruco2 2.0.0 |
 | [10-show-of-hands-projector](class-10/camera/10-show-of-hands-projector/) | every marker in the room: the tally and where | laptop webcam | js-aruco2 2.0.0 |
 
+## Class 11 · Many phones, one space
+
+Four class-wide examples in `class-11/`, on p5-phone Share. Each has a `projector/` page (the
+laptop at the front, desktop Chrome) and a `phone/` page, joined by the QR code the projector
+shows. Share keeps the last thing written, so each phone keeps its own value in `me` and the
+projector adds up `guests`. The projector is the only page that writes `shared`.
+
+The server address lives in one file, `class-11/class-server.js`. Put the deployed worker's
+`https://...workers.dev` address there, or add `?shareHost=` to the projector's address. The QR
+code carries it to the phones. These pages load `../../class-server.js`, so they run from this
+site, not from the web editor. `tests/share-load/` checks a server with 30 fake phones.
+
+| Example | Phones send (`me`) | The projector shows | Room |
+| --- | --- | --- | --- |
+| [01-crowd-tilt](class-11/01-crowd-tilt/projector/) | tilt `x`, `y` (-1 to 1) | one ball on the class average; writes `shared.average` for Class 12 | `crowd-tilt` |
+| [02-chord](class-11/02-chord/projector/) | how high the phone is held | the chord and who plays each note; writes `shared.parts` | `chord` |
+| [03-hot-potato](class-11/03-hot-potato/projector/) | a shake throws (`shareEmit('throw')`) | who has it and the clock; writes `shared.round` | `hot-potato` |
+| [04-show-of-hands-networked](class-11/04-show-of-hands-networked/projector/) | `vote` A or B | the tally, but not where people are | `show-of-hands` |
+
 ## Web editor copies
 
 `p5-webeditor.config.json` publishes each example to the p5.js web editor with
