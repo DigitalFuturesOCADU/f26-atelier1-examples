@@ -1,26 +1,38 @@
 // 08 ArUco Markers
-// js-aruco2 finds ArUco markers in the camera image. A marker is a black and white
-// square code. Each one has an id, so each one can control something different.
-// A marker also tells you where it is, how big it looks, and how far it is turned.
+// Shows every ArUco marker the camera can see. A marker is a black and white square code.
+// Each one has a number. The sketch outlines each marker and shows its number, how far
+// it is turned and how big it looks. Then it measures every pair of markers: the
+// distance between them and the angle of the line that joins them.
 //
-// Markers are the most dependable way to track something. They need no model and no
-// download, and they run the same on an old phone.
+// The same number can be in view twice. Hold paper marker 7 next to a phone showing 7
+// (09 Marker on a Screen) and you see both, side by side.
 //
-//   marker 0   Turn it like a knob. It sets the hue.
-//   marker 1   Turn it like a knob. It sets the size.
-//   marker 2   Show it to change the shape from a circle to a square.
-//
-// You need markers to try it. Print them from the dictionary ARUCO_MIP_36h12, ids 0 to 2:
-// https://npuckett.github.io/browserCV-2026/markers/print-aruco.html
-// Or show them on a second screen. A phone screen works too. Turn the brightness up.
-// Keep the white border around each marker. Matte paper works better than glossy paper.
+// Try this
+//   Hold up two markers. Move them apart and together. Watch the distance.
+//   Turn one marker like a knob. Watch its turn.
+//   Move one marker around the other. Watch the angle of the line.
+//   Compare paper and a phone screen with the same number. Try far away, glare and dim light.
+//   Cover a corner of the white border with a finger and watch the marker disappear.
 //
 // Key data
-//   markers  js-aruco2's results: [{ id, corners: [{ x, y } x4], hammingDistance }]
-//            in pixels of the scanned picture. Corners run clockwise from the marker's own top left.
-//   tracked  { [id]: { id, corners, center, angle, size } } in canvas pixels
-//            angle runs from 0 to 360 degrees. 0 is upright. It grows as the marker turns
-//            clockwise on the screen. size is the average edge length in pixels.
+//   markers  every marker in view, a list: [{ id, corners, center, angle, size }]
+//            in canvas pixels. Two markers with the same id are two entries.
+//            angle is the marker's own turn, 0 to 360 degrees. Upright is 0. It grows
+//            as the marker turns clockwise on the screen.
+//            size is the length of one side in pixels. It shrinks as the marker moves away.
+//   pairs    every pair of markers in view: [{ a, b, pixels, cm, angle }]
+//            a is the marker with the lower number (or the one on the left, if the numbers match).
+//            pixels is the distance between the two centres.
+//            cm is an estimate of that distance (see MARKER_MM).
+//            angle is the direction of the line from a to b, 0 to 360 degrees.
+//            0 points right, and it grows clockwise on the screen.
+//
+// The markers
+//   Dictionary ARUCO_MIP_36h12, numbers 0 to 249. The class sheets have 0 to 36, each at
+//   120, 60 and 30 mm. Print them at 100% with Fit to page off:
+//   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-10/markers/aruco-markers-0-36-letter.pdf
+//   Or show one on a phone with 09 Marker on a Screen. Turn the brightness all the way up.
+//   Keep the white border around each marker.
 //
 // Detector
 //   new AR.Detector({ dictionaryName: 'ARUCO_MIP_36h12', maxHammingDistance: 5 })
@@ -29,9 +41,7 @@
 //   js-aruco2 2.0.0 is plain JavaScript. It is about 40 KB and runs on any phone.
 //
 // Phone and laptop
-//   A phone starts on the rear camera. Lay markers on a table and look down at them.
-//   A laptop starts on its webcam. Hold a marker up to it.
-//   Bigger markers work from farther away. SCAN_SIZE changes how small a marker can be.
+//   A phone starts on the rear camera. A laptop starts on its webcam, drawn like a mirror.
 //   The camera button switches cameras when the device has two.
 //   The first tap turns the camera on. iPhones need that tap.
 //
@@ -41,27 +51,25 @@
 // Also in browserCV-2026:
 // https://npuckett.github.io/browserCV-2026/p5/markers/aruco-markers/
 
+// The width of the black square on your printed markers, in mm: 120, 60 or 30.
+// The distance in cm uses it. It assumes both markers are this size and face the camera.
+const MARKER_MM = 60;
+
+const SCAN_SIZE = 640;  // the longer side of the picture given to the detector
+const MAX_LISTED = 6;   // pairs listed in the panel at the bottom
+
 let cam;
 let detector;
 let markers = [];
-let tracked = {};
-
-// The sketch parameters the markers control.
-let shapeHue = 200;
-let shapeSize = 80;
-let useSquare = false;
-
-const SCAN_SIZE = 640; // the longer side of the picture given to the detector
-const PANEL_HEIGHT = 56;
+let pairs = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   lockGestures();
   textFont('system-ui');
-  colorMode(HSB, 360, 100, 100, 100);
 
-  // On a phone, the rear camera looks down at markers on a table.
-  // On a laptop, hold markers up to the webcam, drawn like a mirror.
+  // A phone starts on the rear camera, so you can point it at markers.
+  // A laptop webcam faces you, so it is drawn like a mirror.
   const startCamera = window.isMobile ? 'environment' : 'user';
   cam = createPhoneCamera(startCamera, startCamera === 'user', 'contain');
   createCameraSwitch(cam);
@@ -72,126 +80,145 @@ function setup() {
     showDesktopQr({ label: 'Open on your phone', size: 120 });
   }
 
-  // maxHammingDistance: how many bits may be wrong and still match. The
-  // dictionary default (12) accepts false matches, so use a stricter value.
   detector = new AR.Detector({ dictionaryName: 'ARUCO_MIP_36h12', maxHammingDistance: 5 });
 }
 
 function draw() {
-  background(220, 20, 8);
+  background(16, 19, 24);
   drawPhoneCamera(cam);
 
   if (isNewFrame(cam)) {
     const frame = grabFrame(cam, SCAN_SIZE);
     if (frame) {
-      markers = detector.detect(frame.imageData);
-      tracked = {};
-      for (const marker of markers) {
-        tracked[marker.id] = describeMarker(marker, frame);
-      }
+      const found = detector.detect(frame.imageData);
+      markers = found.map((marker) => describeMarker(marker, frame));
+      pairs = measurePairs(markers);
     }
   }
 
-  useMarkersAsControls();
-  for (const marker of Object.values(tracked)) drawMarker(marker);
-  drawControlledShape();
+  for (const pair of pairs) drawPair(pair);
+  for (const marker of markers) drawMarker(marker);
   drawPanel();
   drawCameraOn(cam);
 }
 
-// Corners (frame pixels) -> canvas pixels, plus center, rotation and size.
+// One marker from the detector, in canvas pixels: its corners, centre, turn and size.
 function describeMarker(marker, frame) {
   const corners = marker.corners.map((corner) => mapFramePoint(cam, frame, corner));
   const center = {
-    x: corners.reduce((sum, c) => sum + c.x, 0) / 4,
-    y: corners.reduce((sum, c) => sum + c.y, 0) / 4
+    x: (corners[0].x + corners[1].x + corners[2].x + corners[3].x) / 4,
+    y: (corners[0].y + corners[1].y + corners[2].y + corners[3].y) / 4
   };
-  // The marker's top edge runs from corner 0 to corner 1, and its direction
-  // is the marker's rotation. A mirrored view flips that edge left-to-right,
-  // so measure it the other way round: upright reads 0° either way, and the
-  // angle grows as the marker turns clockwise on screen.
+  // The marker's top edge runs from corner 0 to corner 1. Its direction is the turn.
+  // A mirrored view flips that edge, so measure it the other way round.
   const [from, to] = cam.mirror ? [corners[1], corners[0]] : [corners[0], corners[1]];
-  let angle = degrees(atan2(to.y - from.y, to.x - from.x));
-  if (angle < 0) angle += 360;
+  const angle = angleOf(from, to);
   const size = (dist(corners[0].x, corners[0].y, corners[1].x, corners[1].y) +
                 dist(corners[1].x, corners[1].y, corners[2].x, corners[2].y)) / 2;
   return { id: marker.id, corners: corners, center: center, angle: angle, size: size };
 }
 
-function useMarkersAsControls() {
-  if (tracked[0]) shapeHue = tracked[0].angle;
-  if (tracked[1]) shapeSize = map(tracked[1].angle, 0, 360, 30, maxShapeSize());
-  useSquare = Boolean(tracked[2]);
+// Every pair of markers in view, once each.
+function measurePairs(list) {
+  const result = [];
+  for (let i = 0; i < list.length; i++) {
+    for (let j = i + 1; j < list.length; j++) {
+      let a = list[i];
+      let b = list[j];
+      // a is the lower number. Same number: a is the one on the left.
+      if (b.id < a.id || (b.id === a.id && b.center.x < a.center.x)) [a, b] = [b, a];
+      const pixels = dist(a.center.x, a.center.y, b.center.x, b.center.y);
+      // One marker side is MARKER_MM wide, so pixels / side * MARKER_MM is the distance in mm.
+      const side = (a.size + b.size) / 2;
+      const cm = pixels / side * MARKER_MM / 10;
+      result.push({ a: a, b: b, pixels: pixels, cm: cm, angle: angleOf(a.center, b.center) });
+    }
+  }
+  return result;
+}
+
+// The direction from one point to another: 0 points right, and it grows clockwise
+// on the screen (the canvas y axis points down). 0 to 360 degrees.
+function angleOf(from, to) {
+  let angle = degrees(atan2(to.y - from.y, to.x - from.x));
+  if (angle < 0) angle += 360;
+  return angle;
 }
 
 function drawMarker(marker) {
-  const c = marker.corners;
   noFill();
-  stroke(140, 90, 100);
-  strokeWeight(3);
+  stroke(0, 230, 120);
+  strokeWeight(4);
   beginShape();
-  for (const corner of c) vertex(corner.x, corner.y);
+  for (const corner of marker.corners) vertex(corner.x, corner.y);
   endShape(CLOSE);
 
-  // Corner 0 is the marker's own top-left: mark it so the orientation shows.
-  noStroke();
-  fill(0, 90, 100);
-  circle(c[0].x, c[0].y, 12);
+  // the number, big, in the middle
+  const big = constrain(marker.size * 0.45, 22, 120);
+  label(String(marker.id), marker.center.x, marker.center.y, big, true);
 
-  // A knob pointer: from the center toward the marker's top edge.
-  // (angle 0 = upright = pointing up, so subtract 90° for p5's 0 = right.)
-  stroke(60, 90, 100);
+  // its own turn and size, under it
+  const below = marker.center.y + marker.size * 0.5 + 22;
+  label(round(marker.angle) + '°  ·  ' + round(marker.size) + ' px', marker.center.x, below, 14, false);
+}
+
+function drawPair(pair) {
+  stroke(255, 210, 0);
   strokeWeight(3);
-  const reach = marker.size * 0.7;
-  line(marker.center.x, marker.center.y,
-       marker.center.x + cos(radians(marker.angle - 90)) * reach,
-       marker.center.y + sin(radians(marker.angle - 90)) * reach);
+  line(pair.a.center.x, pair.a.center.y, pair.b.center.x, pair.b.center.y);
 
+  // The label sits in the middle of the line. A short line has no room for it,
+  // so it is only in the panel at the bottom.
+  const words = round(pair.pixels) + ' px  ·  about ' + round(pair.cm) + ' cm  ·  ' + round(pair.angle) + '°';
+  textSize(14);
+  textStyle(NORMAL);
+  if (textWidth(words) + 40 > pair.pixels) return;
+  const midX = (pair.a.center.x + pair.b.center.x) / 2;
+  const midY = (pair.a.center.y + pair.b.center.y) / 2;
+  label(words, midX, midY, 14, false);
+}
+
+// White text on a dark box, so it reads over any picture.
+function label(words, x, y, size, bold) {
+  textSize(size);
+  textStyle(bold ? BOLD : NORMAL);
+  const w = textWidth(words) + size * 0.8;
+  const h = size * 1.4;
   noStroke();
-  fill(0, 0, 100);
+  fill(0, 0, 0, 170);
+  rect(x - w / 2, y - h / 2, w, h, 6);
+  fill(255);
   textAlign(CENTER, CENTER);
-  textSize(18);
-  text('id ' + marker.id, marker.center.x, marker.center.y - marker.size * 0.7 - 14);
-  textSize(13);
-  text(round(marker.angle) + '°', marker.center.x, marker.center.y + marker.size * 0.7 + 14);
+  text(words, x, y);
 }
 
-function maxShapeSize() {
-  return min(width, height) * 0.3;
-}
-
-// The shape the markers control, bottom right above the panel.
-function drawControlledShape() {
-  const x = width - maxShapeSize() / 2 - 20;
-  const y = height - PANEL_HEIGHT - maxShapeSize() / 2 - 20;
-  noStroke();
-  fill(shapeHue, 80, 100, 85);
-  if (useSquare) {
-    rectMode(CENTER);
-    rect(x, y, shapeSize, shapeSize, 8);
-    rectMode(CORNER);
-  } else {
-    circle(x, y, shapeSize);
-  }
-}
-
+// The panel at the bottom: which markers are in view, then one line per pair.
 function drawPanel() {
-  noStroke();
-  fill(0, 0, 0, 80);
-  rect(0, height - PANEL_HEIGHT, width, PANEL_HEIGHT);
-  fill(0, 0, 100);
-  textAlign(LEFT, CENTER);
-  textSize(15);
-  const ids = Object.keys(tracked);
+  const lines = [];
   if (!cam.ready) {
-    text('Waiting for the camera.', 16, height - PANEL_HEIGHT / 2);
-    return;
+    lines.push('Waiting for the camera.');
+  } else if (markers.length === 0) {
+    lines.push('Show an ArUco marker to the camera.');
+  } else {
+    lines.push(markers.length + (markers.length === 1 ? ' marker: ' : ' markers: ') +
+               markers.map((marker) => marker.id).join(', '));
+    for (const pair of pairs.slice(0, MAX_LISTED)) {
+      lines.push(pair.a.id + ' to ' + pair.b.id + ':  ' + round(pair.pixels) + ' px,  about ' +
+                 round(pair.cm) + ' cm,  ' + round(pair.angle) + '°');
+    }
+    if (pairs.length > MAX_LISTED) lines.push('and ' + (pairs.length - MAX_LISTED) + ' more pairs');
   }
-  text(ids.length ? 'Markers seen: ' + ids.join(', ') + '.' : 'Show an ArUco marker to the camera.',
-    16, height - PANEL_HEIGHT + 18);
-  fill(0, 0, 70);
-  textSize(13);
-  text('0 turns the hue. 1 turns the size. 2 makes a square.', 16, height - PANEL_HEIGHT + 38);
+
+  const lineHeight = 20;
+  const panelHeight = lines.length * lineHeight + 20;
+  noStroke();
+  fill(0, 0, 0, 200);
+  rect(0, height - panelHeight, width, panelHeight);
+  fill(255);
+  textStyle(NORMAL);
+  textSize(15);
+  textAlign(LEFT, CENTER);
+  lines.forEach((words, i) => text(words, 16, height - panelHeight + 10 + lineHeight * (i + 0.5)));
 }
 
 function mousePressed() {
