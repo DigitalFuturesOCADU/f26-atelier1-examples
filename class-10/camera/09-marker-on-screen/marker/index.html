@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>09 Marker on a Screen</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #ffffff;
+    }
+    canvas {
+      touch-action: none; /* a finger on the canvas never scrolls the page */
+    }
+    /* the way back to the numbers, top left */
+    #back {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      padding: 8px 12px;
+      border: 2px solid #111111;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #111111;
+      font: 700 16px/1 system-ui, sans-serif;
+      text-decoration: none;
+    }
+  </style>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- p5-phone: the gesture lock -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.15.4/dist/p5-phone.min.js"></script>
+
+  <!-- js-aruco2: only its dictionary is used here, to draw the marker. Plain scripts, cv.js first -->
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/cv.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-aruco2@2.0.0/src/aruco.js"></script>
+</head>
+<body>
+  <a id="back" href="../">&larr; Numbers</a>
+  <script src="sketch.js"></script>
+</body>
+</html>

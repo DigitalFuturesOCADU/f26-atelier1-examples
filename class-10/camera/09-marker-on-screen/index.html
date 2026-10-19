@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>09 Marker on a Screen</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px 16px 32px;
+      background: #ffffff;
+      color: #111111;
+      font: 16px/1.4 system-ui, -apple-system, sans-serif;
+    }
+    main { max-width: 640px; margin: 0 auto; }
+    h1 { margin: 0 0 6px; font-size: 24px; }
+    p { margin: 0 0 16px; color: #555555; }
+
+    /* the numbers: big squares to tap */
+    #numbers {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+      gap: 8px;
+      margin: 0 0 24px;
+    }
+    #numbers a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 64px;
+      border: 2px solid #111111;
+      border-radius: 8px;
+      color: #111111;
+      font: 700 26px/1 system-ui, sans-serif;
+      text-decoration: none;
+    }
+    #numbers a:active { background: #111111; color: #ffffff; }
+
+    /* any other number */
+    #other { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 0 0 24px; }
+    #other input { width: 96px; padding: 10px; font: 600 20px system-ui, sans-serif; border: 2px solid #111111; border-radius: 8px; }
+    #other button { padding: 12px 18px; font: 700 18px system-ui, sans-serif; border: 0; border-radius: 8px; background: #111111; color: #ffffff; }
+    a { color: #111111; }
+  </style>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+</head>
+<body>
+  <main>
+    <h1>09 Marker on a Screen</h1>
+    <p>Tap a number. Your phone shows that marker, full screen. The numbers match the printed sheets.</p>
+
+    <div id="numbers"></div>
+
+    <form id="other">
+      <label for="other-id">Any other number, 0 to 249</label>
+      <input id="other-id" type="number" inputmode="numeric" min="0" max="249" placeholder="42">
+      <button type="submit">Show</button>
+    </form>
+
+    <p>Print the same numbers on paper: <a href="../../markers/aruco-markers-0-36-letter.pdf">the class sheets</a> (PDF).</p>
+  </main>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
