@@ -3,7 +3,7 @@
 // and the marker says which seat it is and whether it votes A or B.
 // This page finds them all, counts them, and shows where in the room each vote is.
 // There is no network between the phones and this page. The camera is the only link.
-// The camera knows where you sit. The network, in Class 11, only knows what you sent.
+// The camera knows where you sit. The network, in Class 13, only knows what you sent.
 //
 // Run it on a laptop on the projector, or on a phone on a tripod (it starts on the rear camera).
 // Point the camera at the class. Phones must show their whole screen to it.

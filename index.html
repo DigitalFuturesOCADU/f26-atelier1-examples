@@ -173,8 +173,30 @@
       <li><a href="class-10/camera/10-show-of-hands-projector/">10 Show of Hands: Projector</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-10/camera/10-show-of-hands-projector">code</a><span class="what">A camera finds every marker in the room and shows the A and B tally and where the votes are. No network. For a laptop.</span></li>
     </ul>
 
-    <h2 id="class-11">Class 11 · Many Phones, One Space</h2>
-    <p class="intro">Four class-wide examples on p5-phone Share. Each one is a projector page for the laptop at the front and a phone page for everyone else, joined by a QR code. Share keeps the last thing written, so each phone keeps its own value in <code>me</code>, and the projector adds them up. Nick runs the server in class. To run your own, see Your Own Share Server on Canvas.</p>
+    <h2 id="class-11">Class 11 · Looking Through</h2>
+    <p class="intro">The camera pointed through, at the room. One printed marker on the wall makes a shared place: every phone sees the same thing on it, with no network. This is where three.js comes in, as an option next to p5.js. This example uses three.js 0.185.1 and three-phone 0.2.0. three-phone has no Share, so a project that sends data between phones stays in p5.js. The AR ladder's other examples are in three-phone and browserCV, linked from Canvas.</p>
+    <p class="intro">The folder keeps its old name, <code>class-13/</code>.</p>
+    <ul>
+      <li><a href="class-13/the-creature-on-the-wall/">The Creature on the Wall</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-13/the-creature-on-the-wall">code</a><span class="what">One marker on the wall, one creature standing on it. Every phone sees the same creature. No network. Print ArUco marker 0. For a 150 mm print, add ?size=150 to the address.</span></li>
+    </ul>
+
+    <h2 id="class-12">Class 12 · Talking to Things</h2>
+    <p class="intro">Level 1, the basics: one phone and one Arduino Uno R4 WiFi over Bluetooth. Each example is a phone page and the board sketch it talks to, in the code folder under <code>arduino/</code>. Three send from the phone to the board, and two send from the board to the phone. Each page draws what the board will do before anything is connected. Chrome on Android or a laptop. On an iPhone, open it in the Bluefy app.</p>
+    <ul>
+      <li><a href="class-12/bluetooth/01-led-on-off/">01 LED On and Off</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/01-led-on-off">code</a><span class="what">Phone to board. Tap the screen and an LED on D9 switches on or off. One true or false value, <code>led</code>.</span></li>
+      <li><a href="class-12/bluetooth/02-led-brightness/">02 LED Brightness</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/02-led-brightness">code</a><span class="what">Phone to board. Tilt the phone forward and back, and the LED on D9 dims from 0 to 255. One byte, <code>brightness</code>.</span></li>
+      <li><a href="class-12/bluetooth/03-servo/">03 Servo</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/03-servo">code</a><span class="what">Phone to board. Tilt left and right, and a servo on D10 turns from 0 to 180 degrees. One byte, <code>angle</code>.</span></li>
+      <li><a href="class-12/bluetooth/04-button/">04 Button</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/04-button">code</a><span class="what">Board to phone. A button on D2 fills the shape on the phone and counts presses. One true or false value, <code>button</code>.</span></li>
+      <li><a href="class-12/bluetooth/05-light-sensor/">05 Light Sensor</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/05-light-sensor">code</a><span class="what">Board to phone. A light sensor (LDR) on A0 sets how bright the phone screen is. One number from 0 to 1023, <code>light</code>.</span></li>
+    </ul>
+    <p class="intro">Level 2 of talking to things: the hub. Nick runs a ready-made room, the Crowd Tilt room. You scan its QR code, tilt your phone and watch the lamp. How the room works (Share) is explained in Class 13. Phones never pair. One laptop adds up their tilt and drives an Arduino R4 lamp over Bluetooth. The Arduino sketch is in the code folder.</p>
+    <ul>
+      <li><a href="class-12/the-class-lamp/hub/">The Class Lamp: Hub</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/the-class-lamp">code</a><span class="what">A laptop page joins the Crowd Tilt room, adds up every phone's tilt, and sends colour, brightness and pixel count to an R4 lamp over Bluetooth. Shows a preview with no lamp. Laptop in Chrome.</span></li>
+    </ul>
+
+    <h2 id="class-13">Class 13 · Many Phones, One Space</h2>
+    <p class="intro">Four class-wide examples on p5-phone Share. Each one is a projector page for the laptop at the front and a phone page for everyone else, joined by a QR code. Share keeps the last thing written, so each phone keeps its own value in <code>me</code>, and the projector adds them up. Nick runs the server in class. The room behind the Class Lamp in Class 12 was Share too. To run your own server, see Your Own Share Server on Canvas.</p>
+    <p class="intro">The folder keeps its old name, <code>class-11/</code>.</p>
     <ul>
       <li><a href="class-11/01-crowd-tilt/projector/">01 Crowd Tilt</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-11/01-crowd-tilt">code</a><span class="what">Rolls one ball on the average tilt of every phone. Get it into the ring and hold it for 2 seconds. Open it on the laptop at the front. Phones join with its QR code.</span>
         <ul>
@@ -197,26 +219,6 @@
           <li><a href="class-11/04-show-of-hands-networked/phone/">Phone page</a><span class="what">Tilt left for A, right for B. The vote stays until you tilt the other way. Join it from the projector&rsquo;s QR code, which carries the server and the room.</span></li>
         </ul>
       </li>
-    </ul>
-
-    <h2 id="class-12">Class 12 · Talking to Things</h2>
-    <p class="intro">Level 1, the basics: one phone and one Arduino Uno R4 WiFi over Bluetooth. Each example is a phone page and the board sketch it talks to, in the code folder under <code>arduino/</code>. Three send from the phone to the board, and two send from the board to the phone. Each page draws what the board will do before anything is connected. Chrome on Android or a laptop. On an iPhone, open it in the Bluefy app.</p>
-    <ul>
-      <li><a href="class-12/bluetooth/01-led-on-off/">01 LED On and Off</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/01-led-on-off">code</a><span class="what">Phone to board. Tap the screen and an LED on D9 switches on or off. One true or false value, <code>led</code>.</span></li>
-      <li><a href="class-12/bluetooth/02-led-brightness/">02 LED Brightness</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/02-led-brightness">code</a><span class="what">Phone to board. Tilt the phone forward and back, and the LED on D9 dims from 0 to 255. One byte, <code>brightness</code>.</span></li>
-      <li><a href="class-12/bluetooth/03-servo/">03 Servo</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/03-servo">code</a><span class="what">Phone to board. Tilt left and right, and a servo on D10 turns from 0 to 180 degrees. One byte, <code>angle</code>.</span></li>
-      <li><a href="class-12/bluetooth/04-button/">04 Button</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/04-button">code</a><span class="what">Board to phone. A button on D2 fills the shape on the phone and counts presses. One true or false value, <code>button</code>.</span></li>
-      <li><a href="class-12/bluetooth/05-light-sensor/">05 Light Sensor</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/bluetooth/05-light-sensor">code</a><span class="what">Board to phone. A light sensor (LDR) on A0 sets how bright the phone screen is. One number from 0 to 1023, <code>light</code>.</span></li>
-    </ul>
-    <p class="intro">Level 2 of talking to things: the hub. Phones join the Crowd Tilt room from Class 11 and never pair. One laptop adds up their tilt and drives an Arduino R4 lamp over Bluetooth. The Arduino sketch is in the code folder.</p>
-    <ul>
-      <li><a href="class-12/the-class-lamp/hub/">The Class Lamp: Hub</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-12/the-class-lamp">code</a><span class="what">A laptop page joins the Crowd Tilt room, adds up every phone's tilt, and sends colour, brightness and pixel count to an R4 lamp over Bluetooth. Shows a preview with no lamp. Laptop in Chrome.</span></li>
-    </ul>
-
-    <h2 id="class-13">Class 13 · Looking Through</h2>
-    <p class="intro">The camera pointed through, at the room. One printed marker on the wall makes a shared place: every phone sees the same thing on it, with no network. three.js 0.185.1 and three-phone 0.2.0. The AR ladder's other examples are in three-phone and browserCV, linked from Canvas.</p>
-    <ul>
-      <li><a href="class-13/the-creature-on-the-wall/">The Creature on the Wall</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/class-13/the-creature-on-the-wall">code</a><span class="what">One marker on the wall, one creature standing on it. Every phone sees the same creature. No network. Print ArUco marker 0. For a 150 mm print, add ?size=150 to the address.</span></li>
     </ul>
 
     <h2 id="class-14">Class 14 · Traces and Residue</h2>
