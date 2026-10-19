@@ -173,10 +173,12 @@ and listens hears itself.
 
 ## Class 10 · Cameras are sensors
 
-Ten examples in `class-10/camera/`. 01 to 08 are phone-first copies of examples from
+Nine examples in `class-10/camera/`. 01 to 08 are phone-first copies of examples from
 [browserCV](https://npuckett.github.io/browserCV-2026/), which is the full set for laptop and phone.
-09 and 10 are new: Show of Hands, a vote that travels as light from phone screens to one camera.
-Every camera example shows a red dot and "Camera on" while the camera runs, and records nothing.
+08 shows every marker in view and measures every pair (distance and angle), with no controls.
+09 is new: Marker on a Screen, a page of numbers that opens one marker full screen, to compare a
+screen marker with the paper one. Every camera example shows a red dot and "Camera on" while the
+camera runs, and records nothing.
 p5.js 2.2.3 and p5-phone 1.15.4. Each folder carries its own helper files, so it can go into the
 web editor as it is.
 
@@ -189,9 +191,14 @@ web editor as it is.
 | [05-face-mesh](class-10/camera/05-face-mesh/) | a face, 468 points | front | ml5 1.4.0 |
 | [06-body-pose](class-10/camera/06-body-pose/) | a body, 33 points | front | ml5 1.4.0 |
 | [07-gesture-recognizer](class-10/camera/07-gesture-recognizer/) | seven named gestures and None | front | MediaPipe tasks-vision 1.1.0 |
-| [08-aruco-markers](class-10/camera/08-aruco-markers/) | printed ArUco markers: id, position, turn | rear | js-aruco2 2.0.0 |
-| [09-show-of-hands-phone](class-10/camera/09-show-of-hands-phone/) | (no camera) the phone shows marker `seat` for A or `seat + 100` for B | none | js-aruco2 2.0.0 |
-| [10-show-of-hands-projector](class-10/camera/10-show-of-hands-projector/) | every marker in the room: the tally and where | laptop webcam | js-aruco2 2.0.0 |
+| [08-aruco-markers](class-10/camera/08-aruco-markers/) | every ArUco marker in view (`markers`: id, centre, turn, size) and every pair (`pairs`: pixels, about cm, angle) | rear | js-aruco2 2.0.0 |
+| [09-marker-on-screen](class-10/camera/09-marker-on-screen/) | (no camera) numbers 0 to 36; `marker/?id=N` shows marker N (0 to 249) full screen | none | js-aruco2 2.0.0 |
+
+`class-10/markers/aruco-markers-0-36-letter.pdf` is the printed sheets: markers 0 to 36 in
+ARUCO_MIP_36h12, one Letter page each, at 120, 60 and 30 mm (the black square). Print at 100% with
+Fit to page off. The course repo builds it with `planning/markers/build-marker-sheets.py`, and 09
+draws its markers the same way. 08's `MARKER_MM` turns pixels into an estimate in cm: set it to the
+size you printed.
 
 ## Class 11 · Looking through
 

@@ -1,11 +1,9 @@
 // 04 Show of Hands, Networked: Projector
-// Share. The same vote as Class 10's Show of Hands. Tilt your phone left for A or right for B.
+// Share. Tilt your phone left for A or right for B.
 // The vote stays when you tilt back. This page adds up the votes and shows the tally.
 //
-// What is different: in Class 10 a camera watched the phones and knew where each vote was
-// in the room. Here the votes come over the network. This page knows how many votes there
-// are for A and for B. It does not know where anyone is. The camera knows where you are.
-// The network only knows what you sent.
+// The votes come over the network. This page knows how many votes there are for A and
+// for B. It does not know where anyone is. It only knows what each phone sent.
 //
 // The rule: Share keeps only the last thing written, so each phone keeps its own vote in me,
 // this page adds them up, and nothing goes in shared at all.
@@ -17,7 +15,6 @@
 //   Ask the room a question with two answers. Tilt left for A, right for B.
 //   Change your vote by tilting the other way.
 //   Key R clears every vote, so you can ask again.
-//   Run Class 10's camera version, then this one. What can you tell about the room each time?
 //
 // Key data:
 //   guests[i].vote   'A', 'B', or '' if that phone has not voted
@@ -139,6 +136,6 @@ function drawNotKnown() {
   textStyle(NORMAL);
   fill(GREY);
   textSize(28 * u);
-  text('It only knows what each phone sent. In Class 10 the camera could see where each phone was.', arena.x + 28 * u, y + 88 * u);
+  text('It only knows what each phone sent.', arena.x + 28 * u, y + 88 * u);
   textAlign(LEFT, BASELINE);
 }

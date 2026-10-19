@@ -1,12 +1,11 @@
 // 04 Show of Hands, Networked: Phone
-// Share. The same vote as Class 10's Show of Hands. Tilt your phone left for A or right for B.
+// Share. Tilt your phone left for A or right for B.
 // Your vote stays when you tilt back. Tilt the other way to change it.
 //
 // The rule: Share keeps only the last thing written, so this phone keeps its own vote in me
 // and the projector adds them up.
 //
-// In Class 10 the projector's camera watched your screen and knew where you were. Here the
-// vote travels over the network, so the projector knows what you sent and nothing else.
+// The vote travels over the network, so the projector knows what you sent and nothing else.
 //
 // Try this:
 //   Tilt left, then right. The vote changes only when you tilt past the marks.
