@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>04 Button</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #141414;
+    }
+    canvas {
+      display: block;
+      touch-action: none; /* a finger on the canvas never scrolls the page */
+    }
+    /* the Connect button, made in ble-kit.js */
+    #connect {
+      position: fixed;
+      left: 50%;
+      bottom: calc(76px + env(safe-area-inset-bottom));   /* above the status line, below the drawing */
+      transform: translateX(-50%);
+      padding: 14px 40px;
+      border: 0;
+      border-radius: 0;
+      background: #ffc800;
+      color: #141414;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #connect:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+  </style>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- p5-phone: Bluetooth and tilt -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.15.4/dist/p5-phone.min.js"></script>
+</head>
+<body>
+  <script src="ble-kit.js"></script>
+  <script src="sketch.js"></script>
+</body>
+</html>

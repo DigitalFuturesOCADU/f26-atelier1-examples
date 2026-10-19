@@ -218,6 +218,24 @@ shows yours and your partner's. Change the value in `readMyValue()`.
 
 ## Class 12 · Talking to things
 
+`class-12/bluetooth/`: Level 1, the basics. Five pairs, each a phone page (`index.html`, `ble-kit.js`,
+`sketch.js`) and the Uno R4 WiFi sketch it talks to (`arduino/<Name>/<Name>.ino`, P5PhoneBLE 0.1.1 or
+later). One value each, declared with the same name, type and order on both sides:
+
+| Folder | Direction | Value | Board |
+|---|---|---|---|
+| `01-led-on-off` | phone to board | `led`, bool | LED + 220 ohm on D9 |
+| `02-led-brightness` | phone to board | `brightness`, uint8 | LED + 220 ohm on D9 (PWM) |
+| `03-servo` | phone to board | `angle`, uint8 (0 to 180) | servo signal on D10, 5V, GND |
+| `04-button` | board to phone | `button`, bool (notify) | button from D2 to GND, `INPUT_PULLUP` |
+| `05-light-sensor` | board to phone | `light`, int32 (notify, read) | LDR from 5V to A0, 10k from A0 to GND |
+
+`ble-kit.js` is the same in all five: the Connect button, the status line, the screen wake lock and
+the laptop QR code. The output pages send one write at a time, only when the value changed, at most
+20 a second (p5-phone's `bleWrite` has no queue). `ServoAngle` uses the Servo library that ships with
+the Arduino IDE; with arduino-cli add `--libraries ~/Library/Arduino15/libraries`. Each board sketch
+has a `BOARD_NAME` line (`p5phone-yourname`) to change, so a student can find their own board.
+
 `class-12/the-class-lamp/`: Level 2, the hub. `hub/` is a laptop page (Chrome) that joins the
 Crowd Tilt room from Class 11, reads `shared.average`, and writes three one-byte values (hue,
 brightness, pixel count) over Web Bluetooth. `arduino/ClassLamp/` is the Uno R4 WiFi sketch: P5PhoneBLE
