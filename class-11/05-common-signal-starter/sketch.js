@@ -6,8 +6,8 @@
 // in me, and its partner's value arrives in guests.
 //
 // Set up: both phones open this page, type the same pair name (that is your room) and tap Join.
-// The class server address comes from ../class-server.js. In the web editor, paste it into
-// SHARE_HOST below instead. ?shareHost=https://... on the page address overrides both.
+// The class server address comes from ../class-server.js. SHARE_HOST below has it too, for a copy
+// in the web editor or your own project. ?shareHost=https://... on the page address overrides both.
 //
 // Try this: tilt and watch both screens. Turn on airplane mode and your own dot still moves.
 // On a laptop, move the mouse. A laptop also shows a QR code that a phone can scan to join.
@@ -15,7 +15,7 @@
 // Change what is sent: readMyValue() below is the signal.
 // Key data: me.value (yours, -1 to 1), guests[i].value (your partner's), shareConnected
 
-const SHARE_HOST = 'https://p5-phone-share.REPLACE-ME.workers.dev';   // web editor: paste the class server address here
+const SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class server. Your own server's address goes here
 const SAVED = 'atelier1-common-signal-pair';   // where this phone remembers its pair name
 
 let serverAddress = '';
