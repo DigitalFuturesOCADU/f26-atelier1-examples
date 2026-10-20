@@ -348,6 +348,7 @@ function makeShadow() {
   const size = MARKER_SIZE_MM / 1000;
   const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.42 * size, 40), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
   shadow.material.userData.baseOpacity = 0.2;
+  shadow.material.opacity = 0.2;
   fadeMaterials.push(shadow.material);
   if (SURFACE === 'wall') {
     shadow.scale.set(0.85, 1.25, 1);
