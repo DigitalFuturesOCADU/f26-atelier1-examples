@@ -12,7 +12,8 @@
 //   targetColor  { r, g, b } picked by tapping, or null before the first tap
 //   tolerance    how far a pixel's colour can be from the target and still count
 //   matchCount   how many scanned pixels matched this frame
-//   tracked      { x, y, box: { x, y, w, h } } in canvas pixels, or null
+//   tracked      { x, y, box: { x, y, w, h } } in canvas pixels, or null. x and y are the centre:
+//                the average position of every matching pixel. They show under the circle.
 //
 // Phone and laptop
 //   A phone starts on the rear camera. A laptop starts on its webcam, drawn like a mirror.
@@ -193,6 +194,26 @@ function drawTracked() {
   stroke(255);
   strokeWeight(4);
   circle(tracked.x, tracked.y, 36);
+
+  // the centre's x and y, under the circle
+  xyLabel(tracked, 36, color(255));
+}
+
+// A point's x and y, like "x 120, y 340", on a dark box drawn `below` pixels under it
+// (a negative number puts it above). The box stays on the screen.
+function xyLabel(point, below, textColor) {
+  const words = 'x ' + round(point.x) + ', y ' + round(point.y);
+  textSize(14);
+  textStyle(NORMAL);
+  const w = textWidth(words) + 14;
+  const cx = constrain(point.x, w / 2 + 4, width - w / 2 - 4);
+  const cy = constrain(point.y + below, 15, height - 90); // clear of the panel at the bottom
+  noStroke();
+  fill(0, 0, 0, 180);
+  rect(cx - w / 2, cy - 11, w, 22, 6);
+  fill(textColor);
+  textAlign(CENTER, CENTER);
+  text(words, cx, cy);
 }
 
 // Bottom panel: target swatch, match count, and -/+ buttons for tolerance.
@@ -238,7 +259,7 @@ function drawPanel() {
     rect(16, middle - 16, 32, 32, 5);
     noStroke();
     fill(247);
-    text(tracked ? 'Tracking.' : 'Not found.', 60, middle - 10);
+    text(tracked ? 'Tracking at x ' + round(tracked.x) + ', y ' + round(tracked.y) + '.' : 'Not found.', 60, middle - 10);
     fill(180);
     textSize(13);
     text(matchCount + ' pixels. Tolerance ' + tolerance + '.', 60, middle + 12);

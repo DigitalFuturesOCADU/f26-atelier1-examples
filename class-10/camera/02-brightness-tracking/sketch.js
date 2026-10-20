@@ -18,6 +18,7 @@
 //   centroid   { x, y, area } in canvas pixels. area is the share of the frame, 0 to 1. It is null
 //              when nothing is above the threshold.
 //   threshold  50 to 255. The cutoff for the centroid method.
+//   The x and y of each show on the screen: red above the cross, yellow under the circle.
 //
 // Phone and laptop
 //   A phone starts on the rear camera. A laptop starts on its webcam, drawn like a mirror.
@@ -123,11 +124,33 @@ function drawResults() {
 
   // Centroid: circle sized by the bright area
   if (centroid) {
+    const size = 30 + sqrt(centroid.area) * min(width, height);
     noFill();
     stroke(255, 220, 0);
     strokeWeight(4);
-    circle(centroid.x, centroid.y, 30 + sqrt(centroid.area) * min(width, height));
+    circle(centroid.x, centroid.y, size);
+    xyLabel(centroid, size / 2 + 16, color(255, 220, 0));
   }
+
+  // the brightest pixel's x and y, above its cross
+  xyLabel(brightest, -30, color(255, 120, 120));
+}
+
+// A point's x and y, like "x 120, y 340", on a dark box drawn `below` pixels under it
+// (a negative number puts it above). The box stays on the screen.
+function xyLabel(point, below, textColor) {
+  const words = 'x ' + round(point.x) + ', y ' + round(point.y);
+  textSize(14);
+  textStyle(NORMAL);
+  const w = textWidth(words) + 14;
+  const cx = constrain(point.x, w / 2 + 4, width - w / 2 - 4);
+  const cy = constrain(point.y + below, 15, height - 90); // clear of the panel at the bottom
+  noStroke();
+  fill(0, 0, 0, 180);
+  rect(cx - w / 2, cy - 11, w, 22, 6);
+  fill(textColor);
+  textAlign(CENTER, CENTER);
+  text(words, cx, cy);
 }
 
 function drawPanel() {

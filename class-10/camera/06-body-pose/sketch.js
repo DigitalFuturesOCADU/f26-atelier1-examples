@@ -13,7 +13,8 @@
 //               in video pixels), keypoints3D, and each point by name, like pose.left_wrist.
 //   connections pairs of point numbers for drawing the skeleton, from bodyPose.getSkeleton()
 //   leftArmUp, rightArmUp  true when that wrist is above its shoulder. Both points need a
-//               confidence above CONFIDENCE (0.3).
+//               confidence above CONFIDENCE (0.3). The line through each shoulder shows the
+//               test: a wrist above its line counts as up, and the line turns yellow.
 //
 // The points
 //   0 nose, 11 and 12 shoulders, 13 and 14 elbows, 15 and 16 wrists, 23 and 24 hips,
@@ -119,6 +120,10 @@ function draw() {
     // Compare in video coordinates: "above" means a smaller y.
     leftArmUp = isAbove(points[15], points[11]);
     rightArmUp = isAbove(points[16], points[12]);
+    const leftShoulder = cam.mapKeypoint(points[11]);
+    const rightShoulder = cam.mapKeypoint(points[12]);
+    drawShoulderLine(leftShoulder, rightShoulder, leftArmUp);
+    drawShoulderLine(rightShoulder, leftShoulder, rightArmUp);
     highlightWrist(cam.mapKeypoint(points[15]), leftArmUp);
     highlightWrist(cam.mapKeypoint(points[16]), rightArmUp);
   }
@@ -130,6 +135,27 @@ function draw() {
 
 function isAbove(wrist, shoulder) {
   return wrist.confidence > CONFIDENCE && shoulder.confidence > CONFIDENCE && wrist.y < shoulder.y;
+}
+
+// The test for one arm, drawn: a level line through the shoulder, reaching out past the arm.
+// A wrist above the line counts as up. (Above means a smaller y, on the screen too.)
+function drawShoulderLine(shoulder, otherShoulder, isUp) {
+  if (shoulder.confidence < CONFIDENCE) return;
+  const out = shoulder.x < otherShoulder.x ? -1 : 1; // away from the body, on the screen
+  const reach = max(140, abs(shoulder.x - otherShoulder.x) * 1.8);
+  const endX = constrain(shoulder.x + out * reach, 10, width - 10);
+  stroke(isUp ? color(255, 210, 0) : color(255, 255, 255, 170));
+  strokeWeight(isUp ? 4 : 2);
+  line(shoulder.x - out * 20, shoulder.y, endX, shoulder.y);
+
+  // at the outer end: up above the line, down below it
+  noStroke();
+  fill(isUp ? color(255, 210, 0) : color(255, 255, 255, 200));
+  textSize(13);
+  textStyle(NORMAL);
+  textAlign(out > 0 ? RIGHT : LEFT, CENTER);
+  text('up', endX, shoulder.y - 12);
+  text('down', endX, shoulder.y + 12);
 }
 
 function highlightWrist(wrist, isUp) {
