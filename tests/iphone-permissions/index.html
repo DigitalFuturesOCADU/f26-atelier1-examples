@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>iPhone Permission Order</title>
+  <link rel="stylesheet" href="../iphone-audio/style.css">
+  <style>
+    .result { font-size: 18px; margin: 6px 0; }
+    .yes { color: #0a7d22; font-weight: 700; }
+    .no { color: #c00000; font-weight: 700; }
+    ol li { margin-bottom: 10px; }
+  </style>
+  <!-- three-phone 0.2.0, the version the Class 11 examples use -->
+  <script src="https://cdn.jsdelivr.net/npm/three-phone@0.2.0/dist/three-phone.min.js"></script>
+</head>
+<body>
+  <h1>iPhone Permission Order</h1>
+  <p class="sub">Does the order of one tap's requests decide what an iPhone allows? For the Class 11 AR examples.</p>
+
+  <div id="menu">
+    <p class="note">Open each test in a new tab, in this order. Answer Allow to every question the phone asks. Each test says what worked. Then copy the results into the chat.</p>
+    <ol>
+      <li><a href="?order=camera,sensors">camera, then motion</a><br><span class="note">The old order of enableARTap. Expected on an iPhone: no motion.</span></li>
+      <li><a href="?order=sound,sensors,camera">sound, then motion, then camera</a><br><span class="note">Use AR in Your Project, step 7, Level 1.</span></li>
+      <li><a href="?order=sensors,camera">motion, then camera</a><br><span class="note">01 Look Around and 02 Tap to Place after the fix.</span></li>
+      <li><a href="?order=sound,camera">sound, then camera</a><br><span class="note">Use AR in Your Project, step 7, Level 2 (the creature with a beep).</span></li>
+    </ol>
+    <p class="note">An iPhone may remember motion for the site. If it does, a later test gets motion without asking, and says so.</p>
+  </div>
+
+  <div id="test" hidden>
+    <p id="orderLine" class="result"></p>
+    <div id="lines"></div>
+    <button id="copy" class="light" hidden>Copy results</button>
+    <p id="copyNote" class="status"></p>
+    <p><a href="./">Back to the list</a></p>
+  </div>
+
+  <script src="test.js"></script>
+</body>
+</html>
