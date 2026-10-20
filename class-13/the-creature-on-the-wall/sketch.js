@@ -1,59 +1,70 @@
 // The Creature on the Wall
-// One large printed marker on a wall, and one creature standing on it. Every phone that
+// A printed marker lying on a table, and a creature standing on it. Every phone that
 // looks at the marker sees the same creature, in the same place. There is no network and
 // no server. The marker is what makes it shared.
+// Each table can have its own copy of the marker. Every copy gets the creature.
+// Taped to a wall instead? Set SURFACE to 'wall', or add ?on=wall to the address.
 //
 // How it works
 //   js-aruco2 finds the marker in the camera picture. Its POSIT solver works out where the
 //   marker is in 3D: how far away, and how it is turned. The creature is a three.js group
 //   that is moved to that place on every camera frame, drawn over the camera picture.
 //   Every phone does the same sum with the same marker, so every phone puts the creature
-//   in the same place on the wall.
+//   in the same place on the table.
+//   When the picture holds more than one copy of the marker, the creature stands on the
+//   biggest, which is the nearest. It stays on that copy while it is in view.
 //
 // What the creature does
 //   It idles: it breathes, sways and blinks, slowly.
+//   It faces the edge of the marker with the printed label. So does every phone's creature.
 //   Its eyes follow the phone. Its body turns a little toward you.
 //   When the phone comes close it gets excited: wide eyes, an open mouth, raised arms, a hop.
 //   A marker looks bigger in the picture when the phone is close, and the sketch turns
 //   that into a distance in metres. CLOSE_M and FAR_M say what counts as close and far.
 //   When the marker is lost the creature waits where it was for a moment, then fades out.
 //   After a second the screen says "Look for the creature's marker".
+//   No camera? It stands alone on a plain background, and a finger turns it.
 //
 // Print the marker
 //   1. Open https://npuckett.github.io/browserCV-2026/markers/print-aruco.html
 //   2. Dictionary: ARUCO_MIP_36h12. First id: 0. Count: 1.
-//   3. Size (mm): 190. That is the biggest the page allows, and the number is the black
-//      square. With its white border the marker is about 238 mm wide, so it needs
-//      Tabloid (11 x 17 in) or A3 paper.
-//      Letter and A4 are too narrow. Chrome quietly shrinks 190 to about 157 mm there,
-//      and the label still says 190. On Letter or A4, set Size to 150 instead, and
-//      change MARKER_SIZE_MM below to 150, or open the page with ?size=150.
+//   3. Size (mm): 150. The number is the black square. With its white border it fits on
+//      Letter or A4 paper. Print one copy for each table.
+//      Bigger reads from farther away. 190 is the most the page allows, and it needs
+//      Tabloid (11 x 17 in) or A3. On Letter, Chrome quietly shrinks 190 to about 157 mm
+//      and the label still says 190.
 //   4. Print at 100% scale. Turn off "fit to page". Matte paper, no glare.
-//   5. Measure the black square with a ruler. Put that number in MARKER_SIZE_MM.
-//   6. Tape it flat on a wall at eye height, with the printed label at the bottom.
-//      The creature stands up the wall, so the label side is its floor.
+//   5. Measure the black square with a ruler. Put that number in MARKER_SIZE_MM, or add
+//      it to the address: ?size=120 for a 120 mm marker.
+//   6. Lay it flat on the table, with the printed label toward the people who should
+//      see the creature's face. Tape the corners down.
 //   A bigger marker reads from farther away. So does a bigger camera picture. In tests with
-//   a simulated camera, the 190 mm marker was found from about 2 metres in a 640 x 480
+//   a simulated camera, a 190 mm marker was found from about 2 metres in a 640 x 480
 //   picture and about 3 metres in a 1280 x 720 picture. Test with your own phone.
 //
 // Things to change
 //   MARKER_ID           which marker the creature stands on. Print that id instead.
+//   SURFACE             'table' if the marker lies flat, 'wall' if it is on a wall.
 //   MARKER_SIZE_MM      the printed black square. Wrong numbers make the creature read
 //                       too near or too far, but it still stands on the marker.
 //   CAMERA_FOV_DEGREES  a guess at your camera's field of view. If the creature seems to
-//                       float above the wall or sink into it, try 50 or 70.
+//                       float above the marker or sink into it, try 50 or 70.
 //   CLOSE_M, FAR_M      how near is "close" and how far is "calm".
 //   LOST_WAIT_MS        how long the creature waits when it loses the marker.
 //   the colours and sizes in buildCreature()
+//   the words in showWithoutCamera()
 //
 // Key data
 //   markers          js-aruco2's results: [{ id, corners: [{ x, y } x4], hammingDistance }]
 //   pose             POSIT's answer: bestRotation (3 x 3), bestTranslation [x, y, z] in metres.
 //                    x is right, y is up, z is away from the camera.
 //   anchor           a THREE.Group moved to the marker each frame. The marker lies flat in
-//                    the anchor's x and y. z points out of the wall, toward you.
-//   creature         a group inside the anchor, built so that the marker is 1 unit wide.
-//                    It is scaled to MARKER_SIZE_MM, so one unit is the printed marker.
+//                    the anchor's x and y. z points out of the marker, toward you.
+//   stand            a group inside the anchor: the spot where the creature stands, and
+//                    which way is up. It is scaled to MARKER_SIZE_MM, so one unit is the
+//                    width of the printed marker.
+//   creature         a group inside the stand. Its feet are at 0, 0, 0. It is up along y
+//                    and faces along z.
 //
 // A phone starts on the rear camera. A laptop starts on its webcam. The first tap turns
 // the camera on: iPhones need that tap. The page must be served over https.
@@ -65,13 +76,16 @@
 // https://npuckett.github.io/browserCV-2026/three/aruco-pose/
 
 const MARKER_ID = 0;             // the ARUCO_MIP_36h12 marker the creature stands on
-// the printed black square, in millimetres. Measure yours. A ?size=150 at the end of
-// the address sets it without editing, for example for a marker printed on Letter paper.
-const MARKER_SIZE_MM = Number(new URLSearchParams(location.search).get('size')) || 190;
+// 'table' if the marker lies flat, 'wall' if it is taped to a wall.
+// A ?on=wall at the end of the address sets it without editing.
+const SURFACE = new URLSearchParams(location.search).get('on') || 'table';
+// the printed black square, in millimetres. Measure yours. A ?size=120 at the end of
+// the address sets it without editing, for example for a 120 mm marker.
+const MARKER_SIZE_MM = Number(new URLSearchParams(location.search).get('size')) || 150;
 const CAMERA_FOV_DEGREES = 60;   // across the camera picture. A guess: few phones publish it.
 const SCAN_SIZE = 960;           // the picture is shrunk to this many pixels across before it is searched
-const CLOSE_M = 0.8;             // closer than this and the creature is fully excited
-const FAR_M = 2.5;               // farther than this and the creature is calm
+const CLOSE_M = 0.4;             // closer than this and the creature is fully excited
+const FAR_M = 1.5;               // farther than this and the creature is calm
 const MISS_GRACE_MS = 250;       // a marker missed for less than this does not count as lost
 const LOST_WAIT_MS = 1000;       // how long the creature waits and fades after the marker is lost
 
@@ -82,7 +96,7 @@ let renderer, scene, camera, cam, detector, posit;
 let positFocal = 0;              // the focal length POSIT was built with
 let focalVideo = null;           // focal length in video pixels (from the field of view)
 
-let anchor, creature;            // the anchor sits on the marker. The creature stands in it.
+let anchor, stand, creature;     // the anchor sits on the marker. The creature stands on the stand.
 let parts = {};                  // the creature's moving parts
 let fadeMaterials = [];          // every material, so the whole creature can fade together
 
@@ -94,8 +108,10 @@ let excite = 0;                  // 0 is calm, 1 is as excited as it gets
 let lastFrameAt = 0;
 let nextBlinkAt = 2000;
 let blinkStartedAt = -1;
+let lastCentre = null;           // where the followed marker was in the picture, when there are copies
 
 let messageBox, cameraBadge;
+let noCamera = false;            // true when the camera was refused, or there is none
 
 const targetPos = new THREE.Vector3();
 const targetQuat = new THREE.Quaternion();
@@ -129,9 +145,11 @@ function init() {
   // The creature lives inside the anchor. The anchor is moved to the marker each frame.
   anchor = new THREE.Group();
   anchor.visible = false;
+  stand = makeStand();
+  anchor.add(stand);
+  anchor.add(makeShadow());
   creature = buildCreature();
-  creature.scale.setScalar(MARKER_SIZE_MM / 1000); // from marker units to metres
-  anchor.add(creature);
+  stand.add(creature);
   scene.add(anchor);
 
   // Not mirrored, even on a laptop: the 3D creature has to match the real picture.
@@ -150,10 +168,11 @@ function init() {
   animate();
 }
 
-// three-phone calls this once the camera has been allowed.
+// three-phone calls this once the camera has been answered: allowed, refused, or missing.
 function userSetupComplete() {
   // keep the screen awake while someone holds the phone up
   if (navigator.wakeLock) navigator.wakeLock.request('screen').catch(() => {});
+  if (!window.cameraEnabled) showWithoutCamera();
 }
 
 function animate() {
@@ -184,6 +203,7 @@ function animate() {
 function findMarker(frame, now) {
   const markers = detector.detect(frame.imageData).filter((m) => m.id === MARKER_ID);
   if (markers.length === 0) return;
+  const marker = pickMarker(markers);
 
   // POSIT needs the focal length in pixels of the picture it measures.
   const focal = focalVideo * frame.scale;
@@ -193,7 +213,7 @@ function findMarker(frame, now) {
   }
 
   // POSIT wants the corners measured from the picture's centre, with y pointing up.
-  const corners = markers[0].corners.map((c) => ({ x: c.x - frame.width / 2, y: frame.height / 2 - c.y }));
+  const corners = marker.corners.map((c) => ({ x: c.x - frame.width / 2, y: frame.height / 2 - c.y }));
   const pose = posit.pose(corners);
   if (!poseIsUsable(pose.bestRotation, pose.bestTranslation)) return;
 
@@ -216,6 +236,37 @@ function findMarker(frame, now) {
   }
   everSeen = true;
   lastSeenAt = now;
+}
+
+// Each table can have its own copy of the marker, so the picture may hold several.
+// Stand on the biggest copy, which is the nearest. While the creature is standing, stay
+// with the copy closest to where it was, so the creature does not jump between tables.
+function pickMarker(markers) {
+  let best = markers[0];
+  for (const m of markers) {
+    if (state === 'tracking' && lastCentre) {
+      if (distanceFrom(lastCentre, m) < distanceFrom(lastCentre, best)) best = m;
+    } else if (sizeOf(m) > sizeOf(best)) {
+      best = m;
+    }
+  }
+  lastCentre = centreOf(best);
+  return best;
+}
+
+function centreOf(marker) {
+  const c = marker.corners;
+  return { x: (c[0].x + c[1].x + c[2].x + c[3].x) / 4, y: (c[0].y + c[1].y + c[2].y + c[3].y) / 4 };
+}
+
+function sizeOf(marker) {
+  const c = marker.corners;
+  return Math.hypot(c[2].x - c[0].x, c[2].y - c[0].y); // corner to opposite corner, in pixels
+}
+
+function distanceFrom(point, marker) {
+  const c = centreOf(marker);
+  return Math.hypot(c.x - point.x, c.y - point.y);
 }
 
 function poseIsUsable(r, t) {
@@ -276,24 +327,47 @@ function material(color, baseOpacity = 1) {
   return m;
 }
 
-// Built so the marker is 1 unit wide, with the marker flat at z = 0. Up the wall is +y.
-// The creature's feet are on the marker's bottom edge, and it stands out toward you.
+// The stand is the spot where the creature stands, and which way is up. The marker lies
+// flat in the anchor at z = 0, with its label at the bottom (-y).
+// On a table the creature stands up out of the marker's middle, facing the label.
+// On a wall it stands on the marker's bottom edge, up the wall, facing you.
+function makeStand() {
+  const size = MARKER_SIZE_MM / 1000;   // one marker unit, in metres
+  const group = new THREE.Group();
+  group.scale.setScalar(size);
+  if (SURFACE === 'wall') {
+    group.position.set(0, -0.5 * size, 0.17 * size);
+  } else {
+    group.rotation.x = Math.PI / 2;     // the creature's up (y) becomes the marker's z, out of the table
+  }
+  return group;
+}
+
+// A soft shadow on the marker: round under the creature on a table, tall behind it on a wall.
+function makeShadow() {
+  const size = MARKER_SIZE_MM / 1000;
+  const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.42 * size, 40), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
+  shadow.material.userData.baseOpacity = 0.2;
+  fadeMaterials.push(shadow.material);
+  if (SURFACE === 'wall') {
+    shadow.scale.set(0.85, 1.25, 1);
+    shadow.position.set(0, 0.04 * size, 0.001);
+  } else {
+    shadow.scale.set(0.75, 0.75, 1);
+    shadow.position.z = 0.001;
+  }
+  return shadow;
+}
+
+// Built so the marker is 1 unit wide. The feet are at 0, 0, 0, the creature is up along
+// +y, and it faces +z. The stand puts it on the table or on the wall.
 function buildCreature() {
   const group = new THREE.Group();
   const bodyMaterial = material(CALM_COLOR.clone());
   parts.bodyMaterial = bodyMaterial;
 
-  // a soft shadow on the wall behind it
-  const shadow = new THREE.Mesh(new THREE.CircleGeometry(0.42, 40), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true }));
-  shadow.material.userData.baseOpacity = 0.2;
-  fadeMaterials.push(shadow.material);
-  shadow.scale.set(0.85, 1.25, 1);
-  shadow.position.set(0, 0.04, 0.004);
-  group.add(shadow);
-
   // everything that moves with the body hangs from a pivot at its feet
   const pivot = new THREE.Group();
-  pivot.position.set(0, -0.5, 0.17);
   group.add(pivot);
   parts.pivot = pivot;
 
@@ -306,7 +380,7 @@ function buildCreature() {
   for (const side of [-1, 1]) {
     const foot = new THREE.Mesh(new THREE.SphereGeometry(0.1, 20, 14), material(0xcc4a2e));
     foot.scale.set(1.2, 0.5, 1.6);
-    foot.position.set(side * 0.15, -0.47, 0.23);
+    foot.position.set(side * 0.15, 0.03, 0.06);
     group.add(foot);
   }
 
@@ -372,7 +446,7 @@ function animateCreature(t, dt) {
   // idle: breathe, sway, bob the antenna
   pivot.scale.y = 1 + 0.02 * Math.sin(t * 1.6);
   pivot.rotation.z = 0.04 * Math.sin(t * 0.9) + 0.03 * excite * Math.sin(t * 7);
-  pivot.position.y = -0.5 + Math.abs(Math.sin(t * 8)) * 0.07 * excite; // a hop when excited
+  pivot.position.y = Math.abs(Math.sin(t * 8)) * 0.07 * excite; // a hop when excited
   parts.antenna.rotation.z = 0.15 * Math.sin(t * 1.3) + 0.2 * excite * Math.sin(t * 9);
   parts.antenna.scale.y = 1 + 0.35 * excite;
 
@@ -442,7 +516,7 @@ function makeOverlay() {
   messageBox.textContent = "Look for the creature's marker";
   messageBox.style.cssText =
     'position:fixed; left:50%; bottom:32px; transform:translateX(-50%); z-index:20;' +
-    'max-width:90vw; white-space:nowrap; padding:12px 20px; border-radius:999px; text-align:center;' +
+    'box-sizing:border-box; max-width:90vw; white-space:nowrap; padding:12px 20px; border-radius:999px; text-align:center;' +
     'background:rgba(0,0,0,0.65); color:#ffffff; font:600 16px system-ui, sans-serif;' +
     'pointer-events:none; display:none;';
   document.body.appendChild(messageBox);
@@ -467,8 +541,37 @@ function cameraIsOn() {
 function updateOverlay() {
   const on = cameraIsOn();
   cameraBadge.style.display = on ? 'block' : 'none';
-  const showMessage = on && (state === 'searching' || state === 'lost');
+  const showMessage = noCamera || (on && (state === 'searching' || state === 'lost'));
   messageBox.style.display = showMessage ? 'block' : 'none';
+}
+
+// No camera: it was refused, or there isn't one. Show the creature on its own, on the
+// plain background, with one line of words. A finger turns it.
+function showWithoutCamera() {
+  noCamera = true;
+  everSeen = true;              // the creature stays, and never counts as lost
+  lastSeenAt = Infinity;
+  if (SURFACE === 'wall') {
+    targetQuat.identity();      // the marker faces you, like a wall
+    targetPos.set(0, -0.15, -2.5);
+  } else {
+    targetQuat.setFromAxisAngle(new THREE.Vector3(1, 0, 0), -1.2); // the marker lies like a table, seen from a little above
+    targetPos.set(0, -0.45, -2.5);
+  }
+  anchor.position.copy(targetPos);   // 2.5 metres in front of the screen
+  anchor.quaternion.copy(targetQuat);
+  anchor.scale.setScalar(4);         // bigger, so it fills the screen
+  messageBox.style.whiteSpace = 'normal';   // let a long line wrap,
+  messageBox.style.width = 'max-content';   // across most of the screen
+  messageBox.style.borderRadius = '20px';
+  messageBox.textContent = 'No camera, so here is the creature on its own. Drag to turn it. With the camera on, it stands on the printed marker.';
+}
+
+// three-phone calls this while a finger drags. Without a camera, turn the creature.
+function touchMoved() {
+  if (!noCamera) return;
+  const up = SURFACE === 'wall' ? new THREE.Vector3(0, 1, 0) : new THREE.Vector3(0, 0, 1); // the creature's up, in the anchor
+  targetQuat.multiply(new THREE.Quaternion().setFromAxisAngle(up, (mouseX - pmouseX) * 0.01));
 }
 
 function onResize() {
