@@ -5,7 +5,8 @@
 // distance between them and the angle of the line that joins them.
 //
 // The same number can be in view twice. Hold paper marker 7 next to a phone showing 7
-// (09 Marker on a Screen) and you see both, side by side.
+// (09 Marker on a Screen) and you see both, side by side. Copies of one number are
+// named 7a, 7b, 7c, from left to right, so you can tell them apart.
 //
 // Try this
 //   Hold up two markers. Move them apart and together. Watch the distance.
@@ -15,8 +16,9 @@
 //   Cover a corner of the white border with a finger and watch the marker disappear.
 //
 // Key data
-//   markers  every marker in view, a list: [{ id, corners, center, angle, size }]
+//   markers  every marker in view, a list: [{ id, name, corners, center, angle, size }]
 //            in canvas pixels. Two markers with the same id are two entries.
+//            name is the id, or 7a, 7b... when that number is in view more than once.
 //            angle is the marker's own turn, 0 to 360 degrees. Upright is 0. It grows
 //            as the marker turns clockwise on the screen.
 //            size is the length of one side in pixels. It shrinks as the marker moves away.
@@ -92,6 +94,7 @@ function draw() {
     if (frame) {
       const found = detector.detect(frame.imageData);
       markers = found.map((marker) => describeMarker(marker, frame));
+      nameMarkers(markers);
       pairs = measurePairs(markers);
     }
   }
@@ -116,6 +119,16 @@ function describeMarker(marker, frame) {
   const size = (dist(corners[0].x, corners[0].y, corners[1].x, corners[1].y) +
                 dist(corners[1].x, corners[1].y, corners[2].x, corners[2].y)) / 2;
   return { id: marker.id, corners: corners, center: center, angle: angle, size: size };
+}
+
+// A marker's name is its number. When a number is in view more than once,
+// the copies get a letter from left to right: 7a, 7b, 7c.
+function nameMarkers(list) {
+  for (const marker of list) {
+    const same = list.filter((other) => other.id === marker.id);
+    same.sort((p, q) => p.center.x - q.center.x);
+    marker.name = same.length === 1 ? String(marker.id) : marker.id + 'abcdefghij'[same.indexOf(marker)];
+  }
 }
 
 // Every pair of markers in view, once each.
@@ -155,7 +168,7 @@ function drawMarker(marker) {
 
   // the number, big, in the middle
   const big = constrain(marker.size * 0.45, 22, 120);
-  label(String(marker.id), marker.center.x, marker.center.y, big, true);
+  label(marker.name, marker.center.x, marker.center.y, big, true);
 
   // its own turn and size, under it
   const below = marker.center.y + marker.size * 0.5 + 22;
@@ -167,12 +180,15 @@ function drawPair(pair) {
   strokeWeight(3);
   line(pair.a.center.x, pair.a.center.y, pair.b.center.x, pair.b.center.y);
 
-  // The label sits in the middle of the line. A short line has no room for it,
-  // so it is only in the panel at the bottom.
+  // The label sits in the middle of the line, in the gap between the two markers.
+  // When the gap is too small it would cover a marker, so it is only in the panel.
   const words = round(pair.pixels) + ' px  ·  about ' + round(pair.cm) + ' cm  ·  ' + round(pair.angle) + '°';
   textSize(14);
   textStyle(NORMAL);
-  if (textWidth(words) + 40 > pair.pixels) return;
+  const gap = pair.pixels - (pair.a.size + pair.b.size) * 0.75; // the line between the markers' corners
+  const turn = radians(pair.angle);
+  const across = abs((textWidth(words) + 12) * cos(turn)) + abs(20 * sin(turn)); // how much line the label covers
+  if (across + 10 > gap) return;
   const midX = (pair.a.center.x + pair.b.center.x) / 2;
   const midY = (pair.a.center.y + pair.b.center.y) / 2;
   label(words, midX, midY, 14, false);
@@ -201,9 +217,9 @@ function drawPanel() {
     lines.push('Show an ArUco marker to the camera.');
   } else {
     lines.push(markers.length + (markers.length === 1 ? ' marker: ' : ' markers: ') +
-               markers.map((marker) => marker.id).join(', '));
+               markers.map((marker) => marker.name).join(', '));
     for (const pair of pairs.slice(0, MAX_LISTED)) {
-      lines.push(pair.a.id + ' to ' + pair.b.id + ':  ' + round(pair.pixels) + ' px,  about ' +
+      lines.push(pair.a.name + ' to ' + pair.b.name + ':  ' + round(pair.pixels) + ' px,  about ' +
                  round(pair.cm) + ' cm,  ' + round(pair.angle) + '°');
     }
     if (pairs.length > MAX_LISTED) lines.push('and ' + (pairs.length - MAX_LISTED) + ' more pairs');

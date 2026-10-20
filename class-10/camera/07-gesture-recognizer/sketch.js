@@ -117,7 +117,8 @@ function draw() {
   image(drawing, 0, 0);
   for (const hand of hands) drawHand(hand);
   drawPanel();
-  drawStatus();
+  // The start box covers the middle until the camera is on, so the loading message waits for it.
+  if (cam.ready) drawStatus();
   drawCameraOn(cam);
 }
 

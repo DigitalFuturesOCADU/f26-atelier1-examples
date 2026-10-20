@@ -29,7 +29,7 @@ let wakeLock = null;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  lockGestures();
+  lockGestures({ trapHistory: false }); // no zoom or long-press menu, but Back still goes back
   noSmooth(); // sharp edges, no blur between cells
   textFont('system-ui');
 
@@ -80,9 +80,10 @@ function draw() {
     wordsY = height / 2 - 40;
     wordsWidth = WORDS_ROOM * 2 - 16;
   }
-  drawWords(String(id), wordsX, wordsY, wordsWidth, 22, BOLD);
-  drawWords('Turn the brightness all the way up.', wordsX, wordsY + 30, wordsWidth);
-  if (!tapped) drawWords('Tap for full screen. The screen stays on.', wordsX, wordsY + 52, wordsWidth);
+  // each line starts where the one above it ended, so wrapped words never overlap
+  let nextY = drawWords(String(id), wordsX, wordsY, wordsWidth, 22, BOLD);
+  nextY = drawWords('Turn the brightness all the way up.', wordsX, nextY, wordsWidth);
+  if (!tapped) drawWords('Tap for full screen. The screen stays on.', wordsX, nextY, wordsWidth);
 }
 
 // A marker drawn from the code list: a black square, then a white cell wherever the code has a '1'.
@@ -103,13 +104,36 @@ function drawMarker(id, x, y, cell) {
   }
 }
 
+// Words centred on x, wrapped to boxWidth. Returns the y just below the last line.
 function drawWords(words, x, y, boxWidth, size = 15, style = NORMAL) {
   noStroke();
   fill(style === BOLD ? 0 : 90);
   textStyle(style);
   textSize(size);
   textAlign(CENTER, TOP);
-  text(words, x - boxWidth / 2, y, boxWidth);
+  const lineHeight = size * 1.35;
+  const lines = wrapWords(words, boxWidth);
+  for (let i = 0; i < lines.length; i++) {
+    text(lines[i], x, y + i * lineHeight);
+  }
+  return y + lines.length * lineHeight + 6;
+}
+
+// Split words into lines no wider than boxWidth, at the current text size.
+function wrapWords(words, boxWidth) {
+  const lines = [];
+  let line = '';
+  for (const word of words.split(' ')) {
+    const tryLine = line === '' ? word : line + ' ' + word;
+    if (line !== '' && textWidth(tryLine) > boxWidth) {
+      lines.push(line);
+      line = word;
+    } else {
+      line = tryLine;
+    }
+  }
+  lines.push(line);
+  return lines;
 }
 
 // round to a whole screen pixel

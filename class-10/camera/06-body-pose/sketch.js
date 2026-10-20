@@ -18,7 +18,7 @@
 // The points
 //   0 nose, 11 and 12 shoulders, 13 and 14 elbows, 15 and 16 wrists, 23 and 24 hips,
 //   25 and 26 knees, 27 and 28 ankles. Odd numbers are the person's left side.
-//   The picture is mirrored like a mirror, so your left arm shows on the right of the screen.
+//   The picture is mirrored like a mirror, so your left arm shows on the left of the screen.
 //
 // Model
 //   ml5 1.4.0 with the mediapipe runtime. modelType 'lite' is the fastest model.
@@ -152,7 +152,7 @@ function drawPanel() {
   if (!cam.ready) message = 'Waiting for the camera.';
   else if (poses.length > 0) {
     // Point 15 is the person's left wrist. With the mirrored front camera it
-    // appears on the right of the screen, like a mirror.
+    // appears on the left of the screen, like a mirror.
     message = 'Left arm ' + (leftArmUp ? 'up' : 'down') + '. Right arm ' + (rightArmUp ? 'up' : 'down') + '.';
   }
   text(message, 16, height - panelHeight + 18);
