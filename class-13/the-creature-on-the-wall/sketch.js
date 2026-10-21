@@ -1,4 +1,4 @@
-// The Creature on the Wall
+// The Creature on the Table
 // A printed marker lying on a table, and a creature standing on it. Every phone that
 // looks at the marker sees the same creature, in the same place. There is no network and
 // no server. The marker is what makes it shared.
