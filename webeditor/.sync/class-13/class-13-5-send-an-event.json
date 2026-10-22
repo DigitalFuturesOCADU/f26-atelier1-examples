@@ -1,0 +1,36 @@
+{
+  "slug": "class-13-5-send-an-event",
+  "title": "class-13-5-send-an-event",
+  "name": "Atelier1 F26 · class-13-5-send-an-event",
+  "projectId": null,
+  "contentHash": "sha256:c732ccd884db5dd562d797773978e297bb5f5708b090fc66a27b081367c927a1",
+  "files": [
+    {
+      "name": "root",
+      "id": "9fd5a75d4fa11e53ae2d7097",
+      "_id": "9fd5a75d4fa11e53ae2d7097",
+      "fileType": "folder",
+      "children": [
+        "0c1502deb14c48194de06abf",
+        "f0c437cc404527e8711da879"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>5 Send an Event</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      display: block;\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n\n  <!-- p5-phone: the join tap and Share -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.16.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "0c1502deb14c48194de06abf",
+      "_id": "0c1502deb14c48194de06abf",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 5 Send an Event\n// Share Basics. An event is a knock, not a value. It is sent once and not kept.\n// Tap the screen to knock. Every other phone gets a ripple in your colour, at the place you\n// tapped, and the name of who knocked.\n//\n// Your room: change ROOM to the room you were given. Phones with the same ROOM meet.\n//\n// Key data: shareEmit(name, data) sends an event.\n// shareEvent(name, data, from) runs on every other phone. from says who sent it,\n// and shareGuest(from) is what that phone sends: its name and colour.\n\nconst SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class server\nconst ROOM = 'class';    // your room\nconst MY_NAME = '';      // your name\n\nconst ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];\nlet ripples = [];        // the knocks on screen now\nlet news = '';\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n  textFont('system-ui');\n  shareSetup({\n    host: SHARE_HOST,\n    room: ROOM,\n    app: 'send-an-event',\n    me: { name: MY_NAME || random(ANIMALS), hue: floor(random(360)) }\n  });\n  enablePermissionsTap(['share'], 'Tap to join');\n  showDesktopQr();\n}\n\nfunction mousePressed() {\n  if (!shareConnected) return;\n  // where you tapped, from 0 to 1, so it lands in the same place on any screen size\n  const data = { x: round(mouseX / width, 2), y: round(mouseY / height, 2) };\n  shareEmit('knock', data);\n  // the sender never gets its own event back, so show it here too\n  addRipple(data, me);\n  news = 'you knocked';\n}\n\n// runs on every other phone when an event arrives\nfunction shareEvent(name, data, from) {\n  if (name !== 'knock') return;\n  const sender = shareGuest(from);   // what the sender sends: its name and colour\n  if (!sender) return;               // a phone that has already left\n  addRipple(data, sender);\n  news = sender.name + ' knocked';\n}\n\nfunction addRipple(data, person) {\n  ripples.push({ x: data.x, y: data.y, hue: person.hue, born: millis() });\n}\n\nfunction draw() {\n  const k = min(width / 390, height / 700);\n  background(20);\n  colorMode(HSB);\n\n  // each ripple grows and fades over one second\n  noFill();\n  for (const r of ripples) {\n    const age = (millis() - r.born) / 1000;\n    stroke(r.hue, 70, 100, 1 - age);\n    strokeWeight(6 * k);\n    circle(r.x * width, r.y * height, age * 400 * k);\n  }\n  ripples = ripples.filter(function (r) { return millis() - r.born < 1000; });\n\n  noStroke();\n  textAlign(CENTER, CENTER);\n  fill(0, 0, 100);\n  textSize(26 * k);\n  text(news || 'tap to knock', width / 2, 60 * k);\n  fill(0, 0, 60);\n  textSize(16 * k);\n  text(shareStatusText(), width / 2, height - 66 * k);\n  text('you send ' + JSON.stringify(me), 10 * k, height - 50 * k, width - 20 * k, 44 * k);   // a box, so a long line wraps\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "f0c437cc404527e8711da879",
+      "_id": "f0c437cc404527e8711da879",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

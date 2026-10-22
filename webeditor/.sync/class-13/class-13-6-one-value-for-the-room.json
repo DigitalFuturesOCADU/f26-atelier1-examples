@@ -1,0 +1,36 @@
+{
+  "slug": "class-13-6-one-value-for-the-room",
+  "title": "class-13-6-one-value-for-the-room",
+  "name": "Atelier1 F26 · class-13-6-one-value-for-the-room",
+  "projectId": null,
+  "contentHash": "sha256:666d2f8be41e0b6b4b1de070b6a78e8c9f7334e75d4d7c6afd9e2356b05ed087",
+  "files": [
+    {
+      "name": "root",
+      "id": "1473596033bb5e7cbe836d3b",
+      "_id": "1473596033bb5e7cbe836d3b",
+      "fileType": "folder",
+      "children": [
+        "eb5c4e8b637121dfa11bb822",
+        "b8fab03568ae0f64120c812f"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>6 One Value for the Room</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      display: block;\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n\n  <!-- p5-phone: the join tap and Share -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.16.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "eb5c4e8b637121dfa11bb822",
+      "_id": "eb5c4e8b637121dfa11bb822",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 6 One Value for the Room\n// Share Basics. shared is one object for the whole room. Every phone sees the same shared.\n// Here it holds the room's colour. Tap to change it, and every screen changes together.\n//\n// The rule: Share keeps only the last thing written. If two phones add 1 at the same moment,\n// it counts once. So only one phone writes shared: the host, the first phone in the room.\n// The other phones ask the host with an event, and the host makes the change.\n//\n// Your room: change ROOM to the room you were given. Phones with the same ROOM meet.\n//\n// Key data: shared.colour and shared.changes (the room's), shareIsHost (true on one phone)\n\nconst SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class server\nconst ROOM = 'class';    // your room\nconst MY_NAME = '';      // your name\n\nconst ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];\nconst COLOURS = [200, 330, 45, 140, 270];   // the hues the room steps through\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n  textFont('system-ui');\n  shareSetup({\n    host: SHARE_HOST,\n    room: ROOM,\n    app: 'one-value-for-the-room',\n    me: { name: MY_NAME || random(ANIMALS) },\n    shared: { colour: 0, changes: 0, by: '' }   // what an empty room starts with\n  });\n  enablePermissionsTap(['share'], 'Tap to join');\n  showDesktopQr();\n}\n\nfunction mousePressed() {\n  if (!shareConnected) return;\n  if (shareIsHost) nextColour(me.name);   // the host changes it itself\n  else shareEmit('next');                 // everyone else asks the host\n}\n\n// only the host acts on 'next'\nfunction shareEvent(name, data, from) {\n  if (name === 'next' && shareIsHost) {\n    const asker = shareGuest(from);\n    nextColour(asker ? asker.name : 'someone');\n  }\n}\n\n// the only place shared is written, and only the host runs it\nfunction nextColour(who) {\n  shared.colour = (shared.colour + 1) % COLOURS.length;\n  shared.changes = shared.changes + 1;\n  shared.by = who;\n}\n\nfunction draw() {\n  const k = min(width / 390, height / 700);\n  colorMode(HSB);\n  background(COLOURS[shared.colour] || 0, 60, 45);\n  noStroke();\n  textAlign(CENTER, CENTER);\n\n  fill(0, 0, 100);\n  textSize(64 * k);\n  text(shared.changes, width / 2, height * 0.4);\n  textSize(20 * k);\n  text('changes', width / 2, height * 0.4 + 50 * k);\n  if (shared.by) text('last by ' + shared.by, width / 2, height * 0.4 + 80 * k);\n  text(shareIsHost ? 'you are the host' : 'tap to ask the host', width / 2, height * 0.2);\n\n  fill(0, 0, 85);\n  textSize(16 * k);\n  text(shareStatusText(), width / 2, height - 116 * k);\n  text('the room has ' + JSON.stringify(shared), 10 * k, height - 94 * k, width - 20 * k, 44 * k);\n  text('you send ' + JSON.stringify(me), 10 * k, height - 50 * k, width - 20 * k, 44 * k);   // a box, so a long line wraps\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "b8fab03568ae0f64120c812f",
+      "_id": "b8fab03568ae0f64120c812f",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

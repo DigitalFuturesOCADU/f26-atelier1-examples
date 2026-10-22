@@ -1,0 +1,36 @@
+{
+  "slug": "class-13-3-send-several-things",
+  "title": "class-13-3-send-several-things",
+  "name": "Atelier1 F26 · class-13-3-send-several-things",
+  "projectId": null,
+  "contentHash": "sha256:bb7448087d9dd08faee68e2e5d1c09702c195877d876ee6480a4778f9dfd75fc",
+  "files": [
+    {
+      "name": "root",
+      "id": "f9a3453b264bad4beb6bbb1f",
+      "_id": "f9a3453b264bad4beb6bbb1f",
+      "fileType": "folder",
+      "children": [
+        "60fbbe43fa5f1a7c1745ec90",
+        "ebe2936cdc8cde80d04ac791"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>3 Send Several Things</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      display: block;\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- a laptop sends one empty tilt reading. this drops it before p5 sees it -->\n  <script>window.addEventListener('deviceorientation', function (e) { if (e.beta === null) e.stopImmediatePropagation(); }, true);</script>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n\n  <!-- p5-phone: the join tap, tilt and Share -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.16.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "60fbbe43fa5f1a7c1745ec90",
+      "_id": "60fbbe43fa5f1a7c1745ec90",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 3 Send Several Things\n// Share Basics. me can hold several things at once. Each phone sends a name, a colour,\n// and two numbers, x and y, from its tilt. Every phone shows everyone as a dot on one field.\n//\n// Your room: change ROOM to the room you were given. Phones with the same ROOM meet.\n// Hold the phone flat, then tilt it like a tray. On a laptop, move the mouse.\n//\n// Key data: me.name, me.hue, me.x, me.y (yours), the same names in guests[i] (theirs)\n\nconst SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class server\nconst ROOM = 'class';    // your room\nconst MY_NAME = '';      // your name\n\nconst ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];\nlet gotTilt = false;\n\nwindow.addEventListener('deviceorientation', function (e) {\n  if (e.beta !== null) gotTilt = true;\n});\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n  angleMode(DEGREES);\n  textFont('system-ui');\n  shareSetup({\n    host: SHARE_HOST,\n    room: ROOM,\n    app: 'send-several-things',\n    // a word, a number set once, and two numbers that change. Add more names here\n    me: { name: MY_NAME || random(ANIMALS), hue: floor(random(360)), x: 0, y: 0 }\n  });\n  enablePermissionsTap(['gyro', 'share'], 'Tap to join');\n  showDesktopQr();\n}\n\nfunction draw() {\n  const k = min(width / 390, height / 700);\n  background(20);\n  colorMode(HSB);\n\n  // two numbers from -1 to 1, in steps of 0.05\n  if (gotTilt) {\n    me.x = round(constrain(rotationY / 30, -1, 1) * 20) / 20;   // left and right\n    me.y = round(constrain(rotationX / 30, -1, 1) * 20) / 20;   // towards you and away\n  } else {\n    me.x = round(constrain(map(mouseX, 0, width, -1, 1), -1, 1) * 20) / 20;\n    me.y = round(constrain(map(mouseY, 0, height, -1, 1), -1, 1) * 20) / 20;\n  }\n\n  // the field\n  const r = min(width, height) * 0.4;\n  noFill();\n  stroke(0, 0, 30);\n  strokeWeight(2 * k);\n  square(width / 2 - r, height / 2 - r, r * 2);\n\n  // everyone who sends x and y: me last, so I am drawn on top\n  const everyone = guestsWith('x').concat([me]);\n  textAlign(CENTER, BOTTOM);\n  textSize(16 * k);\n  for (const person of everyone) {\n    const px = width / 2 + person.x * r;\n    const py = height / 2 + person.y * r;\n    noStroke();\n    fill(person.hue, 70, 100);\n    circle(px, py, 34 * k);\n    fill(0, 0, 100);\n    text(person.name, px, py - 20 * k);\n  }\n\n  textAlign(CENTER, CENTER);\n  fill(0, 0, 60);\n  textSize(16 * k);\n  text(shareStatusText(), width / 2, height - 66 * k);\n  text('you send ' + JSON.stringify(me), 10 * k, height - 50 * k, width - 20 * k, 44 * k);   // a box, so a long line wraps\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "ebe2936cdc8cde80d04ac791",
+      "_id": "ebe2936cdc8cde80d04ac791",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

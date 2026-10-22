@@ -1,0 +1,36 @@
+{
+  "slug": "class-13-4-send-text",
+  "title": "class-13-4-send-text",
+  "name": "Atelier1 F26 · class-13-4-send-text",
+  "projectId": null,
+  "contentHash": "sha256:b52fbc7dd88d39ba7212598caa29fb2628ed2e9fd12f5e6a80297c02acd44d8e",
+  "files": [
+    {
+      "name": "root",
+      "id": "12f14a6e9dac34b8ed268bf2",
+      "_id": "12f14a6e9dac34b8ed268bf2",
+      "fileType": "folder",
+      "children": [
+        "79a0612d17636ff973bcd7ac",
+        "56ed6eb16c2317ac1a80971b"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>4 Send Text</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      display: block;\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n\n  <!-- p5-phone: the join tap and Share -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.16.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "79a0612d17636ff973bcd7ac",
+      "_id": "79a0612d17636ff973bcd7ac",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 4 Send Text\n// Share Basics. A value in me can be text as well as a number. Each phone sends what you\n// type in the box. Every phone shows what everyone is typing, in their colour, as they type.\n//\n// Your room: change ROOM to the room you were given. Phones with the same ROOM meet.\n//\n// Key data: me.text (yours), guests[i].text (theirs)\n\nconst SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class server\nconst ROOM = 'class';    // your room\nconst MY_NAME = '';      // your name\n\nconst ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];\nlet textBox;             // the text box (box is a p5 name, so not that)\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n  textFont('system-ui');\n  shareSetup({\n    host: SHARE_HOST,\n    room: ROOM,\n    app: 'send-text',\n    me: { name: MY_NAME || random(ANIMALS), hue: floor(random(360)), text: '' }\n  });\n  enablePermissionsTap(['share'], 'Tap to join');\n  showDesktopQr();\n\n  textBox = createInput('');\n  textBox.attribute('placeholder', 'type here');\n  textBox.attribute('maxlength', '40');\n  textBox.style('font-size', '20px');   // 16 or more stops an iPhone zooming in\n  textBox.style('padding', '10px');\n  textBox.position(16, 16);\n  textBox.size(width - 56);\n  // every time the text changes, send it\n  textBox.input(function () {\n    me.text = textBox.value();\n  });\n}\n\nfunction draw() {\n  const k = min(width / 390, height / 700);\n  background(20);\n  noStroke();\n  colorMode(HSB);\n\n  // everyone who sends text: me first\n  const everyone = [me].concat(guestsWith('text'));\n  textAlign(LEFT, TOP);\n  for (let i = 0; i < everyone.length; i++) {\n    const person = everyone[i];\n    const y = 100 * k + i * 70 * k;\n    fill(0, 0, 60);\n    textSize(14 * k);\n    text(person.name + (person === me ? ' (you)' : ''), 20 * k, y);\n    fill(person.hue, 60, 100);\n    textSize(26 * k);\n    text(person.text || '...', 20 * k, y + 20 * k, width - 40 * k);\n  }\n\n  textAlign(CENTER, CENTER);\n  fill(0, 0, 60);\n  textSize(16 * k);\n  text(shareStatusText(), width / 2, height - 66 * k);\n  text('you send ' + JSON.stringify(me), 10 * k, height - 50 * k, width - 20 * k, 44 * k);   // a box, so a long line wraps\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n  textBox.size(width - 56);\n}\n",
+      "id": "56ed6eb16c2317ac1a80971b",
+      "_id": "56ed6eb16c2317ac1a80971b",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

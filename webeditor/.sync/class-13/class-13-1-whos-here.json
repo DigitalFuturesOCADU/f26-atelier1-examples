@@ -1,0 +1,36 @@
+{
+  "slug": "class-13-1-whos-here",
+  "title": "class-13-1-whos-here",
+  "name": "Atelier1 F26 · class-13-1-whos-here",
+  "projectId": null,
+  "contentHash": "sha256:dff5dcb6484c63b9e5e777640df1448c56989ed52fda06d7c9fd1cee9b989c79",
+  "files": [
+    {
+      "name": "root",
+      "id": "f6353f31282579bd229bf920",
+      "_id": "f6353f31282579bd229bf920",
+      "fileType": "folder",
+      "children": [
+        "3206b2a9a7099cba0164eafa",
+        "0c1b582316ef6d8ca6f60f03"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>1 Who's Here</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      display: block;\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n\n  <!-- p5-phone: the join tap and Share -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.16.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "3206b2a9a7099cba0164eafa",
+      "_id": "3206b2a9a7099cba0164eafa",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// 1 Who's Here\n// Share Basics. Join a room and see who else is in it.\n// Each phone sends a name and a colour. Every phone shows everyone.\n//\n// Your room: change ROOM to the room you were given. Phones with the same ROOM meet.\n// Your name: put it in MY_NAME. Leave it empty and the phone picks an animal.\n//\n// Key data: me (what this phone sends), guests (what everyone else sends),\n// shareJoined() and shareLeft() (someone came or went)\n\nconst SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class server\nconst ROOM = 'class';    // your room\nconst MY_NAME = '';      // your name\n\nconst ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];\nlet news = '';           // the last person who came or went\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n  textFont('system-ui');\n\n  // me is what this phone sends. Here it is set once: a name and a colour.\n  shareSetup({\n    host: SHARE_HOST,\n    room: ROOM,\n    app: 'whos-here',\n    me: { name: MY_NAME || random(ANIMALS), hue: floor(random(360)) }\n  });\n  enablePermissionsTap(['share'], 'Tap to join');   // the tap joins the room\n  showDesktopQr();   // on a laptop: a QR code, so a phone can join\n}\n\nfunction draw() {\n  const k = min(width / 390, height / 700);   // one size unit for this screen\n  background(20);\n  noStroke();\n  colorMode(HSB);\n\n  // everyone in the room: me first, then the guests that have a name\n  const everyone = [me].concat(guestsWith('name'));\n\n  textAlign(LEFT, CENTER);\n  for (let i = 0; i < everyone.length; i++) {\n    const person = everyone[i];\n    const y = 120 * k + i * 56 * k;\n    fill(person.hue, 70, 100);\n    circle(50 * k, y, 36 * k);\n    fill(0, 0, 100);\n    textSize(24 * k);\n    text(person.name + (person === me ? '  (you)' : ''), 84 * k, y);\n  }\n\n  textAlign(CENTER, CENTER);\n  fill(0, 0, 100);\n  textSize(28 * k);\n  text(everyone.length + ' here', width / 2, 50 * k);\n  fill(0, 0, 60);\n  textSize(16 * k);\n  text(news, width / 2, height - 92 * k);\n  text(shareStatusText(), width / 2, height - 66 * k);\n  text('you send ' + JSON.stringify(me), 10 * k, height - 50 * k, width - 20 * k, 44 * k);   // a box, so a long line wraps\n}\n\n// someone joined after you. data is what they send\nfunction shareJoined(id, data) {\n  if (data.name) news = data.name + ' joined';   // a page with no name, like the Room Inspector, is skipped\n}\n\n// someone left. data is the last thing they sent\nfunction shareLeft(id, data) {\n  if (data.name) news = data.name + ' left';\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "0c1b582316ef6d8ca6f60f03",
+      "_id": "0c1b582316ef6d8ca6f60f03",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}
