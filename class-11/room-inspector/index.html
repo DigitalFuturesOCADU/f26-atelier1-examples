@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room Inspector</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 16px;
+      background: #141414;
+      color: #e8e8e8;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+    main { max-width: 1100px; margin: 0 auto; }
+    h1 { margin: 0 0 4px; font-size: 24px; }
+    h2 { margin: 24px 0 8px; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #9a9a9a; }
+    p { margin: 0 0 8px; color: #9a9a9a; }
+    code, pre, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; }
+    form { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; margin: 12px 0; }
+    label { display: flex; flex-direction: column; gap: 2px; font-size: 13px; color: #9a9a9a; }
+    input { font-size: 18px; padding: 8px; width: 12em; background: #fff; color: #111; border: 0; }
+    button { font-size: 16px; font-weight: 700; padding: 10px 18px; border: 0; background: #ffc800; color: #141414; cursor: pointer; }
+    #status { padding: 8px 12px; background: #222; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+    .card { background: #1f1f1f; border-left: 6px solid #555; padding: 10px 12px; }
+    .card .who { font-weight: 700; font-size: 18px; color: #fff; }
+    .card .id { color: #8a8a8a; }
+    .card table { border-collapse: collapse; margin-top: 6px; width: 100%; }
+    .card td { padding: 2px 0; vertical-align: top; }
+    .card td.key { color: #9a9a9a; width: 40%; }
+    .card td.val { color: #fff; word-break: break-word; }
+    .fresh { background: #4a3d00; }
+    .quiet { color: #8a8a8a; font-size: 13px; }
+    pre { margin: 0; padding: 10px 12px; background: #1f1f1f; color: #fff; white-space: pre-wrap; word-break: break-word; }
+    #events { list-style: none; margin: 0; padding: 0; }
+    #events li { padding: 4px 0; border-bottom: 1px solid #262626; }
+    #events .t { color: #8a8a8a; }
+    #events .n { color: #ffc800; font-weight: 700; }
+    .you { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    input[type=range] { width: 200px; padding: 0; background: none; }
+  </style>
+
+  <!-- p5.js 2.x (no canvas here. p5-phone needs it loaded) -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- p5-phone: Share -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.16.0/dist/p5-phone.min.js"></script>
+</head>
+<body>
+<main>
+  <h1>Room Inspector</h1>
+  <p>Watch a Share room: who is in it, what each phone sends, what the room shares, and every event with who sent it. It joins the room as one more page, with no name, so the Share Basics leave it out.</p>
+
+  <form id="pick" method="get">
+    <label>room <input name="room" id="room" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="class"></label>
+    <label>app <input name="app" id="app" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="default"></label>
+    <button type="submit">Watch</button>
+  </form>
+  <p class="quiet">The room and the app must match the sketch you want to watch. Each Share Basic names its app, such as <code>send-a-number</code>. A sketch with no app is in <code>default</code>.</p>
+
+  <div id="status">Type a room and press Watch.</div>
+
+  <h2 id="phones-heading">In the room</h2>
+  <div class="grid" id="phones"></div>
+
+  <h2>The room's <code>shared</code></h2>
+  <pre id="shared">{}</pre>
+
+  <h2>Events, newest first</h2>
+  <ul id="events"></ul>
+
+  <h2>This page sends <code>me</code></h2>
+  <div class="you">
+    <label>test value <input type="range" id="test" min="-1" max="1" step="0.05" value="0"></label>
+    <button id="ping" type="button">Send event: ping</button>
+  </div>
+  <pre id="me">{}</pre>
+  <p class="quiet">Two Inspectors in the same room, on a phone and a laptop, can test a room with no sketch at all. Move the slider on one and watch the other.</p>
+</main>
+<script src="sketch.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
   "projectsDir": "webeditor/projects",
   "syncDir": "webeditor/.sync",
   "registryFile": "webeditor/.sync/registry.json",
-  "namePrefix": "Atelier1 F26 \u00b7 ",
+  "namePrefix": "Atelier1 F26 · ",
   "visibility": "Public",
   "batches": {
     "class-02": [
@@ -73,6 +73,14 @@
       "class-06-03-tilt-to-view",
       "class-06-04-tilt-to-echo",
       "class-06-05-level-to-surface"
+    ],
+    "class-13": [
+      "class-13-1-whos-here",
+      "class-13-2-send-a-number",
+      "class-13-3-send-several-things",
+      "class-13-4-send-text",
+      "class-13-5-send-an-event",
+      "class-13-6-one-value-for-the-room"
     ]
   },
   "verify": {
