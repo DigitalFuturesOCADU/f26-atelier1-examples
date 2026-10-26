@@ -11,7 +11,9 @@ const SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class
 const ROOM = 'class';    // your room
 const MY_NAME = '';      // your name
 
-const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];
+const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx',
+  'owl', 'bee', 'deer', 'frog', 'mole', 'swan', 'duck', 'goat', 'crab', 'toad',
+  'lark', 'robin', 'finch', 'panda', 'koala', 'llama', 'puffin', 'badger', 'beaver', 'tiger'];
 let gotTilt = false;     // true once the phone sends a real tilt reading
 
 window.addEventListener('deviceorientation', function (e) {
@@ -46,8 +48,9 @@ function draw() {
   // send it. Rounding to steps of 0.05 means a still phone sends nothing new
   me.value = round(readMyNumber() * 20) / 20;
 
-  // everyone who sends a value: me first
-  const everyone = [me].concat(guestsWith('value'));
+  // everyone with a name: me first.
+  // guestsWith('name') skips a phone whose name has not arrived yet
+  const everyone = [me].concat(guestsWith('name'));
   const half = width * 0.38;
   for (let i = 0; i < everyone.length; i++) {
     const person = everyone[i];
@@ -64,11 +67,26 @@ function draw() {
     text(person.name + (person === me ? ' (you)' : '') + '   ' + person.value, width / 2 - half, y - 20 * k);
   }
 
+  drawWhoIAm(k);
+
   textAlign(CENTER, CENTER);
   fill(0, 0, 60);
   textSize(16 * k);
   text(shareStatusText(), width / 2, height - 66 * k);
   text('you send ' + JSON.stringify(me), 10 * k, height - 50 * k, width - 20 * k, 44 * k);   // a box, so a long line wraps
+}
+
+// who I am: a border round the screen in my colour, and my name at the top
+function drawWhoIAm(k) {
+  noFill();
+  stroke(me.hue, 70, 100);
+  strokeWeight(12 * k);
+  rect(0, 0, width, height);
+  noStroke();
+  fill(me.hue, 70, 100);
+  textAlign(CENTER, CENTER);
+  textSize(20 * k);
+  text('you are ' + me.name, width / 2, 26 * k);
 }
 
 function windowResized() {

@@ -19,3 +19,10 @@ for dir in class-11/share-basics/*/; do
   mkdir -p "webeditor/projects/$slug"
   find "$dir" -maxdepth 1 -type f -exec cp {} "webeditor/projects/$slug/" \;
 done
+
+# Class 13 One Cow to Many: six snapshots of one sketch, single player to the whole room.
+for dir in class-11/one-cow-to-many/*/; do
+  slug="class-13-cow-$(basename "$dir")"
+  mkdir -p "webeditor/projects/$slug"
+  find "$dir" -maxdepth 1 -type f -exec cp {} "webeditor/projects/$slug/" \;
+done

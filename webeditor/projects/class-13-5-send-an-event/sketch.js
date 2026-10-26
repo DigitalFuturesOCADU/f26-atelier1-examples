@@ -13,7 +13,9 @@ const SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class
 const ROOM = 'class';    // your room
 const MY_NAME = '';      // your name
 
-const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];
+const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx',
+  'owl', 'bee', 'deer', 'frog', 'mole', 'swan', 'duck', 'goat', 'crab', 'toad',
+  'lark', 'robin', 'finch', 'panda', 'koala', 'llama', 'puffin', 'badger', 'beaver', 'tiger'];
 let ripples = [];        // the knocks on screen now
 let news = '';
 
@@ -67,6 +69,7 @@ function draw() {
     circle(r.x * width, r.y * height, age * 400 * k);
   }
   ripples = ripples.filter(function (r) { return millis() - r.born < 1000; });
+  drawWhoIAm(k);
 
   noStroke();
   textAlign(CENTER, CENTER);
@@ -77,6 +80,19 @@ function draw() {
   textSize(16 * k);
   text(shareStatusText(), width / 2, height - 66 * k);
   text('you send ' + JSON.stringify(me), 10 * k, height - 50 * k, width - 20 * k, 44 * k);   // a box, so a long line wraps
+}
+
+// who I am: a border round the screen in my colour, and my name at the top
+function drawWhoIAm(k) {
+  noFill();
+  stroke(me.hue, 70, 100);
+  strokeWeight(12 * k);
+  rect(0, 0, width, height);
+  noStroke();
+  fill(me.hue, 70, 100);
+  textAlign(CENTER, CENTER);
+  textSize(20 * k);
+  text('you are ' + me.name, width / 2, 26 * k);
 }
 
 function windowResized() {

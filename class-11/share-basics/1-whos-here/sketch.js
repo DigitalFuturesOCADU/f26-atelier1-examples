@@ -12,7 +12,9 @@ const SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class
 const ROOM = 'class';    // your room
 const MY_NAME = '';      // your name
 
-const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];
+const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx',
+  'owl', 'bee', 'deer', 'frog', 'mole', 'swan', 'duck', 'goat', 'crab', 'toad',
+  'lark', 'robin', 'finch', 'panda', 'koala', 'llama', 'puffin', 'badger', 'beaver', 'tiger'];
 let news = '';           // the last person who came or went
 
 function setup() {
@@ -50,10 +52,12 @@ function draw() {
     text(person.name + (person === me ? '  (you)' : ''), 84 * k, y);
   }
 
+  drawWhoIAm(k);
+
   textAlign(CENTER, CENTER);
   fill(0, 0, 100);
   textSize(28 * k);
-  text(everyone.length + ' here', width / 2, 50 * k);
+  text(everyone.length + ' here', width / 2, 66 * k);   // under the name at the top
   fill(0, 0, 60);
   textSize(16 * k);
   text(news, width / 2, height - 92 * k);
@@ -69,6 +73,19 @@ function shareJoined(id, data) {
 // someone left. data is the last thing they sent
 function shareLeft(id, data) {
   if (data.name) news = data.name + ' left';
+}
+
+// who I am: a border round the screen in my colour, and my name at the top
+function drawWhoIAm(k) {
+  noFill();
+  stroke(me.hue, 70, 100);
+  strokeWeight(12 * k);
+  rect(0, 0, width, height);
+  noStroke();
+  fill(me.hue, 70, 100);
+  textAlign(CENTER, CENTER);
+  textSize(20 * k);
+  text('you are ' + me.name, width / 2, 26 * k);
 }
 
 function windowResized() {

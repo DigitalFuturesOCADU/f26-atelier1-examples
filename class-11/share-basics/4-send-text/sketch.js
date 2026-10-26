@@ -10,7 +10,9 @@ const SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class
 const ROOM = 'class';    // your room
 const MY_NAME = '';      // your name
 
-const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];
+const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx',
+  'owl', 'bee', 'deer', 'frog', 'mole', 'swan', 'duck', 'goat', 'crab', 'toad',
+  'lark', 'robin', 'finch', 'panda', 'koala', 'llama', 'puffin', 'badger', 'beaver', 'tiger'];
 let textBox;             // the text box (box is a p5 name, so not that)
 
 function setup() {
@@ -30,7 +32,7 @@ function setup() {
   textBox.attribute('maxlength', '40');
   textBox.style('font-size', '20px');   // 16 or more stops an iPhone zooming in
   textBox.style('padding', '10px');
-  textBox.position(16, 16);
+  textBox.position(16, 50);   // under the name at the top
   textBox.size(width - 56);
   // every time the text changes, send it
   textBox.input(function () {
@@ -44,12 +46,13 @@ function draw() {
   noStroke();
   colorMode(HSB);
 
-  // everyone who sends text: me first
-  const everyone = [me].concat(guestsWith('text'));
+  // everyone with a name: me first.
+  // guestsWith('name') skips a phone whose name has not arrived yet
+  const everyone = [me].concat(guestsWith('name'));
   textAlign(LEFT, TOP);
   for (let i = 0; i < everyone.length; i++) {
     const person = everyone[i];
-    const y = 100 * k + i * 70 * k;
+    const y = 110 * k + i * 70 * k;
     fill(0, 0, 60);
     textSize(14 * k);
     text(person.name + (person === me ? ' (you)' : ''), 20 * k, y);
@@ -58,11 +61,26 @@ function draw() {
     text(person.text || '...', 20 * k, y + 20 * k, width - 40 * k);
   }
 
+  drawWhoIAm(k);
+
   textAlign(CENTER, CENTER);
   fill(0, 0, 60);
   textSize(16 * k);
   text(shareStatusText(), width / 2, height - 66 * k);
   text('you send ' + JSON.stringify(me), 10 * k, height - 50 * k, width - 20 * k, 44 * k);   // a box, so a long line wraps
+}
+
+// who I am: a border round the screen in my colour, and my name at the top
+function drawWhoIAm(k) {
+  noFill();
+  stroke(me.hue, 70, 100);
+  strokeWeight(12 * k);
+  rect(0, 0, width, height);
+  noStroke();
+  fill(me.hue, 70, 100);
+  textAlign(CENTER, CENTER);
+  textSize(20 * k);
+  text('you are ' + me.name, width / 2, 26 * k);
 }
 
 function windowResized() {

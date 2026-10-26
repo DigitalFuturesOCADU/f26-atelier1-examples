@@ -14,7 +14,9 @@ const SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class
 const ROOM = 'class';    // your room
 const MY_NAME = '';      // your name
 
-const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx'];
+const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx',
+  'owl', 'bee', 'deer', 'frog', 'mole', 'swan', 'duck', 'goat', 'crab', 'toad',
+  'lark', 'robin', 'finch', 'panda', 'koala', 'llama', 'puffin', 'badger', 'beaver', 'tiger'];
 const COLOURS = [200, 330, 45, 140, 270];   // the hues the room steps through
 
 function setup() {
