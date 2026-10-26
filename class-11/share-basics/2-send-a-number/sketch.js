@@ -1,9 +1,9 @@
 // 2 Send a Number
-// Share Basics. Each phone sends one number: how far it tilts left or right, from -1 to 1.
-// Every phone shows a line for each person, with a dot where their tilt is.
+// Share Basics. Each phone sends one number: how loud it is around that phone, from 0 to 1.
+// Every phone shows a line for each person, with a dot where their sound level is.
 //
 // Your room: change ROOM to the room you were given. Phones with the same ROOM meet.
-// On a laptop, move the mouse left and right instead of tilting.
+// Hum, clap or talk near the phone. A laptop uses its own microphone.
 //
 // Key data: me.value (yours), guests[i].value (theirs)
 
@@ -14,15 +14,14 @@ const MY_NAME = '';      // your name
 const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx',
   'owl', 'bee', 'deer', 'frog', 'mole', 'swan', 'duck', 'goat', 'crab', 'toad',
   'lark', 'robin', 'finch', 'panda', 'koala', 'llama', 'puffin', 'badger', 'beaver', 'tiger'];
-let gotTilt = false;     // true once the phone sends a real tilt reading
 
-window.addEventListener('deviceorientation', function (e) {
-  if (e.beta !== null) gotTilt = true;
-});
+let boost = 5;   // phones hear quietly. raise it if the dot barely moves
+let mic;         // the microphone. p5-phone looks for a variable with exactly this name
+let meter;       // measures how loud the microphone is
+let level = 0;   // the level, smoothed so the dot does not jitter
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  angleMode(DEGREES);
   textFont('system-ui');
   shareSetup({
     host: SHARE_HOST,
@@ -30,14 +29,16 @@ function setup() {
     app: 'send-a-number',
     me: { name: MY_NAME || random(ANIMALS), hue: floor(random(360)), value: 0 }
   });
-  enablePermissionsTap(['gyro', 'share'], 'Tap to join');   // one tap: tilt, then the room
+  mic = new p5.AudioIn();
+  meter = new p5.Amplitude();
+  routeMic();
+  enablePermissionsTap(['mic', 'share'], 'Tap to join');   // one tap: the microphone, then the room
   showDesktopQr();
 }
 
-// THE NUMBER. Change what it reads here. It must be a number from -1 to 1.
+// THE NUMBER. Change what it reads here. It must be a number from 0 to 1.
 function readMyNumber() {
-  if (gotTilt) return constrain(rotationY / 30, -1, 1);   // 30 degrees is all the way
-  return constrain(map(mouseX, 0, width, -1, 1), -1, 1);  // a laptop mouse
+  return getMicLevel();
 }
 
 function draw() {
@@ -45,8 +46,9 @@ function draw() {
   background(20);
   colorMode(HSB);
 
-  // send it. Rounding to steps of 0.05 means a still phone sends nothing new
-  me.value = round(readMyNumber() * 20) / 20;
+  // send it. Smooth it, then round to steps of 0.05, so a quiet room sends almost nothing new
+  level = lerp(level, readMyNumber(), 0.3);
+  me.value = round(level * 20) / 20;
 
   // everyone with a name: me first.
   // guestsWith('name') skips a phone whose name has not arrived yet
@@ -60,7 +62,7 @@ function draw() {
     line(width / 2 - half, y, width / 2 + half, y);
     noStroke();
     fill(person.hue, 70, 100);
-    circle(width / 2 + person.value * half, y, 36 * k);
+    circle(width / 2 - half + person.value * half * 2, y, 36 * k);   // quiet at the left, loud at the right
     fill(0, 0, 70);
     textAlign(LEFT, BOTTOM);
     textSize(16 * k);
@@ -72,6 +74,7 @@ function draw() {
   textAlign(CENTER, CENTER);
   fill(0, 0, 60);
   textSize(16 * k);
+  if (!window.micOpen) text('no microphone yet. Tap to join, and allow the microphone', width / 2, height - 92 * k);
   text(shareStatusText(), width / 2, height - 66 * k);
   text('you send ' + JSON.stringify(me), 10 * k, height - 50 * k, width - 20 * k, 44 * k);   // a box, so a long line wraps
 }
@@ -87,6 +90,23 @@ function drawWhoIAm(k) {
   textAlign(CENTER, CENTER);
   textSize(20 * k);
   text('you are ' + me.name, width / 2, 26 * k);
+}
+
+// ---------- the microphone, as in Class 4's 01 Level to Frame ----------
+
+// p5.sound sends the microphone straight to the speaker unless you stop it.
+// This unplugs it from the speaker and plugs it into the level meter.
+function routeMic() {
+  mic.disconnect();
+  mic.connect(meter);
+}
+
+// how loud it is right now, from 0 to 1. it is 0 when there is no microphone.
+// window.micOpen is true only while sound is really arriving
+function getMicLevel() {
+  if (!window.micOpen) return 0;
+  routeMic();
+  return constrain(meter.getLevel() * boost, 0, 1);
 }
 
 function windowResized() {

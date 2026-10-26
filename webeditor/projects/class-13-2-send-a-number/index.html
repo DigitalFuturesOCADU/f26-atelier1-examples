@@ -17,14 +17,14 @@
     }
   </style>
 
-  <!-- a laptop sends one empty tilt reading. this drops it before p5 sees it -->
-  <script>window.addEventListener('deviceorientation', function (e) { if (e.beta === null) e.stopImmediatePropagation(); }, true);</script>
-
   <!-- p5.js 2.x -->
   <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
 
-  <!-- p5-phone: the join tap, tilt and Share -->
+  <!-- p5.sound: the microphone -->
+  <script src="https://cdn.jsdelivr.net/npm/p5.sound@0.3.0/dist/p5.sound.min.js"></script>
+
+  <!-- p5-phone: the join tap, the microphone and Share -->
   <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.16.0/dist/p5-phone.min.js"></script>
 </head>
 <body>
