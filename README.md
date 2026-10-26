@@ -210,7 +210,32 @@ size with `MARKER_SIZE_MM` or `?size=` (190 mm needs Tabloid or A3; use 150 on L
 This is where three.js comes in, as an option next to p5.js. three-phone has no Share, so a project
 that sends data between phones stays in p5.js. The folder keeps its old name, `class-13/`.
 
-## Class 12 · Talking to things
+## Class 12 · Many phones, one space
+
+Four class-wide examples in `class-11/`, on p5-phone Share. The folder keeps its old name,
+`class-11/`, but the examples are taught in Class 12 (Classes 12 and 13 swapped on 2026-10-26). The room
+behind the Class Lamp in Class 13 is Share too. Each has a `projector/` page (the laptop at the front, desktop Chrome) and a `phone/`
+page, joined by the QR code the projector shows. Share keeps the last thing written, so each phone
+keeps its own value in `me` and the projector adds up `guests`. The projector is the only page
+that writes `shared`.
+
+The server address lives in one file, `class-11/class-server.js`. Put the deployed worker's
+`https://...workers.dev` address there, or add `?shareHost=` to the projector's address. The QR
+code carries it to the phones. These pages load `../../class-server.js`, so they run from this
+site, not from the web editor. `tests/share-load/` checks a server with 30 fake phones.
+
+| Example | Phones send (`me`) | The projector shows | Room |
+| --- | --- | --- | --- |
+| [01-crowd-tilt](class-11/01-crowd-tilt/projector/) | tilt `x`, `y` (-1 to 1) | one ball on the class average; writes `shared.average`, which the Class Lamp in Class 13 reads | `crowd-tilt` |
+| [02-chord](class-11/02-chord/projector/) | how high the phone is held | the chord and who plays each note; writes `shared.parts` | `chord` |
+| [03-hot-potato](class-11/03-hot-potato/projector/) | a shake throws (`shareEmit('throw')`) | who has it and the clock; writes `shared.round` | `hot-potato` |
+| [04-show-of-hands-networked](class-11/04-show-of-hands-networked/projector/) | `vote` A or B | the tally, but not where people are | `show-of-hands` |
+
+`class-11/05-common-signal-starter/` is the starter for the Common Signal activity: one page, the same on
+both phones of a pair. Same pair name, same room (`app: 'common-signal'`). It sends one value and
+shows yours and your partner's. Change the value in `readMyValue()`.
+
+## Class 13 · Talking to things
 
 `class-12/bluetooth/`: Level 1, the basics. Five pairs, each a phone page (`index.html`, `ble-kit.js`,
 `sketch.js`) and the Uno R4 WiFi sketch it talks to (`arduino/<Name>/<Name>.ino`, P5PhoneBLE 0.1.1 or
@@ -232,36 +257,11 @@ has a `BOARD_NAME` line (`p5phone-yourname`) to change, so a student can find th
 
 `class-12/the-class-lamp/`: Level 2, the hub. `hub/` is a laptop page (Chrome) that joins the
 Crowd Tilt room, reads `shared.average`, and writes three one-byte values (hue,
-brightness, pixel count) over Web Bluetooth. In Class 12 Nick runs a ready-made Crowd Tilt room and
-students scan, tilt and watch the lamp. How the room works (Share) is taught in Class 13.
+brightness, pixel count) over Web Bluetooth. In Class 13 Nick runs a ready-made Crowd Tilt room and
+students scan, tilt and watch the lamp. How the room works (Share) was taught in Class 12.
 `arduino/ClassLamp/` is the Uno R4 WiFi sketch: P5PhoneBLE plus an Adafruit NeoPixel strip on D6,
 with the R4's LED matrix as a stand-in. It needs P5PhoneBLE 0.1.1 or later (0.1.0 does not compile
 on the R4).
-
-## Class 13 · Many phones, one space
-
-Four class-wide examples in `class-11/`, on p5-phone Share. The folder keeps its old name,
-`class-11/`, but the examples are taught in Class 13. The room behind the Class Lamp in Class 12
-was Share too. Each has a `projector/` page (the laptop at the front, desktop Chrome) and a `phone/`
-page, joined by the QR code the projector shows. Share keeps the last thing written, so each phone
-keeps its own value in `me` and the projector adds up `guests`. The projector is the only page
-that writes `shared`.
-
-The server address lives in one file, `class-11/class-server.js`. Put the deployed worker's
-`https://...workers.dev` address there, or add `?shareHost=` to the projector's address. The QR
-code carries it to the phones. These pages load `../../class-server.js`, so they run from this
-site, not from the web editor. `tests/share-load/` checks a server with 30 fake phones.
-
-| Example | Phones send (`me`) | The projector shows | Room |
-| --- | --- | --- | --- |
-| [01-crowd-tilt](class-11/01-crowd-tilt/projector/) | tilt `x`, `y` (-1 to 1) | one ball on the class average; writes `shared.average`, which the Class Lamp in Class 12 reads | `crowd-tilt` |
-| [02-chord](class-11/02-chord/projector/) | how high the phone is held | the chord and who plays each note; writes `shared.parts` | `chord` |
-| [03-hot-potato](class-11/03-hot-potato/projector/) | a shake throws (`shareEmit('throw')`) | who has it and the clock; writes `shared.round` | `hot-potato` |
-| [04-show-of-hands-networked](class-11/04-show-of-hands-networked/projector/) | `vote` A or B | the tally, but not where people are | `show-of-hands` |
-
-`class-11/05-common-signal-starter/` is the starter for the Common Signal activity: one page, the same on
-both phones of a pair. Same pair name, same room (`app: 'common-signal'`). It sends one value and
-shows yours and your partner's. Change the value in `readMyValue()`.
 
 ## Class 14 · Traces and residue
 
