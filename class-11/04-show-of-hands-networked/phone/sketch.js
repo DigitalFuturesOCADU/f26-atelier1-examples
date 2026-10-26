@@ -1,5 +1,5 @@
 // 04 Show of Hands, Networked: Phone
-// Share. Tilt your phone left for A or right for B.
+// Share. Tilt your phone left for Yes or right for No.
 // Your vote stays when you tilt back. Tilt the other way to change it.
 //
 // The rule: Share keeps only the last thing written, so this phone keeps its own vote in me
@@ -12,7 +12,7 @@
 //   On a laptop, move the mouse to the left or right of the page, or use the arrow keys.
 //
 // Key data:
-//   me.vote          'A', 'B' or '' for no vote yet
+//   me.vote          'Yes', 'No' or '' for no vote yet
 //   shareEvent('reset')   the projector clears every vote
 
 const ROOM = 'show-of-hands';
@@ -22,10 +22,10 @@ let threshold = 0.6;     // how far to tilt to vote. 1 is 30 degrees. 0.6 is 18 
 
 let joined = false;
 let serverOk = false;
-let vote = '';           // 'A', 'B' or '' for no vote yet
+let vote = '';           // 'Yes', 'No' or '' for no vote yet
 let armed = true;        // after a reset, the phone must come back to level before it votes again
 let k = 1;               // one design unit for this screen
-let colors = { A: '#ffc800', B: '#3ddcff' };
+let colors = { Yes: '#ffc800', No: '#3ddcff' };
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -66,16 +66,16 @@ function draw() {
   k = min(width / 390, height / 700);
   background(20);
 
-  // 1. read the tilt. 2. past the marks, left is A and right is B. 3. the vote latches.
+  // 1. read the tilt. 2. past the marks, left is Yes and right is No. 3. the vote latches.
   const t = tiltNow();
   if (joined && shareConnected) {
     if (abs(t.x) < 0.3) {
       armed = true;
     }
     if (armed && t.x < -threshold) {
-      vote = 'A';
+      vote = 'Yes';
     } else if (armed && t.x > threshold) {
-      vote = 'B';
+      vote = 'No';
     }
     me.vote = vote;
   }
@@ -91,7 +91,7 @@ function drawHalves() {
   const h = height * 0.5;
   const gap = 12 * k;
   const w = (width - gap * 3) / 2;
-  const sides = ['A', 'B'];
+  const sides = ['Yes', 'No'];
   for (let s = 0; s < 2; s++) {
     const side = sides[s];
     const x = gap + s * (w + gap);
@@ -106,6 +106,9 @@ function drawHalves() {
     textAlign(CENTER, CENTER);
     textStyle(BOLD);
     textSize(min(w * 0.8, h * 0.6));
+    if (textWidth(side) > w * 0.85) {
+      textSize(textSize() * w * 0.85 / textWidth(side));   // Yes must fit its half
+    }
     text(side, x + w / 2, top + h / 2);
     textStyle(NORMAL);
   }
@@ -146,7 +149,7 @@ function drawWords() {
 
   fill('#9a9a9a');
   textSize(21 * k);
-  let how = 'Tilt left for A. Tilt right for B.\nYour vote stays until you tilt the other way.';
+  let how = 'Tilt left for Yes. Tilt right for No.\nYour vote stays until you tilt the other way.';
   if (!hasRealTilt) {
     how = 'No tilt sensor here.\nMove the mouse to the left or right, or use the arrow keys.';
   }

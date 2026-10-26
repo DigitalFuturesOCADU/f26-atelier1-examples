@@ -229,7 +229,7 @@ site, not from the web editor. `tests/share-load/` checks a server with 30 fake 
 | [01-crowd-tilt](class-11/01-crowd-tilt/projector/) | tilt `x`, `y` (-1 to 1) | one ball on the class average; writes `shared.average`, which the Class Lamp in Class 13 reads | `crowd-tilt` |
 | [02-chord](class-11/02-chord/projector/) | how high the phone is held | the chord and who plays each note; writes `shared.parts` | `chord` |
 | [03-hot-potato](class-11/03-hot-potato/projector/) | a shake throws (`shareEmit('throw')`) | who has it and the clock; writes `shared.round` | `hot-potato` |
-| [04-show-of-hands-networked](class-11/04-show-of-hands-networked/projector/) | `vote` A or B | the tally, but not where people are | `show-of-hands` |
+| [04-show-of-hands-networked](class-11/04-show-of-hands-networked/projector/) | `vote` Yes or No | the tally, but not where people are | `show-of-hands` |
 
 `class-11/05-common-signal-starter/` is the starter for the Common Signal activity: one page, the same on
 both phones of a pair. Same pair name, same room (`app: 'common-signal'`). It sends one value and

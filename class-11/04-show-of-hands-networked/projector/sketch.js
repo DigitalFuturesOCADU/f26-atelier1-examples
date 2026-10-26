@@ -1,9 +1,9 @@
 // 04 Show of Hands, Networked: Projector
-// Share. Tilt your phone left for A or right for B.
+// Share. Tilt your phone left for Yes or right for No.
 // The vote stays when you tilt back. This page adds up the votes and shows the tally.
 //
-// The votes come over the network. This page knows how many votes there are for A and
-// for B. It does not know where anyone is. It only knows what each phone sent.
+// The votes come over the network. This page knows how many votes there are for Yes and
+// for No. It does not know where anyone is. It only knows what each phone sent.
 //
 // The rule: Share keeps only the last thing written, so each phone keeps its own vote in me,
 // this page adds them up, and nothing goes in shared at all.
@@ -12,19 +12,19 @@
 // Phones join with the code on the right.
 //
 // Try this:
-//   Ask the room a question with two answers. Tilt left for A, right for B.
+//   Ask the room a question with two answers. Tilt left for Yes, right for No.
 //   Change your vote by tilting the other way.
 //   Key R clears every vote, so you can ask again.
 //
 // Key data:
-//   guests[i].vote   'A', 'B', or '' if that phone has not voted
+//   guests[i].vote   'Yes', 'No', or '' if that phone has not voted
 //   shareEmit('reset')   tells every phone to clear its vote
 
 const ROOM = 'show-of-hands';
 
-let tally = { A: 0, B: 0, none: 0, phones: 0 };
-let shown = { A: 0, B: 0 };   // the bars, which ease toward the tally
-let colors = { A: '#ffc800', B: '#3ddcff' };
+let tally = { Yes: 0, No: 0, none: 0, phones: 0 };
+let shown = { Yes: 0, No: 0 };   // the bars, which ease toward the tally
+let colors = { Yes: '#ffc800', No: '#3ddcff' };
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -41,22 +41,22 @@ function windowResized() {
 function draw() {
   background(20);
   countTheVotes();
-  drawTitle('Tilt left for A. Tilt right for B. Your vote stays until you tilt the other way.');
+  drawTitle('Tilt left for Yes. Tilt right for No. Your vote stays until you tilt the other way.');
   drawVotes();
   drawNotKnown();
-  drawJoinColumn('VOTED', (tally.A + tally.B) + ' of ' + tally.phones, 64);
+  drawJoinColumn('VOTED', (tally.Yes + tally.No) + ' of ' + tally.phones, 64);
 }
 
-// 1. read every phone. 2. count A, B and no vote yet.
+// 1. read every phone. 2. count Yes, No and no vote yet.
 function countTheVotes() {
   const phones = phoneList();
-  tally = { A: 0, B: 0, none: 0, phones: phones.length };
+  tally = { Yes: 0, No: 0, none: 0, phones: phones.length };
   for (let i = 0; i < phones.length; i++) {
     const v = phones[i].vote;
-    if (v === 'A') {
-      tally.A += 1;
-    } else if (v === 'B') {
-      tally.B += 1;
+    if (v === 'Yes') {
+      tally.Yes += 1;
+    } else if (v === 'No') {
+      tally.No += 1;
     } else {
       tally.none += 1;
     }
@@ -76,7 +76,7 @@ function drawVotes() {
   const w = (arena.w - gap) / 2;
   const barTop = arena.y + 330 * u;
   const barBottom = arena.y + arena.h - 190 * u;
-  const sides = ['A', 'B'];
+  const sides = ['Yes', 'No'];
   for (let s = 0; s < 2; s++) {
     const side = sides[s];
     const x = arena.x + s * (w + gap);
@@ -86,10 +86,11 @@ function drawVotes() {
     fill(colors[side]);
     textAlign(LEFT, BASELINE);
     textStyle(BOLD);
-    textSize(200 * u);
+    textSize(160 * u);
     text(side, x, arena.y + 280 * u);
+    const labelW = textWidth(side);   // Yes is wider than No, so the count sits after the word
     textSize(300 * u);
-    text(tally[side], x + 160 * u, arena.y + 280 * u);
+    text(tally[side], x + labelW + 24 * u, arena.y + 280 * u);
     textStyle(NORMAL);
 
     // the bar is the share of all the phones in the room
