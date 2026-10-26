@@ -7,7 +7,7 @@
 //   recentre()               counts the way you hold the phone right now as level
 //   raiseNow()               0 when the phone lies flat, 1 when it is held upright
 //   otherPhones()            the other phones in the room
-//   checkMyName()            picks a new name if another phone has yours
+//   checkMyName()            takes the lowest free number, or a new one if another phone has yours
 //   footerLine()             one line about the connection, for the bottom of the screen
 //   centreLines(str, y, w, h)  writes centred lines that wrap at w, the first one at y. h is the line height
 //
@@ -16,13 +16,6 @@
 //
 // Call angleMode(DEGREES) in setup(), because the tilt comes in degrees.
 
-const NAMES = [
-  'Pip', 'Moss', 'Fig', 'Juno', 'Otto', 'Bean', 'Kit', 'Roux', 'Tilly', 'Basil',
-  'Nori', 'Wren', 'Clove', 'Miso', 'Dot', 'Echo', 'Fern', 'Gus', 'Hazel', 'Ivy',
-  'Jam', 'Kiwi', 'Lark', 'Mint', 'Nova', 'Olive', 'Plum', 'Quill', 'Rue', 'Sage',
-  'Tulip', 'Uma', 'Vee', 'Wisp', 'Yarrow', 'Zig', 'Ash', 'Birch', 'Cedar', 'Dune',
-  'Elm', 'Flint', 'Gem', 'Haze', 'Iris', 'Jade', 'Koi', 'Lime', 'Maple', 'Nib'
-];
 const REACH = 30; // degrees of tilt that count as all the way, 1
 const GREY_TEXT = '#9a9a9a';
 
@@ -47,9 +40,12 @@ function remembered(key, make) {
     return String(make());
   }
 }
-let myName = remembered('class11Name', function () {
-  return NAMES[Math.floor(Math.random() * NAMES.length)];
-});
+// each phone is a number, Phone 1, Phone 2 and so on: the lowest number no other phone in the room has.
+// the phone keeps it, so it gets the same number back when it rejoins, if that number is still free
+let myNumber = Number(remembered('class12Number', function () {
+  return 0;   // 0 is no number yet. checkMyName() gives one once the phone is in the room
+}));
+let myName = myNumber > 0 ? 'Phone ' + myNumber : 'Phone';
 let myHue = Number(remembered('class11Hue', function () {
   return Math.floor(Math.random() * 360);
 }));
@@ -163,25 +159,35 @@ function otherPhones() {
   });
 }
 
-// two phones with one name are hard to tell apart. the later one picks again
+// two phones with one number are hard to tell apart. the phone that joined later picks again.
+// the room gives every phone an id, so 'later' is the larger id, and only one of the two moves
 function checkMyName() {
-  const taken = otherPhones().map(function (g) {
-    return g.name;
-  });
-  if (taken.indexOf(me.name) < 0) {
+  if (!shareConnected) {
     return;
   }
-  const free = NAMES.filter(function (n) {
-    return taken.indexOf(n) < 0;
+  const others = otherPhones();
+  const clash = others.some(function (g) {
+    return g.name === me.name && String(g.id) < String(shareClientId);
   });
-  if (free.length > 0) {
-    myName = free[Math.floor(Math.random() * free.length)];
-    me.name = myName;
-    try {
-      localStorage.setItem('class11Name', myName);
-    } catch (e) { /* the name just will not be kept */ }
+  if (myNumber > 0 && !clash) {
+    return;
   }
+  const taken = others.map(function (g) {
+    return g.name;
+  });
+  let n = 1;
+  while (taken.indexOf('Phone ' + n) >= 0) {
+    n++;
+  }
+  myNumber = n;
+  myName = 'Phone ' + n;
+  me.name = myName;
+  try {
+    localStorage.setItem('class12Number', String(n));
+  } catch (e) { /* the number just will not be kept */ }
 }
+// phones that join at the same moment can pick the same number, so look again every second
+setInterval(checkMyName, 1000);
 
 function footerLine() {
   if (serverProblem) {
