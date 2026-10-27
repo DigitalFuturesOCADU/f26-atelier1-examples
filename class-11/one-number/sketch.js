@@ -56,10 +56,17 @@ function draw() {
     textSize(min(w, h) * 0.4);
     text(person.number, x + w / 2, y + h * 0.45);
 
-    // under it, who it is: you, or the id the room gave that phone when it joined
+    // under it, who it is: the id the room gave that phone when it joined.
+    // your own box says me, with your id under it: the id everyone else sees for you
     fill(150);
     textSize(min(w, h) * 0.1);
-    text(person === me ? 'you' : person.id.slice(0, 4), x + w / 2, y + h * 0.78);
+    if (person === me) {
+      text('me', x + w / 2, y + h * 0.72);
+      textSize(min(w, h) * 0.07);
+      text((shareClientId || '').slice(0, 4), x + w / 2, y + h * 0.84);
+    } else {
+      text(person.id.slice(0, 4), x + w / 2, y + h * 0.78);
+    }
   }
 
   // one line about the connection
