@@ -26,7 +26,6 @@ function userSetupComplete() {
 // the feel of the piece. change these before you change anything else.
 let gifFile = 'https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-03/gif-library/gifs/cow.gif';
 let notes = [262, 294, 330, 392, 440, 523, 587, 659]; // hertz. one note for each step, then round again
-let stepsAcross = 20;  // how many steps it takes to cross the screen
 let noteLength = 120;  // milliseconds each note sounds
 let volume = 0.4;      // from 0 to 1
 let shakeLevel = 30;   // how hard a shake has to be. lower is easier
@@ -155,17 +154,15 @@ function playNote(n, pitch) {
   }, noteLength);
 }
 
-// one person's cow, in a band from y to y + h. its frame and its place both come from their steps
+// one person's cow, in a band from y to y + h. its frame comes from their steps
 function drawCow(person, y, h) {
   const n = person.steps;
   if (!person.name) return;   // a phone whose name has not arrived yet: skip it for now
   const s = min(width * 0.6 / gif.width, h * 0.9 / gif.height);   // as large as fits
   const w = gif.width * s;
-  // the cow faces left. it starts at the right edge, and after stepsAcross steps starts again
-  const x = map(n % stepsAcross, 0, stepsAcross - 1, width - w / 2, w / 2);
   gif.setFrame(n % gif.numFrames());
   push();
-  translate(x, y + h / 2);   // move to where the cow stands
+  translate(width / 2, y + h / 2);   // the middle of its band. the cow walks on the spot
   imageMode(CENTER);
   tint(person.hue, 40, 100);   // the cow in its owner's colour
   image(gif, 0, 0, w, gif.height * s);

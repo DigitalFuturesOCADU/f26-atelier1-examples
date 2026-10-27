@@ -46,13 +46,13 @@ In the p5.js Web Editor, save the sketch first, or the QR code has no address to
 
 ## Step 0 · One Cow
 
-**The idea:** one phone, one cow. Each shake is one step: the next frame of the GIF, a
-little way along the screen, and one note of a climbing tune.
+**The idea:** one phone, one cow. Each shake is one step: the next frame of the GIF, and
+one note of a climbing tune. The cow walks on the spot.
 
 **Start from:** `0-one-cow/sketch.js`. There is no Share in it. Read these parts before
 you go on, because every later step changes them:
 
-- `let steps = 0;` the step count. The frame, the place and the note all come from it.
+- `let steps = 0;` the step count. The frame and the note both come from it.
 - `takeStep()` adds one to `steps` and plays the note. A shake calls it, and so do a
   click and the space bar on a laptop.
 - `drawCow(n, y, h)` draws one cow for step count `n`, in a band from `y` to `y + h`.
@@ -64,9 +64,8 @@ you go on, because every later step changes them:
 - After the tap, `step 0` at the top.
 - At the bottom, `shake the phone` on a phone, or `no shake here. click or press space`
   on a laptop.
-- Each shake (or click, or space) makes the number go up by one, the cow moves a little
-  to the left and its legs change, and you hear one note. After 20 steps it starts again
-  at the right.
+- Each shake (or click, or space) makes the number go up by one, the cow's legs move
+  on by one frame, and you hear one note. The cow stays where it is.
 
 **Test on a laptop:** click `Tap to start`, then press space five times. You see `step 5`
 and hear five notes, each one higher.
@@ -238,13 +237,13 @@ You can tell which is which before anyone says a word.
 ## Step 3 · Everyone's Cow
 
 **The idea:** state. The step count moves into `me`, so it is sent too. Now every phone
-can draw every cow, each in its own lane. A cow's frame and place come from its owner's
-steps, so a phone that joins late sees every cow where it really is.
+can draw every cow, each in its own lane. A cow's frame comes from its owner's steps,
+so a phone that joins late sees every cow on the step it is really on.
 
 **1. At the top, delete this line.** The steps live in `me` now.
 
 ```js
-let steps = 0;      // how many steps so far. the frame, the place and the note all come from this
+let steps = 0;      // how many steps so far. the frame and the note both come from this
 ```
 
 **2. Inside `me`, add `steps`.** Put a comma at the end of the `hue` line first.
@@ -323,10 +322,10 @@ in `draw()` stops p5.js drawing for good. Skip anyone whose name has not arrived
 **Test on a laptop:**
 
 1. Two windows side by side. Tap to start in both. Each shows two cows.
-2. Click in the left window and press space three times. Its cow walks three steps, in
-   both windows.
+2. Click in the left window and press space three times. Its cow takes three steps, in
+   both windows, and its count says 3.
 3. Late joiner: open a third window and tap to start. Its two other cows are already
-   where they were, not back at the start.
+   on the steps they had reached, not back at 0.
 4. Close a window. Its cow goes from the others.
 
 **Test on a phone:** scan the QR code. A new lane appears on the laptop. Shake the phone:
@@ -461,7 +460,7 @@ into `me.lean`. On a laptop the mouse is fake tilt.
   }
 ```
 
-**5. Inside `drawCow()`, after `translate(x, y + h / 2);`:** lean the cow.
+**5. Inside `drawCow()`, after `translate(width / 2, y + h / 2);`:** lean the cow.
 
 ```js
   rotate((person.lean || 0) * 30);   // and lean it, up to 30 degrees. a cow from an older step has no lean
@@ -501,7 +500,7 @@ the laptop. Hold the phone still: `lean` stops changing, so nothing new is sent.
 | In `me` | Kind | Changes | Others use it for |
 |---|---|---|---|
 | `name`, `hue` | identity | once | the label and colour of your cow |
-| `steps` | state | each step | where your cow is, and its frame |
+| `steps` | state | each step | your cow's frame and its step count |
 | `pitch` | identity | once | how your cow sounds |
 | `lean` | stream | all the time | how far your cow leans |
 
