@@ -1,7 +1,7 @@
 // 01 Crowd Tilt: Projector
 // Share. Every phone in the room is a tilt sensor, and this page adds them all up.
 // One ball rolls on the class's average tilt. Get it into the ring and hold it there
-// for 2 seconds. Nobody can do it alone. If half the room tilts left and half tilts
+// for half a second. Nobody can do it alone. If half the room tilts left and half tilts
 // right, the ball does not move.
 //
 // The rule: Share keeps only the last thing written, so each phone keeps its own tilt in me,
@@ -30,7 +30,7 @@ const ROOM = 'crowd-tilt';
 let pull = 1.0;         // how hard a full tilt pulls the ball
 let drag = 1.5;         // how fast the ball slows down. bigger is heavier
 let bounce = 0.35;      // how much speed the ball keeps when it hits a wall, from 0 to 1
-let holdSeconds = 2;    // how long the class must hold the ball in the ring
+let holdSeconds = 0.5;  // how long the class must hold the ball in the ring. 2 was too hard
 let ringSize = 0.1;     // the size of the ring, as a share of the shorter side of the space
 
 // the average tilt of the whole class. other pages read this
