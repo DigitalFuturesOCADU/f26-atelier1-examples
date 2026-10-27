@@ -55,6 +55,8 @@ you go on, because every later step changes them:
 - `let steps = 0;` the step count. The frame and the note both come from it.
 - `takeStep()` adds one to `steps` and plays the note. A shake calls it, and so do a
   click and the space bar on a laptop.
+- `frames` holds every frame of the GIF as its own picture, copied once in `setup()`. Cow
+  number `n` shows `frames[n % frames.length]`, so two cows can show two frames at once.
 - `drawCow(n, y, h)` draws one cow for step count `n`, in a band from `y` to `y + h`.
 - `playNote(n)` plays the note for step count `n`.
 
@@ -296,10 +298,14 @@ arrive a moment before that phone's name. Without this line, a cow called `undef
 flashes up for that moment. In other sketches a missing name is an error, and one error
 in `draw()` stops p5.js drawing for good. Skip anyone whose name has not arrived.
 
-**7. Inside `drawCow()`, just before `image(gif, ...)`:** the cow in its owner's colour.
+**7. Inside `drawCow()`, straight after the `image(...)` line:** a frame round the cow in its
+owner's colour.
 
 ```js
-  tint(person.hue, 40, 100);   // the cow in its owner's colour
+  noFill();
+  stroke(person.hue, 70, 100);   // a frame round the cow in its owner's colour
+  strokeWeight(4 * k);
+  rect(-w / 2, -gif.height * s / 2, w, gif.height * s);
 ```
 
 **8. At the end of `drawCow()`, after `pop();`:** the owner's name at the top of the lane.
@@ -314,7 +320,7 @@ in `draw()` stops p5.js drawing for good. Skip anyone whose name has not arrived
 
 **When it works, you see:**
 
-- Your cow, in your colour, labelled `otter (you)`.
+- Your cow, with a frame in your colour, labelled `otter (you)`.
 - One more lane for each other person, labelled with their name in their colour.
 - At the bottom: `you send {"name":"otter","hue":211,"steps":0}`, and `steps` goes up
   each time you step.
@@ -340,7 +346,7 @@ the cow comes back where it was, because `me` is kept.
   missing, or `drawCow` still starts with `function drawCow(n, y, h)`.
 - A cow called `undefined` flashes up when someone joins: the
   `if (!person.name) return;` line is missing from `drawCow()`.
-- Every cow is the same colour: `tint` uses `me.hue`. It should be `person.hue`.
+- Every frame is the same colour: `stroke` uses `me.hue`. It should be `person.hue`.
 - A missing comma after the `hue` line inside `me`.
 - Only your own cow: the other window is in another room, or still on an older step
   that does not send `steps`. Reload both with the same code.

@@ -31,6 +31,7 @@ let shakeLevel = 30;   // how hard a shake has to be. lower is easier
 let lockout = 400;     // milliseconds. one shake calls deviceShaken() many times in a row
 
 let gif;            // the cow
+let frames = [];    // each frame of the GIF as its own picture
 let osc;            // the oscillator
 let started = false;
 let steps = 0;      // how many steps so far. the frame and the note both come from this
@@ -70,7 +71,12 @@ async function setup() {
   osc.amp(0);
 
   gif = await loadImage(gifFile);
-  gif.pause();   // the steps choose the frame, not the GIF's own clock
+  // copy each frame into its own picture. the steps choose the frame, not the GIF's own clock,
+  // and two cows can show two different frames at the same moment
+  for (let i = 0; i < gif.numFrames(); i++) {
+    gif.setFrame(i);
+    frames.push(gif.get());
+  }
 }
 
 function draw() {
@@ -139,11 +145,10 @@ function playNote(n) {
 function drawCow(n, y, h) {
   const s = min(width * 0.6 / gif.width, h * 0.9 / gif.height);   // as large as fits
   const w = gif.width * s;
-  gif.setFrame(n % gif.numFrames());
   push();
   translate(width / 2, y + h / 2);   // the middle of its band. the cow walks on the spot
   imageMode(CENTER);
-  image(gif, 0, 0, w, gif.height * s);
+  image(frames[n % frames.length], 0, 0, w, gif.height * s);
   pop();
 }
 
