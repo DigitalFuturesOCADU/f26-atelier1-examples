@@ -257,7 +257,7 @@ has a `BOARD_NAME` line (`p5phone-yourname`) to change, so a student can find th
 
 `class-12/the-class-lamp/`: Level 2, the hub. `hub/` is a laptop page (Chrome) that joins the
 Crowd Tilt room, reads `shared.average`, and writes three one-byte values (hue,
-brightness, pixel count) over Web Bluetooth. In Class 13 Nick runs a ready-made Crowd Tilt room and
+brightness, pixel count) over Web Bluetooth. In Class 13 a ready-made Crowd Tilt room runs on the class server and
 students scan, tilt and watch the lamp. How the room works (Share) was taught in Class 12.
 `arduino/ClassLamp/` is the Uno R4 WiFi sketch: P5PhoneBLE plus an Adafruit NeoPixel strip on D6,
 with the R4's LED matrix as a stand-in. It needs P5PhoneBLE 0.1.1 or later (0.1.0 does not compile

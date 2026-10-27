@@ -2,7 +2,7 @@
 // Share and Bluetooth. Every phone in the Crowd Tilt room is a tilt sensor. This page reads the
 // class's average tilt and sends it to a lamp over Bluetooth: an Arduino Uno R4 WiFi running
 // ClassLamp.ino, with a NeoPixel strip. No phone pairs with anything. Only this laptop does.
-// You do not need to know Share to use this page. Nick runs the Crowd Tilt room. Class 12
+// You do not need to know Share to use this page. The Crowd Tilt room runs on the class server. Class 12
 // explained how a room like it works.
 //
 // Run this on the laptop, in Chrome or Edge. Web Bluetooth needs one click, so press the
