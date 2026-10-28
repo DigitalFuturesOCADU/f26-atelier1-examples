@@ -53,3 +53,14 @@ for dir in class-11/0[1-4]-*/; do
     fi
   done
 done
+
+# Class 13 Bluetooth, the p5 pages only (not the three.js versions, and not the Arduino zips:
+# the sketch comments link each zip on GitHub Pages).
+for dir in class-13/bluetooth/[0-9]-*/; do
+  slug="class-13-ble-$(basename "$dir")"
+  mkdir -p "webeditor/projects/$slug"
+  find "$dir" -maxdepth 1 -type f ! -name '*.zip' ! -name '*.sh' -exec cp {} "webeditor/projects/$slug/" \;
+  # the Web Editor name comes from the page title, such as "Class 13 · 1 Tilt to Servo"
+  title=$(sed -n 's#.*<title>\(.*\)</title>.*#\1#p' "$dir/index.html")
+  printf '{ "title": "Class 13 · %s" }\n' "$title" > "webeditor/projects/$slug/meta.json"
+done

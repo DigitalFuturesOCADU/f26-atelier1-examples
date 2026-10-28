@@ -1,0 +1,36 @@
+{
+  "slug": "class-13-ble-1-tilt-to-servo",
+  "title": "Class 13 · 1 Tilt to Servo",
+  "name": "Atelier1 F26 · Class 13 · 1 Tilt to Servo",
+  "projectId": null,
+  "contentHash": "sha256:33100799657638261dccd0c6b843ee77d4f92f5635a8f10f2d417363d209e9ea",
+  "files": [
+    {
+      "name": "root",
+      "id": "09324e251e011a003e249bc5",
+      "_id": "09324e251e011a003e249bc5",
+      "fileType": "folder",
+      "children": [
+        "5babe8ec1de0ec3c09148db8",
+        "497ca42be3303a5e018e0e23"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>1 Tilt to Servo</title>\n  <style>\n    body { margin: 0; overflow: hidden; background: #141414; }\n    canvas { display: block; touch-action: none; }\n    button { font: 700 20px system-ui, sans-serif; padding: 14px 32px; border: 0; background: #ffc800; color: #141414; }\n  </style>\n\n  <!-- p5.js -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n  <!-- p5-phone: Bluetooth and tilt -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.16.1/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "5babe8ec1de0ec3c09148db8",
+      "_id": "5babe8ec1de0ec3c09148db8",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// Example 1: Tilt to Servo (the phone side)\n// Tilt your phone left and right, and a servo on the Arduino turns to match.\n// The phone sends one number, the angle, from 0 to 180.\n// On a laptop, move the mouse left and right instead.\n//\n// Arduino code for the board: TiltToServo.zip\n//   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/1-tilt-to-servo/TiltToServo.zip\n//\n// Bluetooth from a web page works in Chrome on Android and on a laptop.\n// On an iPhone, open this page in the Bluefy app.\n\n// 1. YOUR BOARD NUMBER\n// Three digits, the same as BOARD_NUMBER in the Arduino code.\n// On a page you did not edit, add ?board= and your number to the address: ...?board=007\nconst BOARD_NUMBER = new URLSearchParams(location.search).get('board') || '001';\n\n// 2. THE ADDRESSES (UUIDs). They match the Arduino code, and end in your board number.\nconst SERVICE_UUID = '19b10000-e8f2-537e-4f6c-d104768a1' + BOARD_NUMBER;\nconst ANGLE_UUID = '19b10001-e8f2-537e-4f6c-d104768a1' + BOARD_NUMBER;\n\nlet angle = 90;        // the angle to send, 0 to 180\nlet lastSent = -1;     // the angle the board has now\nlet sending = false;   // Bluetooth sends one thing at a time\nlet connectButton;\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n  angleMode(DEGREES);\n\n  // 3. SET UP BLUETOOTH: one service with one value in it.\n  // uint8 is one byte, 0 to 255. write: true means this page writes it.\n  bleSetup({\n    serviceUUID: SERVICE_UUID,\n    characteristics: [\n      { name: 'angle', uuid: ANGLE_UUID, type: 'uint8', write: true }\n    ]\n  });\n\n  // the first tap turns on tilt. An iPhone asks first\n  enableGyroTap('Tap to start');\n\n  // 4. A BUTTON TO CONNECT. Bluetooth only starts from a tap.\n  connectButton = createButton('Connect');\n  connectButton.position(20, 20);\n  connectButton.mousePressed(connectOrDisconnect);\n  lockGestures();\n}\n\nfunction draw() {\n  background(20);\n\n  // 5. READ THE TILT. Tilt left for 0, hold level for 90, tilt right for 180\n  if (isMobile) {\n    angle = map(rotationY, -45, 45, 0, 180, true);\n  } else {\n    angle = map(mouseX, 0, width, 0, 180, true);\n  }\n  angle = round(angle);\n\n  // 6. SEND IT, when it has changed and the last send has finished\n  if (bleConnected && angle !== lastSent && !sending) {\n    sendAngle();\n  }\n\n  drawServo();\n  drawStatus();\n}\n\nasync function sendAngle() {\n  sending = true;\n  const value = angle;\n  const ok = await bleWrite('angle', value);   // wait until the board has it\n  if (ok) lastSent = value;\n  sending = false;\n}\n\nfunction connectOrDisconnect() {\n  if (bleConnected) {\n    bleDisconnect();\n  } else {\n    bleConnect();   // opens the list of boards. Pick Board- and your number\n  }\n}\n\n// the board just connected: send the angle again\nfunction bleReady() {\n  lastSent = -1;\n}\n\n// a servo arm, seen from above\nfunction drawServo() {\n  const cx = width / 2;\n  const cy = height / 2;\n  const r = min(width, height) * 0.3;\n  stroke(70);\n  strokeWeight(2);\n  noFill();\n  arc(cx, cy, r * 2, r * 2, 180, 360);\n  stroke(255, 200, 0);\n  strokeWeight(14);\n  line(cx, cy, cx - cos(angle) * r, cy - sin(angle) * r);\n  noStroke();\n  fill(255);\n  textAlign(CENTER, TOP);\n  textSize(48);\n  text(angle, cx, cy + 30);\n}\n\nfunction drawStatus() {\n  fill(180);\n  noStroke();\n  textAlign(LEFT, BOTTOM);\n  textSize(16);\n  let words = 'Not connected. Looking for Board-' + BOARD_NUMBER;\n  if (bleConnected) words = 'Connected to ' + bleDeviceName;\n  if (!bleSupported) words = 'No Bluetooth here. Use Chrome, or Bluefy on an iPhone.';\n  text(words, 20, height - 20);\n  connectButton.html(bleConnected ? 'Disconnect' : 'Connect');\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "497ca42be3303a5e018e0e23",
+      "_id": "497ca42be3303a5e018e0e23",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

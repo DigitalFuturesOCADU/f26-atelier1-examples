@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5 Face to Board</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #101318; }
+    canvas { display: block; touch-action: none; }
+    button { font: 700 20px system-ui, sans-serif; padding: 14px 32px; border: 0; background: #ffc800; color: #141414; }
+  </style>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- ml5 1.x expects p5 1.x preload counters. These two lines stand in for them in p5 2. -->
+  <script>
+    p5.prototype._incrementPreload ||= function() {};
+    p5.prototype._decrementPreload ||= function() {};
+  </script>
+
+  <!-- ml5.js 1.4.0: finds the face -->
+  <script src="https://cdn.jsdelivr.net/npm/ml5@1.4.0/dist/ml5.min.js"></script>
+
+  <!-- p5-phone: the camera and Bluetooth -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.16.1/dist/p5-phone.min.js"></script>
+
+  <!-- helpers from Class 10, in this folder -->
+  <script src="loading.js"></script>
+  <script src="frame.js"></script>
+  <script src="camera-on.js"></script>
+</head>
+<body>
+  <script src="sketch.js"></script>
+</body>
+</html>

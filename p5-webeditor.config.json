@@ -99,6 +99,14 @@
       "class-12-03-hot-potato-phone",
       "class-12-04-show-of-hands-networked-projector",
       "class-12-04-show-of-hands-networked-phone"
+    ],
+    "class-13-ble": [
+      "class-13-ble-0-find-your-board",
+      "class-13-ble-1-tilt-to-servo",
+      "class-13-ble-2-light-to-phone",
+      "class-13-ble-3-both-ways",
+      "class-13-ble-4-proximity",
+      "class-13-ble-5-face-to-board"
     ]
   },
   "verify": {

@@ -1,0 +1,36 @@
+{
+  "slug": "class-13-ble-2-light-to-phone",
+  "title": "Class 13 · 2 Light to Phone",
+  "name": "Atelier1 F26 · Class 13 · 2 Light to Phone",
+  "projectId": null,
+  "contentHash": "sha256:f412afa1fd2af89d3b149ec890aa4bc3c61a6c85a92a4a5b3335372c4ed2042a",
+  "files": [
+    {
+      "name": "root",
+      "id": "ff8601c370ebf47123432e1c",
+      "_id": "ff8601c370ebf47123432e1c",
+      "fileType": "folder",
+      "children": [
+        "ed1321bd25edaf17f27c7eee",
+        "e356c51c63671ac4bd52cb60"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>2 Light to Phone</title>\n  <style>\n    body { margin: 0; overflow: hidden; background: #141414; }\n    canvas { display: block; touch-action: none; }\n    button { font: 700 20px system-ui, sans-serif; padding: 14px 32px; border: 0; background: #ffc800; color: #141414; }\n  </style>\n\n  <!-- p5.js -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n  <!-- p5-phone: Bluetooth -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.16.1/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "ed1321bd25edaf17f27c7eee",
+      "_id": "ed1321bd25edaf17f27c7eee",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// Example 2: Light to Phone (the phone side)\n// A light sensor on the Arduino sets how bright this screen is.\n// Cover the sensor with your hand and the screen goes dark.\n// The board sends one number, the light, from 0 (dark) to 1023 (bright).\n//\n// Arduino code for the board: LightToPhone.zip\n//   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/2-light-to-phone/LightToPhone.zip\n//\n// Bluetooth from a web page works in Chrome on Android and on a laptop.\n// On an iPhone, open this page in the Bluefy app.\n\n// 1. YOUR BOARD NUMBER\n// Three digits, the same as BOARD_NUMBER in the Arduino code.\n// On a page you did not edit, add ?board= and your number to the address: ...?board=007\nconst BOARD_NUMBER = new URLSearchParams(location.search).get('board') || '001';\n\n// 2. THE ADDRESSES (UUIDs). They match the Arduino code, and end in your board number.\nconst SERVICE_UUID = '19b10000-e8f2-537e-4f6c-d104768a1' + BOARD_NUMBER;\nconst LIGHT_UUID = '19b10002-e8f2-537e-4f6c-d104768a1' + BOARD_NUMBER;\n\nlet light = 0;   // the last reading from the board, 0 to 1023\nlet connectButton;\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n\n  // 3. SET UP BLUETOOTH: one service with one value in it.\n  // uint16 is two bytes, 0 to 65535. notify: true means the board sends it when it changes.\n  bleSetup({\n    serviceUUID: SERVICE_UUID,\n    characteristics: [\n      { name: 'light', uuid: LIGHT_UUID, type: 'uint16', notify: true, read: true }\n    ]\n  });\n\n  // 4. A BUTTON TO CONNECT. Bluetooth only starts from a tap.\n  connectButton = createButton('Connect');\n  connectButton.position(20, 20);\n  connectButton.mousePressed(connectOrDisconnect);\n  lockGestures();\n}\n\n// 5. A NEW READING ARRIVED. p5-phone calls this each time the board sends one\nfunction bleReceive(name, value) {\n  if (name === 'light') {\n    light = value;\n  }\n}\n\n// the board just connected: ask for the light now, instead of waiting for it to change\nfunction bleReady() {\n  bleRead('light');   // the answer arrives in bleReceive()\n}\n\nfunction draw() {\n  // 6. USE IT: the light sets the brightness of the screen\n  const level = map(light, 0, 1023, 0, 255, true);\n  background(level);\n\n  // the number, in a colour you can read on light or dark\n  fill(level > 128 ? 0 : 255);\n  noStroke();\n  textAlign(CENTER, CENTER);\n  textSize(96);\n  text(light, width / 2, height / 2);\n  textSize(18);\n  text('light, from 0 to 1023', width / 2, height / 2 + 70);\n\n  drawStatus(level > 128 ? 60 : 180);\n}\n\nfunction connectOrDisconnect() {\n  if (bleConnected) {\n    bleDisconnect();\n  } else {\n    bleConnect();   // opens the list of boards. Pick Board- and your number\n  }\n}\n\nfunction drawStatus(ink) {\n  fill(ink);\n  textAlign(LEFT, BOTTOM);\n  textSize(16);\n  let words = 'Not connected. Looking for Board-' + BOARD_NUMBER;\n  if (bleConnected) words = 'Connected to ' + bleDeviceName;\n  if (!bleSupported) words = 'No Bluetooth here. Use Chrome, or Bluefy on an iPhone.';\n  text(words, 20, height - 20);\n  connectButton.html(bleConnected ? 'Disconnect' : 'Connect');\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "e356c51c63671ac4bd52cb60",
+      "_id": "e356c51c63671ac4bd52cb60",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

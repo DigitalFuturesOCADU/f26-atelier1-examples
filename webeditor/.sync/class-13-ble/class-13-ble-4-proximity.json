@@ -1,0 +1,36 @@
+{
+  "slug": "class-13-ble-4-proximity",
+  "title": "Class 13 · 4 Proximity",
+  "name": "Atelier1 F26 · Class 13 · 4 Proximity",
+  "projectId": null,
+  "contentHash": "sha256:d255874d42f62464886e15dcf5c2eea4760bf97d30ec631a6e7563d174a1918e",
+  "files": [
+    {
+      "name": "root",
+      "id": "2fc8c99bf16527fe1e9191e2",
+      "_id": "2fc8c99bf16527fe1e9191e2",
+      "fileType": "folder",
+      "children": [
+        "ae631dd9b3e66db7be08f3b7",
+        "31b0b1a9ce47103a6fd7e4de"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>4 Proximity</title>\n  <style>\n    body { margin: 0; overflow: hidden; background: #141414; }\n    canvas { display: block; touch-action: none; }\n    button { font: 700 20px system-ui, sans-serif; padding: 14px 32px; border: 0; background: #ffc800; color: #141414; }\n  </style>\n\n  <!-- p5.js -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n  <!-- p5-phone: Bluetooth -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.16.1/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "ae631dd9b3e66db7be08f3b7",
+      "_id": "ae631dd9b3e66db7be08f3b7",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// Example 4: Proximity (the phone side)\n// Two boards, two people. Your board listens for your partner's board and measures how\n// strong its signal is (RSSI). This page shows it: the closer the boards, the closer the dots.\n//\n// RSSI is a negative number, in dBm. About -40 is touching, -60 is an arm's length,\n// -80 is across a room. -100 means your board can't hear the partner at all.\n// It jumps around. Hands, bodies and walls all change it.\n//\n// Arduino code for the board: Proximity.zip\n//   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/4-proximity/Proximity.zip\n//\n// Bluetooth from a web page works in Chrome on Android and on a laptop.\n// On an iPhone, open this page in the Bluefy app.\n\n// 1. YOUR BOARD NUMBER\n// Three digits, the same as BOARD_NUMBER in the Arduino code. Your partner's number is\n// only in the Arduino code: your board does the listening.\n// On a page you did not edit, add ?board= and your number to the address: ...?board=007\nconst BOARD_NUMBER = new URLSearchParams(location.search).get('board') || '001';\n\n// 2. THE ADDRESSES (UUIDs). They match the Arduino code.\nconst SERVICE_UUID = '19b10000-e8f2-537e-4f6c-d104768a1' + BOARD_NUMBER;\nconst RSSI_UUID = '19b10003-e8f2-537e-4f6c-d104768a1' + BOARD_NUMBER;\n\n// 3. THE FEEL. Change these after you have walked apart and back once\nconst TOUCHING = -45;   // this strong or stronger: touching\nconst NEAR = -65;       // this strong or stronger: near\nconst FAR = -85;        // weaker than this: far away\n\nlet rssi = -100;        // the partner's strength, from your board\nlet connectButton;\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n\n  // 4. SET UP BLUETOOTH. int8 is one signed byte, -128 to 127.\n  // notify: true means the board sends it, five times a second\n  bleSetup({\n    serviceUUID: SERVICE_UUID,\n    characteristics: [\n      { name: 'rssi', uuid: RSSI_UUID, type: 'int8', notify: true, read: true }\n    ]\n  });\n\n  connectButton = createButton('Connect');\n  connectButton.position(20, 20);\n  connectButton.mousePressed(connectOrDisconnect);\n  lockGestures();\n}\n\n// 5. A NEW READING ARRIVED\nfunction bleReceive(name, value) {\n  if (name === 'rssi') {\n    rssi = value;\n  }\n}\n\nfunction bleReady() {\n  bleRead('rssi');\n}\n\nfunction draw() {\n  background(20);\n\n  // 6. USE IT. The stronger the signal, the closer the two dots.\n  // map() turns -100 (far) to -40 (touching) into a gap from wide to none\n  const gap = map(rssi, -100, -40, width * 0.8, 0, true);\n  const y = height / 2;\n  noStroke();\n  fill(255, 200, 0);\n  circle(width / 2 - gap / 2 - 30, y, 60);   // you\n  fill(rssi <= -100 ? 70 : 255);\n  circle(width / 2 + gap / 2 + 30, y, 60);   // your partner\n\n  // the words and the number\n  fill(255);\n  textAlign(CENTER, TOP);\n  textSize(40);\n  text(closeness(), width / 2, y + 70);\n  textSize(20);\n  fill(180);\n  text(rssi + ' dBm', width / 2, y + 120);\n\n  drawStatus();\n}\n\n// a word for the strength. Change TOUCHING, NEAR and FAR above to fit your space\nfunction closeness() {\n  if (rssi <= -100) return 'no partner';\n  if (rssi >= TOUCHING) return 'touching';\n  if (rssi >= NEAR) return 'near';\n  if (rssi >= FAR) return 'in the room';\n  return 'far away';\n}\n\nfunction connectOrDisconnect() {\n  if (bleConnected) {\n    bleDisconnect();\n  } else {\n    bleConnect();   // opens the list of boards. Pick Board- and your number\n  }\n}\n\nfunction drawStatus() {\n  fill(180);\n  noStroke();\n  textAlign(LEFT, BOTTOM);\n  textSize(16);\n  let words = 'Not connected. Looking for Board-' + BOARD_NUMBER;\n  if (bleConnected) words = 'Connected to ' + bleDeviceName;\n  if (!bleSupported) words = 'No Bluetooth here. Use Chrome, or Bluefy on an iPhone.';\n  text(words, 20, height - 20);\n  connectButton.html(bleConnected ? 'Disconnect' : 'Connect');\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "31b0b1a9ce47103a6fd7e4de",
+      "_id": "31b0b1a9ce47103a6fd7e4de",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

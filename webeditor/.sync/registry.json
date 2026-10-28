@@ -879,6 +879,75 @@
         "sketch.js": "82b41543bed3676ec2f2d61f"
       },
       "lastPush": "2026-10-28T14:29:53.261Z"
+    },
+    "class-13-ble-0-find-your-board": {
+      "projectId": "9tF2AttBQ",
+      "name": "Atelier1 F26 · Class 13 · 0 Find Your Board",
+      "contentHash": "sha256:bc640294b7b5c535fa63f0a5f17603a199b541883682287c04704dccc4f8f46c",
+      "fileIds": {
+        "__root__": "09bfc96296bc5a8e2aadf09e",
+        "index.html": "38beba94ada0b947d3d0fa91",
+        "sketch.js": "594f0c512bfaa2edda073a04"
+      },
+      "lastPush": "2026-10-28T15:35:12.994Z"
+    },
+    "class-13-ble-1-tilt-to-servo": {
+      "projectId": "IIBeEjtN-",
+      "name": "Atelier1 F26 · Class 13 · 1 Tilt to Servo",
+      "contentHash": "sha256:33100799657638261dccd0c6b843ee77d4f92f5635a8f10f2d417363d209e9ea",
+      "fileIds": {
+        "__root__": "680eee724b56fb7f5b752971",
+        "index.html": "92a8ed371ba79f92672ca0c0",
+        "sketch.js": "06be0abf2e4b216fe988fb37"
+      },
+      "lastPush": "2026-10-28T15:35:13.789Z"
+    },
+    "class-13-ble-2-light-to-phone": {
+      "projectId": "1hCrYYrDl",
+      "name": "Atelier1 F26 · Class 13 · 2 Light to Phone",
+      "contentHash": "sha256:f412afa1fd2af89d3b149ec890aa4bc3c61a6c85a92a4a5b3335372c4ed2042a",
+      "fileIds": {
+        "__root__": "fd087377665988bb3b6cb690",
+        "index.html": "1f904f89fda7e03720e4cc79",
+        "sketch.js": "1420b0a64f03a8c4e344630c"
+      },
+      "lastPush": "2026-10-28T15:35:14.618Z"
+    },
+    "class-13-ble-3-both-ways": {
+      "projectId": "tlnvkn_Aq",
+      "name": "Atelier1 F26 · Class 13 · 3 Both Ways",
+      "contentHash": "sha256:530e3846f43c4d760cce7e8622fc41efbe290960b54dae4ede9c130742f8d3a5",
+      "fileIds": {
+        "__root__": "5ef0f97e1d88e8e40b48cc1a",
+        "index.html": "fb4243a5278768fdcebc062a",
+        "sketch.js": "5d5cf1f3f07add79fffc8986"
+      },
+      "lastPush": "2026-10-28T15:35:15.402Z"
+    },
+    "class-13-ble-4-proximity": {
+      "projectId": "0ClUw3Yn4",
+      "name": "Atelier1 F26 · Class 13 · 4 Proximity",
+      "contentHash": "sha256:d255874d42f62464886e15dcf5c2eea4760bf97d30ec631a6e7563d174a1918e",
+      "fileIds": {
+        "__root__": "7fba94bb967f3a1793d71829",
+        "index.html": "e5e342806e817eeba262528c",
+        "sketch.js": "2d198e325cdd6183d79204dd"
+      },
+      "lastPush": "2026-10-28T15:35:16.157Z"
+    },
+    "class-13-ble-5-face-to-board": {
+      "projectId": "l83G5eNmq",
+      "name": "Atelier1 F26 · Class 13 · 5 Face to Board",
+      "contentHash": "sha256:17954b2880baafca65f27e3af4cf55d5be0de9dae6c854032fbf6b5fe12eda56",
+      "fileIds": {
+        "__root__": "efcb8dfbb676473480fbe279",
+        "camera-on.js": "b74e7aaf13755dca254fe0f6",
+        "frame.js": "747426d35e707f07654006e8",
+        "index.html": "878dd018114a7739bc8fd6bb",
+        "loading.js": "38e072bb07434a36310956ec",
+        "sketch.js": "a91726a0d598883d2ecaaaab"
+      },
+      "lastPush": "2026-10-28T15:35:16.962Z"
     }
   }
 }
