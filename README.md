@@ -289,7 +289,13 @@ Android, and can speak a cue or flash the torch if the participant turns those o
 npx p5-webeditor-sync@latest sync --batch class-02
 npx p5-webeditor-sync@latest sync --batch class-03
 npx p5-webeditor-sync@latest sync --batch class-04
+npx p5-webeditor-sync@latest sync --batch class-12
 ```
+
+The `class-12` batch holds the Share sketches (One Number, the Room Inspector, One Cow to Many and
+the four class-wide examples). Each class-wide copy carries `class-server.js` itself, and its
+projector's QR code points at the phone page on GitHub Pages. The Share Basics went up earlier
+as the `class-13` batch, before Share moved to Class 12, and keep those names.
 
 `stage.sh` copies each example's files, images included, and p5-webeditor-sync 1.2.0 and
 later upload images intact as web editor assets (`@latest` stops `npx` reusing an older

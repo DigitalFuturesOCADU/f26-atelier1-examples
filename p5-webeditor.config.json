@@ -81,6 +81,24 @@
       "class-13-4-send-text",
       "class-13-5-send-an-event",
       "class-13-6-one-value-for-the-room"
+    ],
+    "class-12": [
+      "class-12-one-number",
+      "class-12-room-inspector",
+      "class-12-cow-0-one-cow",
+      "class-12-cow-1-join-a-room",
+      "class-12-cow-2-say-who-you-are",
+      "class-12-cow-3-everyones-cow",
+      "class-12-cow-4-hear-every-step",
+      "class-12-cow-5-lean-together",
+      "class-12-01-crowd-tilt-projector",
+      "class-12-01-crowd-tilt-phone",
+      "class-12-02-chord-projector",
+      "class-12-02-chord-phone",
+      "class-12-03-hot-potato-projector",
+      "class-12-03-hot-potato-phone",
+      "class-12-04-show-of-hands-networked-projector",
+      "class-12-04-show-of-hands-networked-phone"
     ]
   },
   "verify": {

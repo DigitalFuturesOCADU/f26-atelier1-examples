@@ -1,0 +1,36 @@
+{
+  "slug": "class-12-one-number",
+  "title": "class-12-one-number",
+  "name": "Atelier1 F26 · class-12-one-number",
+  "projectId": null,
+  "contentHash": "sha256:85a3617849cd121521dbeb6c69d6cabc9a6b9130a6575bb006e7827ad2a113e3",
+  "files": [
+    {
+      "name": "root",
+      "id": "a12dae3e9046c0c832bf8cbc",
+      "_id": "a12dae3e9046c0c832bf8cbc",
+      "fileType": "folder",
+      "children": [
+        "8c0288884051aafdb029a2fc",
+        "92a0663a26ba1f64b312ae22"
+      ]
+    },
+    {
+      "name": "index.html",
+      "content": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>One Number</title>\n  <style>\n    body {\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background: #141414;\n    }\n    canvas {\n      display: block;\n      touch-action: none; /* a finger on the canvas never scrolls the page */\n    }\n  </style>\n\n  <!-- p5.js 2.x -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js\"></script>\n  <script src=\"https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js\"></script>\n\n  <!-- p5-phone: the join tap and Share. guestsWith() and shareStatusText() need 1.16.0 or later -->\n  <script src=\"https://cdn.jsdelivr.net/npm/p5-phone@1.16.0/dist/p5-phone.min.js\"></script>\n</head>\n<body>\n  <script src=\"sketch.js\"></script>\n</body>\n</html>\n",
+      "id": "8c0288884051aafdb029a2fc",
+      "_id": "8c0288884051aafdb029a2fc",
+      "fileType": "file",
+      "children": []
+    },
+    {
+      "name": "sketch.js",
+      "content": "// One Number\n// The smallest Share sketch. Every phone in the room sends one number: how many times\n// it has been tapped. Every phone shows everyone's number in a grid.\n// Tap the screen (or click, on a laptop) to count up.\n//\n// Your room: change ROOM to the room you were given. Phones with the same ROOM meet.\n\nconst SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class server\nconst ROOM = 'class';    // your room\n\nfunction setup() {\n  createCanvas(windowWidth, windowHeight);\n  textAlign(CENTER, CENTER);\n  textFont('system-ui');\n\n  // 1. Which server, which room, which sketch, and what this phone sends.\n  //    me is what this phone sends. Here it is one number, starting at 0.\n  shareSetup({\n    host: SHARE_HOST,\n    room: ROOM,\n    app: 'one-number',\n    me: { number: 0 }\n  });\n\n  // 2. A tap joins the room. A phone only joins after a tap.\n  enablePermissionsTap(['share'], 'Tap to join');\n  showDesktopQr();   // on a laptop: a QR code, so a phone can join\n}\n\nfunction draw() {\n  background(20);\n\n  // 3. guests is everyone else in the room. Each guest has the same names as my me,\n  //    so guests[0].number is the first other phone's number.\n  //    guestsWith('number') leaves out pages that send no number, like the Room Inspector.\n  const everyone = [me].concat(guestsWith('number'));\n\n  // one cell for each person, in a grid that fits the screen\n  const cols = ceil(sqrt(everyone.length * width / height));\n  const rows = ceil(everyone.length / cols);\n  const w = width / cols;\n  const h = (height - 60) / rows;\n  for (let i = 0; i < everyone.length; i++) {\n    const person = everyone[i];\n    const x = (i % cols) * w;\n    const y = floor(i / cols) * h;\n\n    // a box round each cell. yours is brighter\n    noFill();\n    stroke(person === me ? 200 : 60);\n    rect(x + 6, y + 6, w - 12, h - 12);\n    noStroke();\n\n    // the number: how many times this person has tapped\n    fill(255);\n    textSize(min(w, h) * 0.4);\n    text(person.number, x + w / 2, y + h * 0.45);\n\n    // under it, who it is: the id the room gave that phone when it joined.\n    // your own box says me, with your id under it: the id everyone else sees for you\n    fill(150);\n    textSize(min(w, h) * 0.1);\n    if (person === me) {\n      text('me', x + w / 2, y + h * 0.72);\n      textSize(min(w, h) * 0.07);\n      text((shareClientId || '').slice(0, 4), x + w / 2, y + h * 0.84);\n    } else {\n      text(person.id.slice(0, 4), x + w / 2, y + h * 0.78);\n    }\n  }\n\n  // one line about the connection\n  fill(150);\n  textSize(16);\n  text(shareStatusText(), width / 2, height - 30);\n}\n\nfunction mousePressed() {\n  if (!shareConnected) return;   // the tap that joins the room does not count\n\n  // 4. Change me, and p5-phone sends it. Every other phone sees your number go up.\n  me.number = me.number + 1;\n}\n\nfunction windowResized() {\n  resizeCanvas(windowWidth, windowHeight);\n}\n",
+      "id": "92a0663a26ba1f64b312ae22",
+      "_id": "92a0663a26ba1f64b312ae22",
+      "fileType": "file",
+      "children": [],
+      "isSelectedFile": true
+    }
+  ]
+}

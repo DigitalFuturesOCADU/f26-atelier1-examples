@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01 Crowd Tilt: Projector</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #141414;
+    }
+  </style>
+
+  <!-- a phone that opens this projector page goes to the phone page instead, with the same
+       server and room. Add ?projector=1 to use a phone as the projector on purpose. -->
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var phone = window.matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 700;
+      if (phone && !q.has('projector')) location.replace('https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-11/01-crowd-tilt/phone/' + location.search);
+    })();
+  </script>
+
+  <!-- the class server address, set once in class-11/class-server.js -->
+  <script src="class-server.js"></script>
+
+  <!-- p5.js 2.x -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.2.3/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5.js-compatibility@0.2.0/src/preload.js"></script>
+
+  <!-- p5-phone: Share, and the join code -->
+  <script src="https://cdn.jsdelivr.net/npm/p5-phone@1.15.4/dist/p5-phone.min.js"></script>
+
+  <!-- the join code, the phone count and the connection state -->
+  <script src="join-panel.js"></script>
+</head>
+<body>
+  <script src="sketch.js"></script>
+</body>
+</html>
