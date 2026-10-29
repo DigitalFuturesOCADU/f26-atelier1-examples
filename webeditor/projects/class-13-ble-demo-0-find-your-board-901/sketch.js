@@ -17,8 +17,8 @@
 // It works in Chrome on Android and on a laptop. On an iPhone, open it in the Bluefy app.
 
 // YOUR BOARD NUMBER. Three digits, the same as in the Arduino code.
-// It starts at 900, the class demo board. On a page you did not edit, add ?board= and your
-// number to the address: ...?board=007
+// It is set to 901, a class demo board. Change '901' at the end of the line below to your
+// number. (The first part lets a page address such as ...?board=901 choose the board. Leave it.)
 const BOARD_NUMBER = new URLSearchParams(location.search).get('board') || '901';
 const SERVICE_UUID = '19b10000-e8f2-537e-4f6c-d104768a1' + BOARD_NUMBER;
 
@@ -38,7 +38,7 @@ function setup() {
     pick({ filters: [{ services: [SERVICE_UUID] }] }, 'the service that ends in ' + BOARD_NUMBER);
   });
 
-  // on a laptop, a QR code of this page (with ?board=) so you can open it on your phone
+  // on a laptop, a QR code of this page so you can open it on your phone. In the Web Editor, save first
   showDesktopQr({ label: 'Open on your phone', size: 120 });
 }
 

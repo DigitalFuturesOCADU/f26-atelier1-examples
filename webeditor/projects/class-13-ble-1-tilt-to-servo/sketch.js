@@ -12,8 +12,8 @@
 
 // 1. YOUR BOARD NUMBER
 // Three digits, the same as BOARD_NUMBER in the Arduino code.
-// It starts at 900, the class demo board. On a page you did not edit, add ?board= and your
-// number to the address: ...?board=007
+// It starts at 900, the class demo board. Change '900' at the end of the line below to your
+// number. (The first part lets a page address such as ...?board=901 choose the board. Leave it.)
 const BOARD_NUMBER = new URLSearchParams(location.search).get('board') || '900';
 
 // 2. THE ADDRESSES (UUIDs). They match the Arduino code, and end in your board number.
@@ -47,7 +47,7 @@ function setup() {
   connectButton.mousePressed(connectOrDisconnect);
   lockGestures();
 
-  // on a laptop, a QR code of this page (with ?board=) so you can open it on your phone
+  // on a laptop, a QR code of this page so you can open it on your phone. In the Web Editor, save first
   showDesktopQr({ label: 'Open on your phone', size: 120 });
 }
 
