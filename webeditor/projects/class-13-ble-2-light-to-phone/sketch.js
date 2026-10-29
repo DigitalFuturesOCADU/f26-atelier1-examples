@@ -38,6 +38,9 @@ function setup() {
   connectButton.position(20, 20);
   connectButton.mousePressed(connectOrDisconnect);
   lockGestures();
+
+  // on a laptop, a QR code of this page (with ?board=) so you can open it on your phone
+  showDesktopQr({ label: 'Open on your phone', size: 120 });
 }
 
 // 5. A NEW READING ARRIVED. p5-phone calls this each time the board sends one

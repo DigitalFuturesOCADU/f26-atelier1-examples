@@ -75,6 +75,9 @@ function setup() {
     });
   });
   lockGestures();
+
+  // on a laptop, a QR code of this page (with ?board=) so you can open it on your phone
+  showDesktopQr({ label: 'Open on your phone', size: 120 });
 }
 
 function gotFaces(results) {

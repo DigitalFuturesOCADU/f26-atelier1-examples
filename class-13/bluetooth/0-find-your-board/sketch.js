@@ -12,7 +12,7 @@
 // The board side is Board Check, which advertises Board- and your number:
 //   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/0-find-your-board/BoardCheck.zip
 //
-// This uses Web Bluetooth directly, with no library, so you can see the filters.
+// This uses Web Bluetooth directly, so you can see the filters. p5-phone is only for the QR code.
 // It works in Chrome on Android and on a laptop. On an iPhone, open it in the Bluefy app.
 
 // YOUR BOARD NUMBER. Three digits, the same as in the Arduino code.
@@ -35,6 +35,9 @@ function setup() {
   createButton('Only mine').position(20, 160).mousePressed(() => {
     pick({ filters: [{ services: [SERVICE_UUID] }] }, 'the service that ends in ' + BOARD_NUMBER);
   });
+
+  // on a laptop, a QR code of this page (with ?board=) so you can open it on your phone
+  showDesktopQr({ label: 'Open on your phone', size: 120 });
 }
 
 // open the browser's list with one filter, and show what was picked
