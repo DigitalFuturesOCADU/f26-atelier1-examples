@@ -64,3 +64,19 @@ for dir in class-13/bluetooth/[0-9]-*/; do
   title=$(sed -n 's#.*<title>\(.*\)</title>.*#\1#p' "$dir/index.html")
   printf '{ "title": "Class 13 · %s" }\n' "$title" > "webeditor/projects/$slug/meta.json"
 done
+
+# Class 13 demo set: the same p5 sketches with the demo board's number already in sketch.js, so the
+# instructor can show where it matches the Arduino code (the course repo's planning/build-class-13-demo-set.py
+# makes the Arduino side). Board 900 has the servo and the light sensor; 901 is the Proximity partner.
+for pair in 0-find-your-board:900 0-find-your-board:901 1-tilt-to-servo:900 2-light-to-phone:900 \
+            3-both-ways:900 4-proximity:900 4-proximity:901 5-face-to-board:900; do
+  name=${pair%%:*}
+  board=${pair#*:}
+  dir="class-13/bluetooth/$name/"
+  slug="class-13-ble-demo-$name-$board"
+  mkdir -p "webeditor/projects/$slug"
+  find "$dir" -maxdepth 1 -type f ! -name '*.zip' ! -name '*.sh' -exec cp {} "webeditor/projects/$slug/" \;
+  sed -i '' "s#get('board') || '001'#get('board') || '$board'#" "webeditor/projects/$slug/sketch.js"
+  title=$(sed -n 's#.*<title>\(.*\)</title>.*#\1#p' "$dir/index.html")
+  printf '{ "title": "Class 13 · %s · board %s" }\n' "$title" "$board" > "webeditor/projects/$slug/meta.json"
+done

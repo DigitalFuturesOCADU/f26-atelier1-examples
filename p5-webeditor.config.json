@@ -107,6 +107,16 @@
       "class-13-ble-3-both-ways",
       "class-13-ble-4-proximity",
       "class-13-ble-5-face-to-board"
+    ],
+    "class-13-ble-demo": [
+      "class-13-ble-demo-0-find-your-board-900",
+      "class-13-ble-demo-0-find-your-board-901",
+      "class-13-ble-demo-1-tilt-to-servo-900",
+      "class-13-ble-demo-2-light-to-phone-900",
+      "class-13-ble-demo-3-both-ways-900",
+      "class-13-ble-demo-4-proximity-900",
+      "class-13-ble-demo-4-proximity-901",
+      "class-13-ble-demo-5-face-to-board-900"
     ]
   },
   "verify": {

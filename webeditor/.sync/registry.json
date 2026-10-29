@@ -948,6 +948,97 @@
         "sketch.js": "a91726a0d598883d2ecaaaab"
       },
       "lastPush": "2026-10-29T01:15:40.473Z"
+    },
+    "class-13-ble-demo-0-find-your-board-900": {
+      "projectId": "l5Woydxnc",
+      "name": "Atelier1 F26 · Class 13 · 0 Find Your Board · board 900",
+      "contentHash": "sha256:6f28eca02f6f068c2fdfa18f94bfb4eeeac4e7c98bfa6f3cf5322247308e77f2",
+      "fileIds": {
+        "__root__": "b691648793ce8786890ebf98",
+        "index.html": "55e91f37d0c42b67759b2e95",
+        "sketch.js": "80a9bc433d62dfdeb4b58446"
+      },
+      "lastPush": "2026-10-29T01:20:56.969Z"
+    },
+    "class-13-ble-demo-0-find-your-board-901": {
+      "projectId": "XB0nNsLAY",
+      "name": "Atelier1 F26 · Class 13 · 0 Find Your Board · board 901",
+      "contentHash": "sha256:f4cc2c91332084b52c2a776882efe9c54193dcc17fbdf59efdd7fe2a6b25f2d2",
+      "fileIds": {
+        "__root__": "a8f1c14cdc16e42af2a63aa7",
+        "index.html": "4065bea19d265f4739cb8dc0",
+        "sketch.js": "de8d5a99ef2dd64ab75894da"
+      },
+      "lastPush": "2026-10-29T01:20:57.687Z"
+    },
+    "class-13-ble-demo-1-tilt-to-servo-900": {
+      "projectId": "jqLktEbR5",
+      "name": "Atelier1 F26 · Class 13 · 1 Tilt to Servo · board 900",
+      "contentHash": "sha256:2323dd251fd6153df3f81d42733ff705bb4de651f44c9917ae157c9b5c6b001b",
+      "fileIds": {
+        "__root__": "ef4cb0412118a2dbee6a046b",
+        "index.html": "8da32e9f26e84bb0949a7f9e",
+        "sketch.js": "b68fd2d244a201a5380a6149"
+      },
+      "lastPush": "2026-10-29T01:20:58.298Z"
+    },
+    "class-13-ble-demo-2-light-to-phone-900": {
+      "projectId": "tGBqYJAORg",
+      "name": "Atelier1 F26 · Class 13 · 2 Light to Phone · board 900",
+      "contentHash": "sha256:382436507f5a60896ea2519d414bc115816b9908abec599098d161e465a4cfaf",
+      "fileIds": {
+        "__root__": "60026a9f38b569b0ac61d82e",
+        "index.html": "729df7b9239d53c7528b19e8",
+        "sketch.js": "f1738b3300d0ed3329739508"
+      },
+      "lastPush": "2026-10-29T01:20:58.877Z"
+    },
+    "class-13-ble-demo-3-both-ways-900": {
+      "projectId": "s7gwQLfyf",
+      "name": "Atelier1 F26 · Class 13 · 3 Both Ways · board 900",
+      "contentHash": "sha256:c729d0417eeda06fd0fcb025cb1fd55fab70c0e06c7fe70d458e8674118cb292",
+      "fileIds": {
+        "__root__": "8633b15ca3d2817ddd01c08a",
+        "index.html": "851bdf219a28ee8384a0712d",
+        "sketch.js": "bae10a417842199ce9257f44"
+      },
+      "lastPush": "2026-10-29T01:20:59.465Z"
+    },
+    "class-13-ble-demo-4-proximity-900": {
+      "projectId": "EskAY7MkG",
+      "name": "Atelier1 F26 · Class 13 · 4 Proximity · board 900",
+      "contentHash": "sha256:994534eaccc10d7c3d22576cc96043182bca7c9560f2d9f72dc8292c8d4b0259",
+      "fileIds": {
+        "__root__": "e72656d600de8fcb624c72c1",
+        "index.html": "5b65b763a998bc1b49c0ba16",
+        "sketch.js": "bab12ce89348eea205ff3998"
+      },
+      "lastPush": "2026-10-29T01:21:00.115Z"
+    },
+    "class-13-ble-demo-4-proximity-901": {
+      "projectId": "s9i5KHySm",
+      "name": "Atelier1 F26 · Class 13 · 4 Proximity · board 901",
+      "contentHash": "sha256:fb48b7766bd6162313996ac58b6533dce2e1ede3de5aff3e3b654c49f4f7882b",
+      "fileIds": {
+        "__root__": "59955d9046e2faf030eb6741",
+        "index.html": "cdb0e671dd2731e473fed430",
+        "sketch.js": "4653a094b7305a8d1ead2907"
+      },
+      "lastPush": "2026-10-29T01:21:00.698Z"
+    },
+    "class-13-ble-demo-5-face-to-board-900": {
+      "projectId": "aoOr2e7jZ",
+      "name": "Atelier1 F26 · Class 13 · 5 Face to Board · board 900",
+      "contentHash": "sha256:f3e7a8c5a42a02fdffd7c0fa3d1bdb4eeef89838150a55f720a994d77e53d6f6",
+      "fileIds": {
+        "__root__": "74ecca170826bf03ca4647b2",
+        "camera-on.js": "1b8e23c83c0dbcfb4b7e365b",
+        "frame.js": "314873ca753bfca0c1f75f67",
+        "index.html": "5d199141f1fb89e5f1389082",
+        "loading.js": "f93649654e19ad3c9365bf71",
+        "sketch.js": "6aa596faceb0af9693b62e9c"
+      },
+      "lastPush": "2026-10-29T01:21:01.300Z"
     }
   }
 }
