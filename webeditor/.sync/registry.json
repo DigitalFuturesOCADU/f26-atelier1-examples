@@ -926,19 +926,19 @@
     },
     "class-13-ble-4-proximity": {
       "projectId": "0ClUw3Yn4",
-      "name": "Atelier1 F26 · Class 13 · 4 Proximity",
-      "contentHash": "sha256:de9e77c7ce42e9416e5ade80f252afc216d952ab19780202af2ca8473751be62",
+      "name": "Atelier1 F26 · Class 13 · 5 Proximity",
+      "contentHash": "sha256:1dcc53f8398efcfbca225762ba5c99d65a292d8a86e2ada82ae433955d6c902b",
       "fileIds": {
         "__root__": "7fba94bb967f3a1793d71829",
         "index.html": "e5e342806e817eeba262528c",
         "sketch.js": "2d198e325cdd6183d79204dd"
       },
-      "lastPush": "2026-10-29T10:08:55.439Z"
+      "lastPush": "2026-10-29T10:50:55.222Z"
     },
     "class-13-ble-5-face-to-board": {
       "projectId": "l83G5eNmq",
-      "name": "Atelier1 F26 · Class 13 · 5 Face to Board",
-      "contentHash": "sha256:ad94defe867b96f6fd0625a7307799ca2c8d3ec589df57a0f391b179fc4b007d",
+      "name": "Atelier1 F26 · Class 13 · 4 Face to Board",
+      "contentHash": "sha256:92135b9fbaa9307d5bd1d4e3664262507f565a386f6d0bef46b4358cbcca2dc3",
       "fileIds": {
         "__root__": "efcb8dfbb676473480fbe279",
         "camera-on.js": "b74e7aaf13755dca254fe0f6",
@@ -947,7 +947,7 @@
         "loading.js": "38e072bb07434a36310956ec",
         "sketch.js": "a91726a0d598883d2ecaaaab"
       },
-      "lastPush": "2026-10-29T10:08:56.041Z"
+      "lastPush": "2026-10-29T10:50:55.845Z"
     },
     "class-13-ble-demo-0-find-your-board-900": {
       "projectId": "l5Woydxnc",
@@ -1006,30 +1006,30 @@
     },
     "class-13-ble-demo-4-proximity-900": {
       "projectId": "EskAY7MkG",
-      "name": "Atelier1 F26 · Class 13 · 4 Proximity · board 900",
-      "contentHash": "sha256:133c3371adbc000ebd850cae61f0c4086c5f0f82583e58a3915ab644b8c568e6",
+      "name": "Atelier1 F26 · Class 13 · 5 Proximity · board 900",
+      "contentHash": "sha256:bf29690ba9f7dfd1041aba2f57758b973532fd48a76a88cf5361bf0f857ec161",
       "fileIds": {
         "__root__": "e72656d600de8fcb624c72c1",
         "index.html": "5b65b763a998bc1b49c0ba16",
         "sketch.js": "bab12ce89348eea205ff3998"
       },
-      "lastPush": "2026-10-29T10:09:02.015Z"
+      "lastPush": "2026-10-29T10:50:56.863Z"
     },
     "class-13-ble-demo-4-proximity-901": {
       "projectId": "s9i5KHySm",
-      "name": "Atelier1 F26 · Class 13 · 4 Proximity · board 901",
-      "contentHash": "sha256:b711b02a3d1359c575877e2ec0fbbe74b47f7921efce27954c7807ff3310c8e4",
+      "name": "Atelier1 F26 · Class 13 · 5 Proximity · board 901",
+      "contentHash": "sha256:e1d6f4c41aa7247c1479e524642a72853d77c5a0f7d45ca10f25f4d3f5f85b3c",
       "fileIds": {
         "__root__": "59955d9046e2faf030eb6741",
         "index.html": "cdb0e671dd2731e473fed430",
         "sketch.js": "4653a094b7305a8d1ead2907"
       },
-      "lastPush": "2026-10-29T10:09:02.709Z"
+      "lastPush": "2026-10-29T10:50:57.487Z"
     },
     "class-13-ble-demo-5-face-to-board-900": {
       "projectId": "aoOr2e7jZ",
-      "name": "Atelier1 F26 · Class 13 · 5 Face to Board · board 900",
-      "contentHash": "sha256:6c3a37cf9baab9aaf6a092a2cc3bb697d7a94db50bdc96a387d170b62ee9b01d",
+      "name": "Atelier1 F26 · Class 13 · 4 Face to Board · board 900",
+      "contentHash": "sha256:88647f4abf2b2f61a521ebabef3a57ab7896331fb691b4bb739941d85035b4c6",
       "fileIds": {
         "__root__": "74ecca170826bf03ca4647b2",
         "camera-on.js": "1b8e23c83c0dbcfb4b7e365b",
@@ -1038,7 +1038,7 @@
         "loading.js": "f93649654e19ad3c9365bf71",
         "sketch.js": "6aa596faceb0af9693b62e9c"
       },
-      "lastPush": "2026-10-29T10:09:03.325Z"
+      "lastPush": "2026-10-29T10:50:58.094Z"
     }
   }
 }
