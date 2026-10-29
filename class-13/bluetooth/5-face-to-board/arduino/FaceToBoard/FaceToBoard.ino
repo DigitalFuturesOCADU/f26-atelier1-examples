@@ -1,5 +1,5 @@
 /*
- * Example 5: Face to Board (the board side)
+ * Example 4: Face to Board (the board side)
  *
  * A laptop camera watches your face. Tilt your head, and the servo tilts with it.
  * Open your mouth, and the LED matrix on the board flashes.

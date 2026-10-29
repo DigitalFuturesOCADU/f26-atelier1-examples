@@ -1,4 +1,4 @@
-// Example 5: Face to Board (the laptop side)
+// Example 4: Face to Board (the laptop side)
 // The camera watches your face. Tilt your head, and a servo on the Arduino tilts with it.
 // Open your mouth, and the LED matrix on the board flashes.
 // Made for a laptop and its webcam, in Chrome. A phone in Chrome on Android works too.

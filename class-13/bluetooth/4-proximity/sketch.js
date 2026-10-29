@@ -1,4 +1,4 @@
-// Example 4: Proximity (the phone side)
+// Example 5: Proximity (the phone side)
 // Two boards, two people. Your board listens for your partner's board and measures how
 // strong its signal is (RSSI). This page shows it: the closer the boards, the closer the dots.
 //

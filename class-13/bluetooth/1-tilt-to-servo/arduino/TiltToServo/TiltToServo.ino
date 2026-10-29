@@ -33,7 +33,7 @@
 // 2. THE ADDRESSES (UUIDs)
 // A service holds the values. Each value is a characteristic with its own address.
 // C++ joins two pieces of text written side by side, so the first address
-// ends up as 19b10000-e8f2-537e-4f6c-d104768a1001.
+// ends up as 19b10000-e8f2-537e-4f6c-d104768a1900.
 BLEService boardService("19b10000-e8f2-537e-4f6c-d104768a1" BOARD_NUMBER);
 
 // The angle: one byte (0 to 255). BLEWrite means the phone writes it.

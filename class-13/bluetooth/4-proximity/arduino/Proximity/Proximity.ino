@@ -1,5 +1,5 @@
 /*
- * Example 4: Proximity (the board side)
+ * Example 5: Proximity (the board side)
  *
  * Two boards, two people. Each board listens for its partner board, and measures how
  * strong its signal is. That strength is called RSSI. The closer the boards, the stronger it is.
