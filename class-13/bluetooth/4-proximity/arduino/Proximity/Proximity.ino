@@ -20,6 +20,7 @@
  *   Find a partner. Each of you sets two numbers:
  *     BOARD_NUMBER    your own number. The same number goes in your p5 sketch.
  *     PARTNER_NUMBER  your partner's number.
+ *   They start at 900 and 901, the two class demo boards.
  *   For example, Sam is 004 and Ana is 011.
  *   Sam's board: BOARD_NUMBER "004", PARTNER_NUMBER "011". Ana's board: the other way round.
  *
@@ -32,8 +33,8 @@
 #include <ArduinoBLE.h>
 
 // 1. YOUR NUMBER AND YOUR PARTNER'S NUMBER. Three digits each.
-#define BOARD_NUMBER "001"
-#define PARTNER_NUMBER "002"
+#define BOARD_NUMBER "900"
+#define PARTNER_NUMBER "901"
 
 // 2. THE ADDRESSES (UUIDs)
 // Your board advertises its own service, as in the other examples.

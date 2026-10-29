@@ -13,7 +13,7 @@
  *   or on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/tlnvkn_Aq
  *
  * BEFORE YOU UPLOAD
- *   Change BOARD_NUMBER below to your own number. Put the same number in the p5 sketch.
+ *   BOARD_NUMBER starts at 900, the class demo board. Change it to your own number. Put the same number in the p5 sketch.
  *
  * WIRING
  *   Servo: brown or black to GND, red to 5V, orange or yellow to pin 4
@@ -30,7 +30,7 @@
 
 // 1. YOUR BOARD NUMBER
 // Three digits, from 001 to 999. The same number goes in the p5 sketch.
-#define BOARD_NUMBER "001"
+#define BOARD_NUMBER "900"
 
 // 2. THE ADDRESSES (UUIDs). One service, two values in it.
 BLEService boardService("19b10000-e8f2-537e-4f6c-d104768a1" BOARD_NUMBER);

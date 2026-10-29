@@ -76,7 +76,7 @@ for pair in 0-find-your-board:900 0-find-your-board:901 1-tilt-to-servo:900 2-li
   slug="class-13-ble-demo-$name-$board"
   mkdir -p "webeditor/projects/$slug"
   find "$dir" -maxdepth 1 -type f ! -name '*.zip' ! -name '*.sh' -exec cp {} "webeditor/projects/$slug/" \;
-  sed -i '' "s#get('board') || '001'#get('board') || '$board'#" "webeditor/projects/$slug/sketch.js"
+  sed -i '' "s#get('board') || '900'#get('board') || '$board'#" "webeditor/projects/$slug/sketch.js"
   title=$(sed -n 's#.*<title>\(.*\)</title>.*#\1#p' "$dir/index.html")
   printf '{ "title": "Class 13 · %s · board %s" }\n' "$title" "$board" > "webeditor/projects/$slug/meta.json"
 done

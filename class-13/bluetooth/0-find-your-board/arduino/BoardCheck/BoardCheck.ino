@@ -13,7 +13,7 @@
  *   or on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/9tF2AttBQ
  *
  * BEFORE YOU UPLOAD
- *   Change BOARD_NUMBER below to your own number.
+ *   BOARD_NUMBER starts at 900, the class demo board. Change it to your own number.
  *
  * Open the Serial Monitor at 115200 baud. It prints the check every 5 seconds.
  *   radio firmware 0.6.0, newest 0.6.0      good
@@ -31,7 +31,7 @@
 #include <WiFiS3.h>
 
 // 1. YOUR BOARD NUMBER. Three digits, from 001 to 999.
-#define BOARD_NUMBER "001"
+#define BOARD_NUMBER "900"
 
 // 2. THE SERVICE ADDRESS. It ends in your board number. Find Your Board looks for it.
 BLEService boardService("19b10000-e8f2-537e-4f6c-d104768a1" BOARD_NUMBER);

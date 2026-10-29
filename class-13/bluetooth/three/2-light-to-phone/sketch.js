@@ -8,8 +8,9 @@
 //   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/2-light-to-phone/LightToPhone.zip
 
 // 1. YOUR BOARD NUMBER. Three digits, the same as BOARD_NUMBER in the Arduino code.
-// On a page you did not edit, add ?board= and your number to the address: ...?board=007
-const BOARD_NUMBER = new URLSearchParams(location.search).get('board') || '001';
+// It starts at 900, the class demo board. On a page you did not edit, add ?board= and your
+// number to the address: ...?board=007
+const BOARD_NUMBER = new URLSearchParams(location.search).get('board') || '900';
 
 // 2. THE ADDRESSES (UUIDs). The same as in the p5 version.
 const SERVICE_UUID = '19b10000-e8f2-537e-4f6c-d104768a1' + BOARD_NUMBER;

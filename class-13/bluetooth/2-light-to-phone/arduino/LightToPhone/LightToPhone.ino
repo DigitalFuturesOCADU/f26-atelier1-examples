@@ -10,7 +10,7 @@
  *   or on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/1hCrYYrDl
  *
  * BEFORE YOU UPLOAD
- *   Change BOARD_NUMBER below to your own number. Put the same number in the p5 sketch.
+ *   BOARD_NUMBER starts at 900, the class demo board. Change it to your own number. Put the same number in the p5 sketch.
  *
  * WIRING (a light sensor, called an LDR, and a 10k resistor)
  *   one leg of the LDR       to  5V
@@ -26,7 +26,7 @@
 
 // 1. YOUR BOARD NUMBER
 // Three digits, from 001 to 999. The same number goes in the p5 sketch.
-#define BOARD_NUMBER "001"
+#define BOARD_NUMBER "900"
 
 // 2. THE ADDRESSES (UUIDs). Each one ends in your board number.
 BLEService boardService("19b10000-e8f2-537e-4f6c-d104768a1" BOARD_NUMBER);

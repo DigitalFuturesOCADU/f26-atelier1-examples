@@ -16,7 +16,8 @@
 
 // 1. YOUR BOARD NUMBER
 // Three digits, the same as BOARD_NUMBER in the Arduino code.
-// On a page you did not edit, add ?board= and your number to the address: ...?board=007
+// It starts at 900, the class demo board. On a page you did not edit, add ?board= and your
+// number to the address: ...?board=007
 const BOARD_NUMBER = new URLSearchParams(location.search).get('board') || '900';
 
 // 2. THE ADDRESSES (UUIDs). The same as in Examples 1 and 2.

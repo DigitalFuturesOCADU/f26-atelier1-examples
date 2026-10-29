@@ -10,7 +10,7 @@
  *   or on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/IIBeEjtN-
  *
  * BEFORE YOU UPLOAD
- *   Change BOARD_NUMBER below to your own number. Put the same number in the p5 sketch.
+ *   BOARD_NUMBER starts at 900, the class demo board. Change it to your own number. Put the same number in the p5 sketch.
  *
  * WIRING (a small servo, such as an SG90)
  *   brown or black wire     to  GND
@@ -28,7 +28,7 @@
 // 1. YOUR BOARD NUMBER
 // Three digits, from 001 to 999. The same number goes in the p5 sketch.
 // It is the end of every address below, so your phone finds your board and no other.
-#define BOARD_NUMBER "001"
+#define BOARD_NUMBER "900"
 
 // 2. THE ADDRESSES (UUIDs)
 // A service holds the values. Each value is a characteristic with its own address.
