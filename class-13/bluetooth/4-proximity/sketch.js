@@ -8,6 +8,7 @@
 //
 // Arduino code for the board: Proximity.zip
 //   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/4-proximity/Proximity.zip
+// This sketch on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/0ClUw3Yn4
 //
 // Bluetooth from a web page works in Chrome on Android and on a laptop.
 // On an iPhone, open this page in the Bluefy app.

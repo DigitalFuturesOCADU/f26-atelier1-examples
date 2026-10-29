@@ -7,6 +7,7 @@
  *
  * The p5 sketch that goes with it:
  *   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/2-light-to-phone/
+ *   or on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/1hCrYYrDl
  *
  * BEFORE YOU UPLOAD
  *   Change BOARD_NUMBER below to your own number. Put the same number in the p5 sketch.

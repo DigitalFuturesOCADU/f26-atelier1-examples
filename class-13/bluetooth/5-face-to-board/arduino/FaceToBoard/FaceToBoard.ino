@@ -13,6 +13,7 @@
  *
  * The p5 sketch that goes with it:
  *   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/5-face-to-board/
+ *   or on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/l83G5eNmq
  *
  * BEFORE YOU UPLOAD
  *   Change BOARD_NUMBER below to your own number. Put the same number in the p5 sketch.

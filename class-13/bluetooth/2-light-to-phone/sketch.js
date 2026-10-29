@@ -5,6 +5,7 @@
 //
 // Arduino code for the board: LightToPhone.zip
 //   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/2-light-to-phone/LightToPhone.zip
+// This sketch on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/1hCrYYrDl
 //
 // Bluetooth from a web page works in Chrome on Android and on a laptop.
 // On an iPhone, open this page in the Bluefy app.

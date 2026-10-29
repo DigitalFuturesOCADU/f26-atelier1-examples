@@ -5,6 +5,7 @@
 //
 // Arduino code for the board: TiltToServo.zip
 //   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/1-tilt-to-servo/TiltToServo.zip
+// This sketch on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/IIBeEjtN-
 //
 // Bluetooth from a web page works in Chrome on Android and on a laptop.
 // On an iPhone, open this page in the Bluefy app.

@@ -13,6 +13,7 @@
 //
 // Arduino code for the board: FaceToBoard.zip
 //   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/5-face-to-board/FaceToBoard.zip
+// This sketch on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/l83G5eNmq
 //
 // Nothing is recorded or saved. The camera image stays on this device.
 // A small red dot and the words "Camera on" show in the corner while the camera runs.

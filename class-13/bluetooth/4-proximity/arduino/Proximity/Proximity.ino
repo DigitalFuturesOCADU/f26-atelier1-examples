@@ -14,6 +14,7 @@
  *
  * The p5 sketch that goes with it:
  *   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/4-proximity/
+ *   or on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/0ClUw3Yn4
  *
  * BEFORE YOU UPLOAD
  *   Find a partner. Each of you sets two numbers:

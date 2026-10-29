@@ -9,6 +9,7 @@
 //
 // Arduino code for the board: BothWays.zip
 //   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/3-both-ways/BothWays.zip
+// This sketch on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/tlnvkn_Aq
 //
 // Bluetooth from a web page works in Chrome on Android and on a laptop.
 // On an iPhone, open this page in the Bluefy app.

@@ -11,6 +11,7 @@
 // Count the list each time. Pick a device to see its name. Nothing connects.
 // The board side is Board Check, which advertises Board- and your number:
 //   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/0-find-your-board/BoardCheck.zip
+// This sketch on the p5 Web Editor: https://editor.p5js.org/npuckett/sketches/9tF2AttBQ
 //
 // This uses Web Bluetooth directly, so you can see the filters. p5-phone is only for the QR code.
 // It works in Chrome on Android and on a laptop. On an iPhone, open it in the Bluefy app.

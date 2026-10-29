@@ -13,6 +13,9 @@
  * 0 Find Your Board finds it too: it advertises Board- and its number, and shows the
  * number on the LED matrix whenever the mouth is not flashing it.
  *
+ * Every page, its Web Editor copy and a QR code, for one board number:
+ *   https://digitalfuturesocadu.github.io/f26-atelier1-examples/class-13/bluetooth/demo/?board=900
+ *
  * A page only asks for the values it uses, so the extra ones do no harm.
  * A board takes one phone or laptop at a time. Disconnect before opening the next example.
  *
