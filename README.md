@@ -278,6 +278,17 @@ in both `index.html` files when the release with the keep option is out.
 mode (M) shows the cue for a person to say. The `phone/` page shows its role and the cues, buzzes on
 Android, and can speak a cue or flash the torch if the participant turns those on.
 
+## Where People Are
+
+`room/`: the room plan, where everyone stands in metres, seen from above. One page writes it (the
+tracker) and every other page reads it, in a Share room with `app: 'room-plan'`. The plan is two keys,
+`shared.room` (`{ w, d, by }`) and `shared.people` (`{ [id]: { x, y, name, hue, phone } }`), set out in
+`plan.js`; the same file is copied into each example folder. `1-room-plan/` has a `projector/` page and a
+`phone/` page, both readers (`quiet: true`). The phone keeps a key in `sessionStorage`, because Share
+gives a phone a new id each time it joins; the tracker puts that key on the person's entry.
+`2-fake-room/` is the first tracker: a person drags each phone's name onto the floor (Wizard of Oz).
+Camera trackers that write the same plan come next.
+
 ## Web editor copies
 
 `p5-webeditor.config.json` publishes each example to the p5.js web editor with
