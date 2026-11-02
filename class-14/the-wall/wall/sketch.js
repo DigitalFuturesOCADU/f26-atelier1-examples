@@ -6,9 +6,9 @@
 // This is memory Level 4, the room between visits. Share with the keep option holds the marks
 // after the last phone leaves, so the next visitor meets what the last one left.
 //
-// The keep option needs the next p5-phone release. This page loads p5-phone 1.15.4, which has
-// no keep, so for now the wall works and it forgets when everyone leaves. The page says which
-// of the two it is doing. Change the version in index.html when Nick announces the release.
+// The keep option needs p5-phone 1.16.0 or later, and a server that has it. The class server
+// has it. On a server without it, the wall still works and forgets when everyone leaves.
+// The page says which of the two it is doing.
 //
 // The rule: Share keeps only the last thing written. If every phone did shared.marks.push(...),
 // phones adding at the same moment would lose marks. So every mark has its own key in shared,
@@ -28,8 +28,7 @@
 //   shareKept                     true when the server keeps this room after the last phone leaves
 //   shareKeptUntil                when the kept room is deleted if nothing changes (ms, like Date.now())
 //   delete shared[key]            how a page removes a mark that is more than 24 hours old
-//   shareClear()                  puts shared back to empty for every phone, and erases the kept copy.
-//                                 p5-phone 1.15.4 does not have it, so the C key deletes the marks one by one
+//   shareClear()                  puts shared back to empty for every phone, and erases the kept copy
 
 const ROOM = 'the-wall';
 
@@ -257,14 +256,14 @@ function drawMemory() {
 
 // what the wall remembers, in two sentences
 function memoryWords() {
-  // p5-phone 1.15.4 has no shareKept at all, so ask the window. a plain shareKept would be an error
-  if (window.shareKept) {
+  // shareKept is true when the server keeps this room after the last phone leaves
+  if (shareKept) {
     // shareKeptUntil is when the kept room is deleted if nobody adds a mark.
     // each mark moves it forward
     return {
       head: 'This wall remembers.',
       sub: 'Marks stay after everyone leaves. It forgets everything in ' +
-        spanWords(window.shareKeptUntil - Date.now()) + ' if nobody adds a mark.'
+        spanWords(shareKeptUntil - Date.now()) + ' if nobody adds a mark.'
     };
   }
   return {
@@ -306,15 +305,5 @@ function keyPressed() {
 }
 
 function clearTheWall() {
-  if (typeof shareClear === 'function') {
-    shareClear();      // p5-phone with the keep option. it also erases the kept copy
-    return;
-  }
-  // p5-phone 1.15.4 has no shareClear. delete every mark one by one instead
-  const keys = Object.keys(shared);
-  for (let i = 0; i < keys.length; i++) {
-    if (keys[i].indexOf(MARK_PREFIX) === 0) {
-      delete shared[keys[i]];
-    }
-  }
+  shareClear();   // empties shared for every phone, and erases the kept copy
 }

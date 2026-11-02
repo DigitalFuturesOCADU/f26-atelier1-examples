@@ -6,9 +6,9 @@
 // This is memory Level 4, the room between visits. Your colour is memory Level 2: this phone
 // remembers it with localStorage, so it is the same colour next time.
 //
-// The keep option needs the next p5-phone release. This page loads p5-phone 1.15.4, which has
-// no keep, so for now the wall works and it forgets when everyone leaves. The page says which
-// of the two it is doing. Change the version in index.html when Nick announces the release.
+// The keep option needs p5-phone 1.16.0 or later, and a server that has it. The class server
+// has it. On a server without it, the wall still works and forgets when everyone leaves.
+// The page says which of the two it is doing.
 //
 // The rule: Share keeps only the last thing written. If every phone did shared.marks.push(...),
 // phones adding at the same moment would lose marks. So every mark has its own key in shared,
@@ -278,7 +278,7 @@ function drawFooter() {
   if (shareConnected) {
     fill(255);
     textSize(18 * k);
-    if (window.shareKept) { // p5-phone 1.15.4 has no shareKept, so ask the window
+    if (shareKept) { // true when the server keeps this room after the last phone leaves
       centreLines('This wall remembers.', height - 96 * k, width * 0.9, 24 * k);
       fill(GREY_TEXT);
       centreLines('Marks stay after you leave.', height - 70 * k, width * 0.9, 24 * k);

@@ -265,11 +265,24 @@ on the R4).
 
 ## Class 14 · Traces and residue
 
+`class-14/memory/`: four earlier examples, each with one thing remembered in `localStorage` on this
+phone only. Each shows exactly what it keeps, as text, and has a forget bar (`removeItem`). Keys start
+with `class14-`, because every page on one address shares one storage space.
+
+| Sketch | From | What it keeps |
+| --- | --- | --- |
+| [01-where-you-left-off](class-14/memory/01-where-you-left-off/) | Class 3 · 03 One Frame at a Time | one number, the frame (`setItem` / `getItem`, text in and out) |
+| [02-how-long-since](class-14/memory/02-how-long-since/) | Class 5 · 07 Say the Time | an object, `{ count, last }`, as JSON text |
+| [03-trails-that-stay](class-14/memory/03-trails-that-stay/) | Class 6 · 01 Tilt to Trail | a list of visits, `[{ t, points }]`; the last 8 are kept |
+| [04-the-cow-remembers](class-14/memory/04-the-cow-remembers/) | One Cow to Many · 3 Everyone's Cow | `{ name, hue, steps, since }`, sent to the room in `me` on startup |
+
+04 uses the class server, room `cow-remembers` (add `?room=` for another). The room keeps nothing:
+it knows what the phones that are here remember, and a cow leaves with its phone.
+
 `class-14/the-wall/`: a `wall/` page (the laptop shared on the call) and a `phone/` page, Share room
 `the-wall` with `keep: '7d'`. Each mark is its own key in `shared` (`{ x, y, t, hue }`), so marks added
 at the same moment are not lost; each fades over 24 hours and is deleted after. Both pages pin p5-phone
-1.15.4, which has no keep option: the wall forgets when everyone leaves and says so. Change the version
-in both `index.html` files when the release with the keep option is out.
+1.16.1, so the room is kept after everyone leaves and C clears it with `shareClear()`.
 
 ## Class 15 · Organizing people
 
