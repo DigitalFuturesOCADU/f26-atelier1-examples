@@ -76,7 +76,7 @@ function setup() {
   // the code takes a phone to the phone page, with the server and the room in its address
   const phonePage = new URL('../1-room-plan/phone/', location.href);
   joinUrl = getShareJoinUrl(phonePage.href).replace(/%3A/gi, ':').replace(/%2F/gi, '/');
-  shortUrl = phonePage.host + phonePage.pathname;
+  shortUrl = phonePage.host + '\n' + phonePage.pathname;   // two lines: a long address fits the column
   if (canShowCode()) showJoinCode();
 }
 
@@ -434,7 +434,7 @@ function drawSide(x, w) {
     textSize(14 * u);
     text('No phones waiting. A phone that joins shows up here. Drag a name onto the floor.', x, y, w, 60 * u);
   }
-  const listEnd = height - qrSize - 140 * u;   // the list stops here. the code goes under the column
+  const listEnd = height - qrSize - 154 * u;   // the list stops here. the code goes under the column
   const half = (w - 8 * u) / 2;
   for (let i = 0; i < waiting.length; i++) {
     const g = waiting[i];
@@ -462,11 +462,11 @@ function drawSide(x, w) {
   fill(255, 200, 0);
   textStyle(BOLD);
   textSize(18 * u);
-  text('Phones join here', x, height - qrSize - 110 * u);
+  text('Phones join here', x, height - qrSize - 124 * u);
   textStyle(NORMAL);
   fill(150);
   textSize(12 * u);
-  text(shortUrl + '  room ' + roomName(), x, height - qrSize - 84 * u, w, 32 * u);
+  text(shortUrl + '\nroom ' + roomName(), x, height - qrSize - 98 * u, w, 48 * u);
 }
 
 // the room this page joined. an address with ?room= wins over ROOM

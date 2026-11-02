@@ -8,7 +8,7 @@
 // The plan is set out in plan.js.
 //
 // Your room: change ROOM to your room. The tracker and the phones must use the same room.
-// Your name: put it in MY_NAME. Leave it empty and the phone picks an animal.
+// Your name: put it in MY_NAME. Leave it empty and the phone picks an animal nobody in the room has.
 //
 // How the tracker knows this phone: the phone makes a key, six random letters, and keeps it
 // while the tab is open, through reloads too. The tracker puts the key on your spot in the plan.
@@ -61,6 +61,28 @@ function setup() {
   });
   enablePermissionsTap(['share'], 'Tap to join');   // the tap joins the room
   showDesktopQr();   // on a laptop: a QR code, so a phone can join
+}
+
+// two phones can pick the same animal. A phone that joins and finds its name taken picks a free one.
+// The phones already in the room keep theirs
+function shareReady() {
+  if (MY_NAME) return;
+  const used = guestsWith('role', 'phone').filter(function (g) {
+    return g.key !== me.key;   // an old connection of this same phone does not count
+  }).map(function (g) {
+    return g.name;
+  });
+  if (used.indexOf(me.name) < 0) return;
+  const free = ANIMALS.filter(function (a) {
+    return used.indexOf(a) < 0;
+  });
+  const name = free.length > 0 ? random(free) : random(ANIMALS) + ' ' + (used.length + 1);
+  me.name = name;
+  try {
+    sessionStorage.setItem('room-plan-name', name);
+  } catch (e) {
+    // a private window can say no. the name lasts until a reload
+  }
 }
 
 // something this tab keeps while it is open, through reloads too. each tab keeps its own
