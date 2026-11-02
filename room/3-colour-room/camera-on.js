@@ -42,9 +42,10 @@ function drawCameraOn(cam) {
   const boxWidth = 10 + 10 + 6 + labelWidth + 10;
 
   // Top right corner. A laptop QR code sits there too, so step left of it.
+  // A QR code at the bottom (as in Where People Are) leaves the corner free.
   let right = width - 14;
   const qr = document.getElementById('p5phoneDesktopQr');
-  if (qr) right = Math.min(right, qr.getBoundingClientRect().left - 10);
+  if (qr && qr.getBoundingClientRect().top < 60) right = Math.min(right, qr.getBoundingClientRect().left - 10);
   const left = right - boxWidth;
   const top = 14;
 
