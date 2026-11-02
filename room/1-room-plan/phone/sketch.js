@@ -8,7 +8,9 @@
 // The plan is set out in plan.js.
 //
 // Your room: change ROOM to your room. The tracker and the phones must use the same room.
-// Your name: put it in MY_NAME. Leave it empty and the phone picks an animal nobody in the room has.
+// Five phones: a room holds five. Each phone takes a slot, a colour and a name: red, yellow,
+// green, blue or pink. A sixth phone waits until one leaves. The slots are set out in plan.js.
+// Your name: put it in MY_NAME. Leave it empty and the phone goes by its colour.
 //
 // How the tracker knows this phone: the phone makes a key, six random letters, and keeps it
 // while the tab is open, through reloads too. The tracker puts the key on your spot in the plan.
@@ -20,12 +22,14 @@
 //   Join with a second phone and place it near the first. Watch the distance.
 //   Bring the two dots closer than CLOSE_M. The screen fills with the other person's colour.
 //   Lock the phone, then unlock it. It joins again and finds its spot.
+//   Join with a sixth phone. It waits. Close one of the five and watch it take the free slot.
 //
 // Key data:
 //   mine      you on the plan: { x, y, name, hue }, in metres. null until the tracker places you
 //   others    everyone else on the plan, nearest first. each one has .metres, how far from you
 //   nearest   the first of others, or null
 //   CLOSE_M   how near counts as close, in metres
+//   me.slot   this phone's slot, 1 to 5. 0 while it waits for one
 
 const SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class server
 const ROOM = 'room-plan';   // your room. the tracker uses the same one
@@ -33,10 +37,6 @@ const MY_NAME = '';         // your name
 
 // the feel of the piece. change these before you change anything else.
 const CLOSE_M = 1;          // nearer than this, in metres, counts as close
-
-const ANIMALS = ['otter', 'heron', 'moth', 'fox', 'newt', 'crow', 'hare', 'wren', 'seal', 'lynx',
-  'owl', 'bee', 'deer', 'frog', 'mole', 'swan', 'duck', 'goat', 'crab', 'toad',
-  'lark', 'robin', 'finch', 'panda', 'koala', 'llama', 'puffin', 'badger', 'beaver', 'tiger'];
 
 let mine = null;     // you on the plan
 let others = [];     // everyone else, nearest first
@@ -47,52 +47,44 @@ function setup() {
   textFont('system-ui');
 
   // me is what this phone sends. The tracker reads the name, the colour and the key.
+  // The slot comes once the phone is in the room and can see which slots are free
   shareSetup({
     host: SHARE_HOST,
     room: ROOM,
     app: 'room-plan',
     me: {
       role: 'phone',
-      name: MY_NAME || kept('name', random(ANIMALS)),
-      hue: kept('hue', floor(random(360))),
-      key: kept('key', Math.random().toString(36).slice(2, 8))
-    },
-    quiet: true   // this page reads only shared, so it does not need the other phones' values
+      key: kept('key', Math.random().toString(36).slice(2, 8)),
+      slot: 0,
+      name: MY_NAME,
+      hue: -1
+    }
   });
   enablePermissionsTap(['share'], 'Tap to join');   // the tap joins the room
   showDesktopQr();   // on a laptop: a QR code, so a phone can join
 }
 
-// two phones can pick the same animal. A phone that joins and finds its name taken picks a free one.
-// The phones already in the room keep theirs
-function shareReady() {
-  if (MY_NAME) return;
-  const used = guestsWith('role', 'phone').filter(function (g) {
-    return g.key !== me.key;   // an old connection of this same phone does not count
-  }).map(function (g) {
-    return g.name;
-  });
-  if (used.indexOf(me.name) < 0) return;
-  const free = ANIMALS.filter(function (a) {
-    return used.indexOf(a) < 0;
-  });
-  const name = free.length > 0 ? random(free) : random(ANIMALS) + ' ' + (used.length + 1);
-  me.name = name;
-  try {
-    sessionStorage.setItem('room-plan-name', name);
-  } catch (e) {
-    // a private window can say no. the name lasts until a reload
-  }
+// take a slot, or keep the one this phone has. me changes only when the slot changes.
+// After a reload the phone asks for its old slot again
+function keepMySlot() {
+  if (!shareConnected) return;
+  const slot = freeSlot(me.slot || kept('slot', 0));
+  if (slot === me.slot) return;
+  me.slot = slot;
+  me.name = slot > 0 ? MY_NAME || SLOTS[slot - 1].name : MY_NAME;
+  me.hue = slot > 0 ? SLOTS[slot - 1].hue : -1;
+  if (slot > 0) kept('slot', slot, true);
 }
 
-// something this tab keeps while it is open, through reloads too. each tab keeps its own
-function kept(what, value) {
+// something this tab keeps while it is open, through reloads too. each tab keeps its own.
+// change is true to write a new value over the old one
+function kept(what, value, change = false) {
   try {
     const old = sessionStorage.getItem('room-plan-' + what);
-    if (old !== null) return typeof value === 'number' ? Number(old) : old;
+    if (old !== null && !change) return typeof value === 'number' ? Number(old) : old;
     sessionStorage.setItem('room-plan-' + what, String(value));
   } catch (e) {
-    // a private window can say no. then a reload makes a new name, colour and key
+    // a private window can say no. then a reload makes a new key
   }
   return value;
 }
@@ -101,6 +93,7 @@ function draw() {
   const k = min(width / 390, height / 700);   // one size unit for this screen
   const left = (width - 390 * k) / 2;         // the page is a column 390 units wide
   const extra = max(0, height - 700 * k);      // a tall screen gives the plan more room
+  keepMySlot();
   readThePlan();
   const theFloor = planFloor();
 
@@ -120,6 +113,13 @@ function draw() {
   if (!shareConnected) {
     textSize(20 * k);
     text(shareStatusText(), left + 20 * k, 120 * k, 350 * k, 120 * k);
+  } else if (me.slot === 0) {
+    textSize(30 * k);
+    text('Five phones are here', width / 2, 110 * k);
+    fill(170);
+    textSize(17 * k);
+    text('A room holds five. This phone joins when one leaves. Or change ROOM to make your own.',
+      left + 30 * k, 140 * k, 330 * k, 80 * k);
   } else if (!theFloor) {
     textSize(30 * k);
     text('No plan yet', width / 2, 110 * k);
@@ -150,7 +150,7 @@ function draw() {
     text(metresText(nearest.metres), width / 2, 162 * k);
   }
 
-  if (theFloor) {
+  if (theFloor && me.slot > 0) {
     const below = drawThePlan(theFloor, left, k, extra);
     drawTheList(left, k, below + 36 * k);
   }
@@ -240,7 +240,7 @@ function drawWhoIAm(k) {
   fill(hueColour(me.hue));
   textAlign(CENTER, CENTER);
   textSize(20 * k);
-  text('you are ' + String(me.name || ''), width / 2, 26 * k);
+  text(me.slot > 0 ? 'you are ' + String(me.name || '') : 'waiting for a slot', width / 2, 26 * k);
 }
 
 // the room this page joined. an address with ?room= wins over ROOM

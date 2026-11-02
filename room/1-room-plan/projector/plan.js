@@ -10,8 +10,51 @@
 //   shared.people   { [id]: { x, y, name, hue, phone } }   one entry for each person
 //                     x, y    metres from the top left corner of the floor
 //                     name    what to call them. '' for a person with no phone
-//                     hue     their colour, from 0 to 360. -1 is grey
+//                     hue     their colour, from 0 to 360 (their slot's hue). -1 is grey
 //                     phone   the key of their phone (me.key on the phone page), or ''
+//
+// A room holds five phones. Each phone takes a slot: a number from 1 to 5 with its own colour
+// and name. The slot is who the phone is. A camera that knows the colours knows the phones.
+// A sixth phone waits until one leaves.
+
+const SLOTS = [
+  { name: 'red', hue: 0 },
+  { name: 'yellow', hue: 55 },
+  { name: 'green', hue: 130 },
+  { name: 'blue', hue: 220 },
+  { name: 'pink', hue: 300 }
+];
+
+// the slot this phone should have: the one it wants, if no other phone has it,
+// or else the first free one. 0 means all five are taken.
+// Two phones can take the same slot at the same moment. The one whose key comes first keeps it.
+function freeSlot(wanted) {
+  const others = guestsWith('role', 'phone').filter(function (g) {
+    return g.key !== me.key;   // an old connection of this same phone does not count
+  });
+  function holder(n) {
+    return others.find(function (g) {
+      return g.slot === n;
+    });
+  }
+  if (wanted >= 1 && wanted <= SLOTS.length) {
+    const h = holder(wanted);
+    if (!h) return wanted;
+    if (me.slot === wanted && String(h.key) > String(me.key)) return wanted;
+  }
+  for (let n = 1; n <= SLOTS.length; n++) {
+    if (!holder(n)) return n;
+  }
+  return 0;
+}
+
+// a slot's colour at full strength, the way a phone screen shows it to a camera
+function slotColour(slot) {
+  colorMode(HSB, 360, 100, 100);
+  const c = color(SLOTS[slot - 1].hue, 100, 100);
+  colorMode(RGB, 255);
+  return c;
+}
 
 // the floor, or null before a tracker has written it
 function planFloor() {

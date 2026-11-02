@@ -1,5 +1,5 @@
 // 2 Fake Room
-// Where People Are. You are the tracker. Each phone that joins shows up on the right, by name.
+// Where People Are. You are the tracker. Each phone that joins shows up on the right, by its colour.
 // Drag it onto the floor, to where that person is standing. When they move, move their dot.
 // Every phone reads the plan you make, as if a camera were watching the room.
 // This is a Wizard of Oz: a person plays the sensor, so you can test the piece before
@@ -11,7 +11,7 @@
 // The rule: Share keeps only the last thing written, so this page is the only one that writes
 // the plan. Open only one Fake Room for a room. It warns you if it finds another tracker.
 //
-// Your room: change ROOM to your room. The phones must use the same one.
+// Your room: change ROOM to your room. The phones must use the same one. A room holds five phones.
 // Your floor: ROOM_W and ROOM_D, in metres. Measure the space, or add ?w=8&d=5 to the address.
 //
 // Try this:
@@ -30,7 +30,7 @@
 //
 // Key data:
 //   people        this page's copy of the plan: { [id]: { x, y, name, hue, phone } }, in metres
-//   phones()      the phones in the room. each one has a name, a hue and a key
+//   phones()      the phones in the room, by slot. each one has a slot, a name, a hue and a key
 //   writePerson(id)   sends one person to shared.people
 
 const SHARE_HOST = 'https://p5-phone-share.npuckett.workers.dev';   // the class server
@@ -121,10 +121,12 @@ function shareReady() {
   if (!shared.people || typeof shared.people !== 'object') shared.people = {};
 }
 
-// the phones in the room. guestsWith('key') skips a phone that has not sent its key yet
+// the phones in the room, in slot order. a phone without a slot is waiting for one to leave
 function phones() {
-  return guestsWith('key').filter(function (g) {
-    return g.role === 'phone';
+  return guestsWith('role', 'phone').filter(function (g) {
+    return g.slot >= 1 && g.key;
+  }).sort(function (a, b) {
+    return a.slot - b.slot;
   });
 }
 

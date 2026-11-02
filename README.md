@@ -284,10 +284,14 @@ Android, and can speak a cue or flash the torch if the participant turns those o
 tracker) and every other page reads it, in a Share room with `app: 'room-plan'`. The plan is two keys,
 `shared.room` (`{ w, d, by }`) and `shared.people` (`{ [id]: { x, y, name, hue, phone } }`), set out in
 `plan.js`; the same file is copied into each example folder. `1-room-plan/` has a `projector/` page and a
-`phone/` page, both readers (`quiet: true`). The phone keeps a key in `sessionStorage`, because Share
-gives a phone a new id each time it joins; the tracker puts that key on the person's entry.
-`2-fake-room/` is the first tracker: a person drags each phone's name onto the floor (Wizard of Oz).
-Camera trackers that write the same plan come next.
+`phone/` page, both readers (the projector is `quiet: true`). A room holds five phones: each takes a slot
+1 to 5 with its own colour and name (`SLOTS` and `freeSlot()` in `plan.js`), and a sixth waits. The phone
+keeps a key and its slot in `sessionStorage`, because Share gives a phone a new id each time it joins;
+the tracker puts that key on the person's entry. `2-fake-room/` is the first tracker: a person drags each
+phone onto the floor (Wizard of Oz). `3-colour-room/` is the first camera tracker: Class 10's colour
+tracking for five colours at once (biggest patch of each), mapped to the floor by a homography from four
+dragged corners; its `phone/` page is the colour, full screen. It reuses Class 10's `frame.js` and
+`camera-on.js`, and keeps its corners and picked colours in `localStorage`.
 
 ## Web editor copies
 

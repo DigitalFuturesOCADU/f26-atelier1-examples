@@ -267,14 +267,19 @@
     </ul>
 
     <h2 id="where-people-are">Where People Are</h2>
-    <p class="intro">Where everyone stands, seen from above, in metres. One page, the tracker, writes the room plan to a Share room. The phones and the big screen only read it. The tracker can be a person, as in Fake Room, or a camera. The phone pages stay the same when the sensing changes. Run the tracker on a laptop. Phones join with its QR code.</p>
+    <p class="intro">Where everyone stands, seen from above, in metres. One page, the tracker, writes the room plan to a Share room. The phones and the big screen only read it. The tracker can be a person, as in Fake Room, or a camera. Run the tracker on a laptop. Phones join with its QR code. A room holds five phones. Each one takes a slot with its own colour and name: red, yellow, green, blue or pink.</p>
     <ul>
       <li><a href="room/1-room-plan/projector/">1 The Room Plan</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/room/1-room-plan">code</a><span class="what">The whole plan on a big screen: everyone on the floor, and a line between two people who are nearer than 1 m, with the distance. It only reads the plan. Open a tracker in the same room to fill it.</span>
         <ul>
-          <li><a href="room/1-room-plan/phone/">Phone page</a><span class="what">Finds you on the plan and says who is nearest and how far, in metres. Nearer than 1 m, the screen fills with their colour. The phone keeps a key, so the tracker knows it after a reload.</span></li>
+          <li><a href="room/1-room-plan/phone/">Phone page</a><span class="what">Finds you on the plan and says who is nearest and how far, in metres. Nearer than 1 m, the screen fills with their colour. The phone keeps a key and its slot, so the tracker knows it after a reload. A sixth phone waits until one leaves.</span></li>
         </ul>
       </li>
-      <li><a href="room/2-fake-room/">2 Fake Room</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/room/2-fake-room">code</a><span class="what">You are the tracker. Each phone that joins shows up by name. Drag it onto the floor where that person stands, and move it when they move. Add people with no phone too. A Wizard of Oz, to test a piece before the sensing works. Laptop, or a tablet held sideways.</span></li>
+      <li><a href="room/2-fake-room/">2 Fake Room</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/room/2-fake-room">code</a><span class="what">You are the tracker. Each phone that joins shows up by its colour. Drag it onto the floor where that person stands, and move it when they move. Add people with no phone too. A Wizard of Oz, to test a piece before the sensing works. Laptop, or a tablet held sideways.</span></li>
+      <li><a href="room/3-colour-room/">3 Colour Room</a> <a class="code" href="https://github.com/DigitalFuturesOCADU/f26-atelier1-examples/tree/main/room/3-colour-room">code</a><span class="what">A laptop camera finds the five colours and writes where each one stands. People hold their phones up, screen to the camera. The colour says who, the place in the picture says where. The setup is the work: tape the floor, put the camera up high, drag the four corners onto the tape, and click each colour in the picture. M shows what the camera counts. A coloured card works too, as a person with no phone. Built on Class 10's Color Tracking.</span>
+        <ul>
+          <li><a href="room/3-colour-room/phone/">Phone page</a><span class="what">The phone is its colour, edge to edge, with the nearest person and the distance in black or white words.</span></li>
+        </ul>
+      </li>
     </ul>
 
   </main>
