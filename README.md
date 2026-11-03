@@ -274,7 +274,7 @@ with `class14-`, because every page on one address shares one storage space.
 | [01-where-you-left-off](class-14/memory/01-where-you-left-off/) | Class 3 · 03 One Frame at a Time | one number, the frame (`setItem` / `getItem`, text in and out) |
 | [02-how-long-since](class-14/memory/02-how-long-since/) | Class 5 · 07 Say the Time | an object, `{ count, last }`, as JSON text |
 | [03-trails-that-stay](class-14/memory/03-trails-that-stay/) | Class 7 · 01 Tilt to Trail | a list of visits, `[{ t, points }]`; the last 8 are kept |
-| [04-the-cow-remembers](class-14/memory/04-the-cow-remembers/) | One Cow to Many · 3 Everyone's Cow | `{ name, hue, steps, since }`, sent to the room in `me` on startup |
+| [04-the-cow-remembers](class-14/memory/04-the-cow-remembers/) | One Cow to Many · 3 Everyone's Cow | `{ name, hue, steps, since, last }`, sent to the room in `me` on startup; every phone shows how long since each cow last walked |
 
 04 uses the class server, room `cow-remembers` (add `?room=` for another). The room keeps nothing:
 it knows what the phones that are here remember, and a cow leaves with its phone.

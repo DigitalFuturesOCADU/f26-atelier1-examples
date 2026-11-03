@@ -2,15 +2,18 @@
 // One Cow to Many, step 3 (Everyone's Cow), with a memory. In step 3, every reload made
 // you a new animal in a new colour, and your cow started again at step 0.
 // Now this phone remembers its cow: the name, the colour, every step it has taken,
-// and the day it first walked. The memory is in localStorage, on this phone only.
+// the day it first walked, and the last time it walked. The memory is in localStorage,
+// on this phone only.
 //
 // The room does not remember anything. On startup, this phone reads what it remembers
 // and sends it to everyone, in me. So the room knows what the phones that are here
 // remember. When you leave, your cow leaves with you. When you come back, it walks on
-// from where it stopped, and everyone sees how far it has come.
+// from where it stopped, and everyone sees how far it has come, and how long it waited:
+// "It has been 2 days, 3 hours, 12 minutes and 5 seconds since otter walked their cow".
 //
 // What is kept and what is sent are the same object, and both travel as JSON text:
-//   { "name": "otter", "hue": 212, "steps": 41, "since": 1762094040123 }
+//   { "name": "otter", "hue": 212, "steps": 41, "since": 1762094040123, "last": 1762180440123 }
+// since and last are Date.now(): the milliseconds since 1 January 1970.
 // The two lines at the bottom of the screen show both.
 //
 // Your room: the class shares one room, ROOM. Add ?room=a1-otter to the address for your own.
@@ -41,7 +44,7 @@ let volume = 0.4;      // from 0 to 1
 let shakeLevel = 30;   // how hard a shake has to be. lower is easier
 let lockout = 400;     // milliseconds. one shake calls deviceShaken() many times in a row
 
-let memory;         // what this phone remembers: { name, hue, steps, since }
+let memory;         // what this phone remembers: { name, hue, steps, since, last }
 let gif;            // the cow
 let frames = [];    // each frame of the GIF as its own picture
 let osc;            // the oscillator
@@ -83,7 +86,8 @@ async function setup() {
       name: memory.name,     // who you are
       hue: memory.hue,       // your colour, 0 to 360
       steps: memory.steps,   // every step your cow has ever taken, on this phone
-      since: memory.since    // when your cow took its first step (Date.now())
+      since: memory.since,   // when your cow took its first step (Date.now())
+      last: memory.last || 0 // when your cow last walked (Date.now()). 0 if it has not walked yet
     }
   });
   enablePermissionsTap(['motion', 'sound', 'share'], 'Tap to start');   // the tap joins the room too
@@ -104,7 +108,7 @@ async function setup() {
 
 // a cow nobody has seen before
 function newCow() {
-  return { name: random(ANIMALS), hue: floor(random(360)), steps: 0, since: Date.now() };
+  return { name: random(ANIMALS), hue: floor(random(360)), steps: 0, since: Date.now(), last: 0 };
 }
 
 // read the memory. text in, an object out. null if this phone has none
@@ -223,7 +227,7 @@ function drawGrid(people, top, bottom) {
   let best = 0;
   for (let c = 1; c <= people.length; c++) {
     const rows = ceil(people.length / c);
-    const size = min(w / c / ratio, h / rows - 34 * k);   // the cow's height in a cell, under its words
+    const size = min(w / c / ratio, h / rows - 58 * k);   // the cow's height in a cell, between its words
     if (size > best) {
       best = size;
       cols = c;
@@ -243,7 +247,14 @@ function drawCow(person, x, y, w, h) {
   if (!person.name) return;   // a phone whose name has not arrived yet: skip it for now
   const n = person.steps || 0;
   const words = min(15 * k, h * 0.16);   // text size: smaller cells, smaller words
-  const s = min(w * 0.9 / gif.width, (h - words * 2.4) * 0.92 / gif.height);   // as large as fits
+
+  // under the cow: how long since its owner last walked it. three lines at most
+  textSize(words * 0.8);
+  const walked = fitLines(walkedWords(person), w - 10 * k, 3);
+  const walkedSize = textSize();   // fitLines makes it smaller when three lines are not enough
+  const under = walked.length > 0 ? walked.length * walkedSize * 1.25 + 4 * k : 0;   // the height those lines need
+
+  const s = min(w * 0.9 / gif.width, (h - words * 2.4 - under) * 0.92 / gif.height);   // as large as fits
   const cw = gif.width * s;
   const ch = gif.height * s;
 
@@ -255,7 +266,7 @@ function drawCow(person, x, y, w, h) {
   fitText([n + ' steps' + sinceWords(person.since), n + ' steps', '' + n], x + 2 * k, y + words * 1.2, words * 0.8, w - 10 * k);
 
   push();
-  translate(x + w / 2, y + words * 2.4 + (h - words * 2.4) / 2);   // the middle of the cell, under the words
+  translate(x + w / 2, y + words * 2.4 + (h - words * 2.4 - under) / 2);   // the middle of the cell, between the words
   imageMode(CENTER);
   image(frames[n % frames.length], 0, 0, cw, ch);
   noFill();
@@ -263,6 +274,88 @@ function drawCow(person, x, y, w, h) {
   strokeWeight(3 * k);
   rect(-cw / 2, -ch / 2, cw, ch);
   pop();
+
+  // the lines under the cow, just below its frame
+  fill(0, 0, 85);
+  textSize(walkedSize);
+  const cowBottom = y + words * 2.4 + (h - words * 2.4 - under) / 2 + ch / 2;
+  for (let i = 0; i < walked.length; i++) {
+    text(walked[i], x + 2 * k, cowBottom + 4 * k + i * walkedSize * 1.25);
+  }
+}
+
+// 'It has been 3 minutes and 12 seconds since otter walked their cow'.
+// last is when the owner's phone says the cow last walked
+function walkedWords(person) {
+  if (!person.last) {
+    // a cow that has never walked. a cow kept before this sketch kept last says nothing
+    return person.steps > 0 ? '' : person.name + ' has not walked their cow yet';
+  }
+  // max(0, ...): two phones' clocks can differ by a second or two
+  return 'It has been ' + howLong(max(0, Date.now() - person.last)) + ' since ' + person.name + ' walked their cow';
+}
+
+// how long a number of milliseconds is, in words, down to the second:
+// '45 seconds', '3 minutes and 12 seconds', '2 hours, 5 minutes and 1 second'
+function howLong(ms) {
+  let all = floor(ms / 1000);  // every second, all in one number
+  let days = floor(all / 86400);
+  let hours = floor(all / 3600) % 24;  // % keeps what is left over: 26 hours is 1 day and 2 hours
+  let minutes = floor(all / 60) % 60;
+  let seconds = all % 60;
+
+  // a part that is 0 is left out: '1 hour and 5 seconds'
+  let parts = [];
+  if (days > 0) {
+    parts.push(inWords(days, 'day'));
+  }
+  if (hours > 0) {
+    parts.push(inWords(hours, 'hour'));
+  }
+  if (minutes > 0) {
+    parts.push(inWords(minutes, 'minute'));
+  }
+  if (seconds > 0 || parts.length === 0) {
+    parts.push(inWords(seconds, 'second'));
+  }
+
+  // join them the way you would say them: 'a and b', or 'a, b and c'
+  if (parts.length === 1) {
+    return parts[0];
+  }
+  let last = parts.pop();
+  return parts.join(', ') + ' and ' + last;
+}
+
+function inWords(n, word) {
+  if (n === 1) {
+    return '1 ' + word;
+  }
+  return n + ' ' + word + 's';
+}
+
+// break the words into lines no wider than maxW, at the text size set now.
+// more than maxLines: the text size goes down until they fit
+function fitLines(words, maxW, maxLines) {
+  if (words === '') return [];
+  let lines = [];
+  for (let tries = 0; tries < 10; tries++) {
+    lines = [];
+    let line = '';
+    for (const word of words.split(' ')) {
+      const longer = line === '' ? word : line + ' ' + word;
+      if (line !== '' && textWidth(longer) > maxW) {
+        lines.push(line);
+        line = word;
+      } else {
+        line = longer;
+      }
+    }
+    lines.push(line);
+    if (lines.length <= maxLines || textSize() < 8) break;
+    textSize(textSize() * 0.85);
+  }
+  return lines;
 }
 
 // the longest of these words that fits in maxW, so they stay in their cell.
@@ -294,7 +387,9 @@ function sinceWords(t) {
 function takeStep() {
   if (!unlocked) return;   // the first tap belongs to the start message
   me.steps = me.steps + 1;   // a change to me is sent to everyone
-  memory.steps = me.steps;   // and this phone remembers it
+  me.last = Date.now();      // when it walked, sent too
+  memory.steps = me.steps;   // and this phone remembers both
+  memory.last = me.last;
   saveMemory();
   lastStep = millis();
   playNote(me.steps);
@@ -314,6 +409,7 @@ function forget() {
   me.hue = memory.hue;
   me.steps = memory.steps;
   me.since = memory.since;
+  me.last = memory.last;
 }
 
 // one note from the climbing scale, then quiet again
