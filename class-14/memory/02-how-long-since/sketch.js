@@ -115,21 +115,36 @@ function saveMemory() {
   } catch (e) { }
 }
 
-// how long a number of milliseconds is, in words: '3 minutes', '1 day'
+// how long a number of milliseconds is, in words, down to the second:
+// '45 seconds', '3 minutes and 12 seconds', '2 hours, 5 minutes and 1 second'
 function howLong(ms) {
-  let seconds = floor(ms / 1000);
-  if (seconds < 60) {
-    return inWords(seconds, 'second');
+  let all = floor(ms / 1000);  // every second, all in one number
+  let days = floor(all / 86400);
+  let hours = floor(all / 3600) % 24;  // % keeps what is left over: 26 hours is 1 day and 2 hours
+  let minutes = floor(all / 60) % 60;
+  let seconds = all % 60;
+
+  // a part that is 0 is left out: '1 hour and 5 seconds'
+  let parts = [];
+  if (days > 0) {
+    parts.push(inWords(days, 'day'));
   }
-  let minutes = floor(seconds / 60);
-  if (minutes < 60) {
-    return inWords(minutes, 'minute');
+  if (hours > 0) {
+    parts.push(inWords(hours, 'hour'));
   }
-  let hours = floor(minutes / 60);
-  if (hours < 24) {
-    return inWords(hours, 'hour');
+  if (minutes > 0) {
+    parts.push(inWords(minutes, 'minute'));
   }
-  return inWords(floor(hours / 24), 'day');
+  if (seconds > 0 || parts.length === 0) {
+    parts.push(inWords(seconds, 'second'));
+  }
+
+  // join them the way you would say them: 'a and b', or 'a, b and c'
+  if (parts.length === 1) {
+    return parts[0];
+  }
+  let last = parts.pop();
+  return parts.join(', ') + ' and ' + last;
 }
 
 function inWords(n, word) {
@@ -172,17 +187,21 @@ function draw() {
   } else {
     text('tap: left is slow, right is fast, up is higher', 20, 52);
   }
-  // what this phone remembers, in words and exactly as it is kept
-  let y = height - forgetHeight - 34;
+  // what this phone remembers, in words and exactly as it is kept.
+  // each one sits in a box as wide as the screen, so a long line wraps.
+  // BOTTOM keeps the words on the bottom edge of their box, just above the forget bar
+  let bottom = height - forgetHeight - 12;
+  textAlign(LEFT, BOTTOM);
   fill(255, 200, 0);
   textSize(16);
   if (memory.count === 0) {
-    text('you have not asked yet', 20, y);
+    text('you have not asked yet', 20, bottom - 116, width - 40, 80);
   } else {
-    text('asked ' + inWords(memory.count, 'time') + ' · last time ' + howLong(Date.now() - memory.last) + ' ago', 20, y);
+    text('asked ' + inWords(memory.count, 'time') + ' · last time ' + howLong(Date.now() - memory.last) + ' ago', 20, bottom - 116, width - 40, 80);
   }
   textSize(13);
-  text('this phone remembers: ' + savedText(), 20, y + 22);
+  text('this phone remembers: ' + savedText(), 20, bottom - 36, width - 40, 36);
+  textAlign(LEFT, BASELINE);
 
   // the forget bar
   fill(45);
