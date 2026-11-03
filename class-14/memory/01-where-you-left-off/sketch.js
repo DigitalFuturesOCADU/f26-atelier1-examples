@@ -1,4 +1,4 @@
-// 01 · Where You Left Off
+// Level 2 · 01 Where You Left Off
 // Class 3's One Frame at a Time, with a memory. Each tap shows the next frame,
 // and the phone remembers which frame you were on. Close the page, open it again,
 // and the GIF is where you left it. Without the memory, it starts at frame 0 every time.

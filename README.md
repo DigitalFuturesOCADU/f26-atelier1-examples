@@ -271,15 +271,15 @@ with `class14-`, because every page on one address shares one storage space.
 
 | Sketch | From | What it keeps |
 | --- | --- | --- |
-| [01-where-you-left-off](class-14/memory/01-where-you-left-off/) | Class 3 · 03 One Frame at a Time | one number, the frame (`setItem` / `getItem`, text in and out) |
-| [02-how-long-since](class-14/memory/02-how-long-since/) | Class 5 · 07 Say the Time | an object, `{ count, last }`, as JSON text |
-| [03-trails-that-stay](class-14/memory/03-trails-that-stay/) | Class 7 · 01 Tilt to Trail | a list of visits, `[{ t, points }]`; the last 8 are kept |
-| [04-the-cow-remembers](class-14/memory/04-the-cow-remembers/) | One Cow to Many · 3 Everyone's Cow | `{ name, hue, steps, since, last }`, sent to the room in `me` on startup; every phone shows how long since each cow last walked |
+| Level 2 · [01-where-you-left-off](class-14/memory/01-where-you-left-off/) | Class 3 · 03 One Frame at a Time | one number, the frame (`setItem` / `getItem`, text in and out) |
+| Level 2 · [02-how-long-since](class-14/memory/02-how-long-since/) | Class 5 · 07 Say the Time | an object, `{ count, last }`, as JSON text |
+| Level 2 · [03-trails-that-stay](class-14/memory/03-trails-that-stay/) | Class 7 · 01 Tilt to Trail | a list of visits, `[{ t, points }]`; the last 8 are kept |
+| Level 3 · [04-the-cow-remembers](class-14/memory/04-the-cow-remembers/) | One Cow to Many · 3 Everyone's Cow | `{ name, hue, steps, since, last }`, sent to the room in `me` on startup; every phone shows how long since each cow last walked |
 
 04 uses the class server, room `cow-remembers` (add `?room=` for another). The room keeps nothing:
 it knows what the phones that are here remember, and a cow leaves with its phone.
 
-`class-14/the-wall/`: a `wall/` page (the laptop shared on the call) and a `phone/` page, Share room
+`class-14/the-wall/` (Level 4): a `wall/` page (the laptop shared on the call) and a `phone/` page, Share room
 `the-wall` with `keep: '7d'`. Each mark is its own key in `shared` (`{ x, y, t, hue }`), so marks added
 at the same moment are not lost; each fades over 24 hours and is deleted after. Both pages pin p5-phone
 1.16.1, so the room is kept after everyone leaves and C clears it with `shareClear()`.

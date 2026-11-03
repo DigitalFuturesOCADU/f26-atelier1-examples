@@ -1,4 +1,4 @@
-// 02 · How Long Since
+// Level 2 · 02 How Long Since
 // Class 5's Say the Time, with a memory. The phone says what time it is, and then
 // how long ago you last asked. It keeps two things: how many times you have asked,
 // and when you last did. Close the page, come back tomorrow, and it still knows.

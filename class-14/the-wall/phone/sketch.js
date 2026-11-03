@@ -1,4 +1,4 @@
-// The Wall: Phone
+// Level 4 · The Wall: Phone
 // Share. This is the wall, small, on your phone. Tap it to leave one mark. Your mark is a dot
 // in your colour, at the place you tapped. It appears on the big wall and on every other phone.
 // Each mark fades over 24 hours and is deleted after 24 hours.

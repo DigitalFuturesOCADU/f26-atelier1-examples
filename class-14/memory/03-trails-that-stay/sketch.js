@@ -1,4 +1,4 @@
-// 03 · Trails That Stay
+// Level 2 · 03 Trails That Stay
 // Class 7's Tilt to Trail, with a memory. The phone is a brush. Tilt it and the mark rolls
 // across the screen, and fades, as before. That fading is a memory too, but it only lasts
 // a few seconds and it is gone on reload.

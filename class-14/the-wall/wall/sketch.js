@@ -1,4 +1,4 @@
-// The Wall: Wall
+// Level 4 · The Wall: Wall
 // Share. Every phone in the class can leave one mark on this wall. A mark is a dot, in the
 // colour of the phone that left it. Each mark fades over 24 hours and is deleted after 24 hours.
 // This page draws every mark, counts them, and says out loud what the wall remembers.

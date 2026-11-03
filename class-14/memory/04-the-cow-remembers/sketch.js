@@ -1,4 +1,4 @@
-// 04 · The Cow Remembers
+// Level 3 · 04 The Cow Remembers
 // One Cow to Many, step 3 (Everyone's Cow), with a memory. In step 3, every reload made
 // you a new animal in a new colour, and your cow started again at step 0.
 // Now this phone remembers its cow: the name, the colour, every step it has taken,
